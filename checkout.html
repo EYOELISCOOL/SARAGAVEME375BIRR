@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VVX | Checkout</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Roboto:wght@300;400;700&family=Poppins:wght@400;600&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/png" href="./Images//Favicon.png" />
+
+    <link rel="stylesheet" href="./css/styles.css" />
+</head>
+<body>
+
+    <header>
+        <div class="notification-bar">
+            <div class="notification-text">
+                <span>🎉 50% OFF on Selected Items! Shop Now!</span>
+                <span>🚚 Free Shipping on Orders Over €100!</span>
+                <span>💳 Use Code: VVX10 for 10% Off!</span>
+            </div>
+        </div>
+        <div class="nav-links">
+            <div class="logo">
+                <a href="./index.html"><img src="./Images/LogoVVX.jpg" alt="VVX Logo" /></a>
+            </div>
+            <nav>
+                <ul class="nav-links" style="padding:0; margin:0; width:auto;">
+                    <li><a href="./collection.html?gender=men">Men</a></li>
+                    <li><a href="./collection.html?gender=women">Women</a></li>
+                </ul>
+            </nav>
+            <nav style="display:flex;align-items:center;">
+                <div class="nav-search" id="navSearch">
+                    <div class="nav-search-box">
+                        <svg class="nav-search-icon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                            <circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"></circle>
+                            <line x1="15.5" y1="15.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+                        </svg>
+                        <input
+                            type="text"
+                            id="navSearchInput"
+                            class="nav-search-input"
+                            placeholder="Search products…"
+                            autocomplete="off"
+                            spellcheck="false"
+                            role="combobox"
+                            aria-expanded="false"
+                            aria-owns="navSearchDropdown"
+                            aria-autocomplete="list"
+                            aria-label="Search products"
+                        />
+                        <button type="button" class="nav-search-clear" id="navSearchClear" aria-label="Clear search" style="display:none;">&times;</button>
+                    </div>
+                    <div class="nav-search-dropdown" id="navSearchDropdown" role="listbox" aria-label="Search suggestions"></div>
+                </div>
+                <div class="mode-toggle" onclick="toggleMode()">
+                    <i class="fas fa-moon"></i>
+                </div>
+                <a href="./cart.html" class="cart-link" aria-label="View cart">
+                    🛍<span class="cart-count" id="cartCount" style="display:none;">0</span>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="checkout-wrap">
+        <form class="checkout-form" id="checkoutForm" novalidate>
+            <h2>Checkout</h2>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" name="fullName" required />
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="address">Address</label>
+                <input type="text" id="address" name="address" required />
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="city">City</label>
+                    <input type="text" id="city" name="city" required />
+                </div>
+                <div class="form-group">
+                    <label for="country">Country</label>
+                    <input type="text" id="country" name="country" required />
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input type="tel" id="phone" name="phone" required />
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="cardNumber">Card Number</label>
+                    <input type="text" id="cardNumber" name="cardNumber" placeholder="•••• •••• •••• ••••" required pattern="[0-9 ]{12,19}" />
+                </div>
+                <div class="form-group">
+                    <label for="cardExpiry">Expiry</label>
+                    <input type="text" id="cardExpiry" name="cardExpiry" placeholder="MM/YY" required />
+                </div>
+                <div class="form-group">
+                    <label for="cardCvc">CVC</label>
+                    <input type="text" id="cardCvc" name="cardCvc" placeholder="•••" required pattern="[0-9]{3,4}" />
+                </div>
+            </div>
+
+            <p class="payment-note">This is a prototype checkout — no real payment is processed. Connecting a live payment gateway (Stripe, PayPal, etc.) requires a backend, which isn't part of this static frontend yet.</p>
+
+            <button type="submit" class="place-order-btn">Place Order</button>
+        </form>
+
+        <div class="cart-summary" id="checkoutSummary"></div>
+    </section>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 Vovex, Vovex Noir. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMode() {
+            document.body.classList.toggle('dark-mode');
+            const icon = document.querySelector('.mode-toggle i');
+            icon.className = document.body.classList.contains('dark-mode') ? 'fas fa-sun' : 'fas fa-moon';
+        }
+    </script>
+
+    <script src="./js/products.js"></script>
+    <script src="./js/utils.js"></script>
+    <script src="./js/url.js"></script>
+    <script src="./js/filters.js"></script>
+    <script src="./js/cart.js"></script>
+    <script src="./js/render.js"></script>
+    <script src="./js/checkout.js"></script>
+    <script src="./js/search.js"></script>
+    <script src="./js/cartBadge.js"></script>
+
+</body>
+</html>
