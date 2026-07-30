@@ -2788,7 +2788,7 @@
             <div class="hero-video-wrapper" id="heroVideoWrapper">
                 <iframe
                     id="heroVideo"
-                    src="https://youtu.be/enXplsM8Lfc?si=-__gH5p31KKIM12e"
+                    src="https://www.youtube.com/embed/enXplsM8Lfc?autoplay=1&loop=1&playlist=enXplsM8Lfc&mute=1&controls=1"
                     title="VVX Hero Video"
                     frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -3067,16 +3067,23 @@
             icon.innerHTML = document.body.classList.contains('dark-mode') ? '&#9788;' : '&#9789;';
         }
 
-        // ===== Hero video click-to-unmute fallback (home page only) =====
+        // ===== Hero video click-to-unmute (preserves loop) =====
         document.addEventListener('click', function(e) {
             const heroSection = document.getElementById('heroSection');
             if (!heroSection || !heroSection.contains(e.target)) return;
             if (e.target.closest('.shop-now-button')) return;
             const iframe = document.getElementById('heroVideo');
-            if (iframe) {
-                const currentSrc = iframe.src;
-                let newSrc = currentSrc.replace(/controls=\d/, '').replace(/autoplay=\d/, '');
-                newSrc += (newSrc.includes('?') ? '&' : '?') + 'controls=1&autoplay=1';
+            if (!iframe) return;
+
+            // Only act if the video is currently muted
+            const currentSrc = iframe.src;
+            if (currentSrc.includes('mute=1')) {
+                // Remove mute=1, keep all other parameters including loop
+                let newSrc = currentSrc.replace(/[?&]mute=1/, '');
+                // Ensure controls are present
+                if (!newSrc.includes('controls=')) {
+                    newSrc += (newSrc.includes('?') ? '&' : '?') + 'controls=1';
+                }
                 iframe.src = newSrc;
             }
         });
