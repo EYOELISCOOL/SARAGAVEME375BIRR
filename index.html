@@ -2194,6 +2194,146 @@
             font-style: italic;
         }
 
+        /* ---- TeleBirr payment box ---- */
+        .telebirr-box {
+            background: #f5f0ea;
+            border: 1px solid var(--vvx-black, #1a1a1a);
+            padding: 1.4rem 1.6rem;
+            margin-top: 1.4rem;
+        }
+        .telebirr-box h3 {
+            font-family: var(--font-alt);
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 0.9rem;
+        }
+        .telebirr-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.8rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px dashed #c4b8a8;
+            font-size: 0.88rem;
+        }
+        .telebirr-row:last-of-type {
+            border-bottom: none;
+        }
+        .telebirr-row .label {
+            color: var(--vvx-text-dim);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+        .telebirr-row .value {
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+        .telebirr-row .value.deposit-amount {
+            font-size: 1.05rem;
+            color: var(--vvx-rust, #a8492e);
+        }
+        .copy-btn {
+            background: none;
+            border: 1px solid var(--vvx-black, #1a1a1a);
+            padding: 0.22rem 0.55rem;
+            font-size: 0.62rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            cursor: pointer;
+            margin-left: 0.6rem;
+            transition: background-color 0.2s;
+            white-space: nowrap;
+        }
+        .copy-btn:hover {
+            background: #e4dcd0;
+        }
+        .telebirr-instructions {
+            font-size: 0.78rem;
+            color: var(--vvx-text-dim);
+            margin-top: 0.7rem;
+            line-height: 1.55;
+        }
+        .screenshot-upload-group {
+            margin-top: 1.1rem;
+        }
+        .screenshot-upload-group input[type="file"] {
+            display: block;
+            width: 100%;
+            padding: 0.6rem;
+            border: 1px dashed #a89a86;
+            background: #fff;
+            font-size: 0.78rem;
+            cursor: pointer;
+        }
+        .screenshot-upload-group input[type="file"].error {
+            border-color: var(--vvx-rust, #a8492e);
+        }
+        .screenshot-preview {
+            margin-top: 0.8rem;
+            display: none;
+        }
+        .screenshot-preview img {
+            max-width: 160px;
+            max-height: 160px;
+            display: block;
+            border: 1px solid #ddd;
+            object-fit: cover;
+        }
+
+        /* ---- Receipt box (order confirmation) ---- */
+        .receipt-box {
+            border: 1px solid var(--vvx-black, #1a1a1a);
+            padding: 1.5rem 1.7rem;
+            margin: 1.6rem auto;
+            max-width: 480px;
+            text-align: left;
+            background: #fdfbf8;
+        }
+        .receipt-box h3 {
+            text-align: center;
+            font-family: var(--font-alt);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+        }
+        .receipt-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 0.35rem 0;
+            font-size: 0.84rem;
+            border-bottom: 1px dashed #ddd;
+        }
+        .receipt-row.deposit,
+        .receipt-row.total {
+            font-weight: 700;
+        }
+        .print-receipt-btn {
+            display: inline-block;
+            margin-top: 0.4rem;
+            padding: 0.65rem 1.6rem;
+            background: transparent;
+            border: 1px solid var(--vvx-black, #1a1a1a);
+            font-family: var(--font-alt);
+            font-size: 0.68rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background-color 0.3s var(--ease-soft);
+        }
+        .print-receipt-btn:hover {
+            background: #f5f0ea;
+        }
+        @media print {
+            header, footer, .print-receipt-btn, .shop-now-button, .mode-toggle {
+                display: none !important;
+            }
+        }
+
         .confirmation-wrap {
             max-width: 700px;
             margin: 0 auto;
@@ -2963,27 +3103,41 @@
                     </div>
                 </div>
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="cardNumber">Card Number</label>
-                        <input type="text" id="cardNumber" name="cardNumber" placeholder="•••• •••• •••• ••••" required pattern="[0-9 ]{12,19}" />
-                        <span class="error-msg" id="cardNumberError">Please enter a valid card number</span>
+                <div class="telebirr-box">
+                    <h3>Pay 50% Deposit via TeleBirr</h3>
+                    <div class="telebirr-row">
+                        <span class="label">Send to</span>
+                        <span class="value">+251 934 592 679
+                            <button type="button" class="copy-btn" id="copyTelebirrBtn">Copy</button>
+                        </span>
                     </div>
-                    <div class="form-group">
-                        <label for="cardExpiry">Expiry</label>
-                        <input type="text" id="cardExpiry" name="cardExpiry" placeholder="MM/YY" required />
-                        <span class="error-msg" id="cardExpiryError">Please enter a valid expiry date (MM/YY)</span>
+                    <div class="telebirr-row">
+                        <span class="label">Order Total</span>
+                        <span class="value" id="orderTotalAmount">—</span>
                     </div>
-                    <div class="form-group">
-                        <label for="cardCvc">CVC</label>
-                        <input type="text" id="cardCvc" name="cardCvc" placeholder="•••" required pattern="[0-9]{3,4}" />
-                        <span class="error-msg" id="cardCvcError">Please enter a valid CVC</span>
+                    <div class="telebirr-row">
+                        <span class="label">Pay Now (50% Deposit)</span>
+                        <span class="value deposit-amount" id="depositAmount">—</span>
+                    </div>
+                    <div class="telebirr-row">
+                        <span class="label">Balance Due on Delivery</span>
+                        <span class="value" id="balanceAmount">—</span>
+                    </div>
+                    <p class="telebirr-instructions">Send the <strong>50% deposit</strong> shown above to the TeleBirr number, then upload a screenshot of the payment confirmation below. The remaining 50% balance is paid when your order is delivered to you.</p>
+
+                    <div class="form-group screenshot-upload-group">
+                        <label for="paymentScreenshot">Payment Screenshot</label>
+                        <input type="file" id="paymentScreenshot" name="paymentScreenshot" accept="image/*" required />
+                        <span class="error-msg" id="paymentScreenshotError">Please upload a screenshot of your TeleBirr payment</span>
+                        <div class="screenshot-preview" id="screenshotPreview">
+                            <img id="screenshotPreviewImg" alt="Payment screenshot preview" />
+                        </div>
                     </div>
                 </div>
 
-                <p class="payment-note">This is a prototype checkout — no real payment is processed. Connecting a live payment gateway (Stripe, PayPal, etc.) requires a backend, which isn't part of this static frontend yet.</p>
+                <p class="payment-note">Your order details and payment screenshot are sent to us securely when you submit. No card details are ever collected or stored.</p>
 
-                <button type="submit" class="place-order-btn">Place Order</button>
+                <button type="submit" class="place-order-btn" id="placeOrderBtn">Submit Order &amp; Payment Proof</button>
             </form>
 
             <div class="cart-summary" id="checkoutSummary"></div>
@@ -4812,6 +4966,25 @@
         const VVXCheckout = (function() {
             "use strict";
 
+            // ==========================================================================
+            // IMPORTANT — one-time setup required:
+            // 1. Go to https://formspree.io, create a free account and a new form.
+            // 2. Copy the endpoint it gives you (looks like https://formspree.io/f/abcd1234)
+            //    and paste it below, replacing YOUR_FORMSPREE_ID.
+            // 3. Formspree's FREE plan emails you text fields, but does not store real
+            //    file attachments (that needs a paid plan). To keep this 100% free, the
+            //    payment screenshot is shrunk in the browser and sent as an embedded
+            //    image (a "data URL") inside the email fields, so you still receive it
+            //    with every order — you just view it by opening the field's value in a
+            //    browser tab (or upgrade Formspree later for a real attachment, no code
+            //    changes needed on that front).
+            // ==========================================================================
+            const FORMSPREE_ENDPOINT = "https://formspree.io/f/xjybbkjl";
+            const TELEBIRR_NUMBER = "+251934592679";
+            const DEPOSIT_RATE = 0.5;
+            const SCREENSHOT_MAX_DIMENSION = 900;
+            const SCREENSHOT_JPEG_QUALITY = 0.72;
+
             let listenerBound = false;
 
             function init() {
@@ -4824,6 +4997,7 @@
                     return;
                 }
                 renderSummary(details);
+                updatePaymentBox(window.VVXCart.getCartSubtotal(), details[0].product.currency);
 
                 if (!listenerBound) {
                     const form = document.getElementById("checkoutForm");
@@ -4839,8 +5013,108 @@
                             }
                         });
                     });
+
+                    const screenshotInput = document.getElementById("paymentScreenshot");
+                    if (screenshotInput) {
+                        screenshotInput.addEventListener("change", handleScreenshotSelected);
+                    }
+
+                    const copyBtn = document.getElementById("copyTelebirrBtn");
+                    if (copyBtn) {
+                        copyBtn.addEventListener("click", handleCopyTelebirr);
+                    }
+
                     listenerBound = true;
                 }
+            }
+
+            function calcDeposit(subtotal) {
+                const deposit = Math.round(subtotal * DEPOSIT_RATE * 100) / 100;
+                const balance = Math.round((subtotal - deposit) * 100) / 100;
+                return { deposit, balance };
+            }
+
+            function updatePaymentBox(subtotal, currency) {
+                const u = window.VVXUtils;
+                const { deposit, balance } = calcDeposit(subtotal);
+                const totalEl = document.getElementById("orderTotalAmount");
+                const depositEl = document.getElementById("depositAmount");
+                const balanceEl = document.getElementById("balanceAmount");
+                if (totalEl) totalEl.textContent = u.formatPrice(subtotal, currency);
+                if (depositEl) depositEl.textContent = u.formatPrice(deposit, currency);
+                if (balanceEl) balanceEl.textContent = u.formatPrice(balance, currency);
+            }
+
+            function handleCopyTelebirr(e) {
+                e.preventDefault();
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(TELEBIRR_NUMBER).then(function() {
+                        window.VVXToast.success("TeleBirr number copied");
+                    }).catch(function() {
+                        window.VVXToast.info(`TeleBirr number: ${TELEBIRR_NUMBER}`);
+                    });
+                } else {
+                    window.VVXToast.info(`TeleBirr number: ${TELEBIRR_NUMBER}`);
+                }
+            }
+
+            function handleScreenshotSelected() {
+                const input = this;
+                const previewWrap = document.getElementById("screenshotPreview");
+                const previewImg = document.getElementById("screenshotPreviewImg");
+                const file = input.files && input.files[0];
+
+                if (!file) {
+                    previewWrap.style.display = "none";
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function(ev) {
+                    previewImg.src = ev.target.result;
+                    previewWrap.style.display = "block";
+                };
+                reader.readAsDataURL(file);
+
+                input.classList.remove("error");
+                const errorEl = document.getElementById("paymentScreenshotError");
+                if (errorEl) errorEl.classList.remove("visible");
+            }
+
+            function compressImageToDataUrl(file, maxDim, quality) {
+                return new Promise(function(resolve, reject) {
+                    const reader = new FileReader();
+                    reader.onerror = function() {
+                        reject(new Error("Could not read the screenshot file"));
+                    };
+                    reader.onload = function() {
+                        const img = new Image();
+                        img.onerror = function() {
+                            reject(new Error("Could not process the screenshot file"));
+                        };
+                        img.onload = function() {
+                            let w = img.width;
+                            let h = img.height;
+                            if (w > maxDim || h > maxDim) {
+                                if (w >= h) {
+                                    h = Math.round(h * (maxDim / w));
+                                    w = maxDim;
+                                } else {
+                                    w = Math.round(w * (maxDim / h));
+                                    h = maxDim;
+                                }
+                            }
+                            const canvas = document.createElement("canvas");
+                            canvas.width = w;
+                            canvas.height = h;
+                            const ctx = canvas.getContext("2d");
+                            ctx.drawImage(img, 0, 0, w, h);
+                            resolve(canvas.toDataURL("image/jpeg", quality));
+                        };
+                        img.src = reader.result;
+                    };
+                    reader.readAsDataURL(file);
+                });
             }
 
             function renderSummary(details) {
@@ -4858,11 +5132,14 @@
 
                 const subtotal = window.VVXCart.getCartSubtotal();
                 const currency = details[0].product.currency;
+                const { deposit, balance } = calcDeposit(subtotal);
 
                 container.innerHTML = `
                             <h3>Order Summary</h3>
                             ${itemsHtml}
                             <div class="cart-summary-row total"><span>Total</span><span>${u.formatPrice(subtotal, currency)}</span></div>
+                            <div class="cart-summary-row"><span>Deposit due now (50%)</span><span>${u.formatPrice(deposit, currency)}</span></div>
+                            <div class="cart-summary-row"><span>Due on delivery (50%)</span><span>${u.formatPrice(balance, currency)}</span></div>
                         `;
             }
 
@@ -4873,7 +5150,7 @@
                 let valid = true;
                 let msg = "";
 
-                if (input.hasAttribute("required") && !input.value.trim()) {
+                if (input.hasAttribute("required") && input.type !== "file" && !input.value.trim()) {
                     valid = false;
                     msg = "This field is required";
                 } else if (input.type === "email" && input.value.trim()) {
@@ -4882,28 +5159,16 @@
                         valid = false;
                         msg = "Please enter a valid email address";
                     }
-                } else if (input.id === "cardNumber" && input.value.trim()) {
-                    const digits = input.value.replace(/\s/g, "");
-                    if (digits.length < 12 || digits.length > 19 || !/^\d+$/.test(digits)) {
-                        valid = false;
-                        msg = "Please enter a valid card number (12-19 digits)";
-                    }
-                } else if (input.id === "cardExpiry" && input.value.trim()) {
-                    const exp = input.value.trim();
-                    if (!/^\d{2}\/\d{2}$/.test(exp)) {
-                        valid = false;
-                        msg = "Please use MM/YY format";
-                    }
-                } else if (input.id === "cardCvc" && input.value.trim()) {
-                    if (!/^\d{3,4}$/.test(input.value.trim())) {
-                        valid = false;
-                        msg = "Please enter a valid CVC (3-4 digits)";
-                    }
                 } else if (input.id === "phone" && input.value.trim()) {
                     const digits = input.value.replace(/[^0-9+]/g, "");
                     if (digits.length < 6) {
                         valid = false;
                         msg = "Please enter a valid phone number";
+                    }
+                } else if (input.id === "paymentScreenshot" && input.hasAttribute("required")) {
+                    if (!input.files || input.files.length === 0) {
+                        valid = false;
+                        msg = "Please upload a screenshot of your TeleBirr payment";
                     }
                 }
 
@@ -4930,7 +5195,13 @@
                 return allValid;
             }
 
-            function handleSubmit(e) {
+            function generateReceiptNumber() {
+                const ts = Date.now().toString(36).toUpperCase();
+                const rand = Math.random().toString(36).slice(2, 6).toUpperCase();
+                return `VVX-RCPT-${ts}-${rand}`;
+            }
+
+            async function handleSubmit(e) {
                 e.preventDefault();
                 const form = e.target;
 
@@ -4939,21 +5210,105 @@
                     return;
                 }
 
-                const formData = new FormData(form);
-                const shipping = Object.fromEntries(formData.entries());
+                const submitBtn = document.getElementById("placeOrderBtn");
+                const originalBtnText = submitBtn.textContent;
+                submitBtn.disabled = true;
+                submitBtn.textContent = "Submitting…";
 
-                const order = placeOrder(shipping);
-                form.reset();
-                window.VVXUrl.navigate(`/order-confirmation?order=${order.id}`);
-                window.VVXToast.success("Order placed successfully!");
+                try {
+                    const screenshotInput = document.getElementById("paymentScreenshot");
+                    const screenshotFile = screenshotInput.files[0];
+                    const screenshotDataUrl = await compressImageToDataUrl(
+                        screenshotFile, SCREENSHOT_MAX_DIMENSION, SCREENSHOT_JPEG_QUALITY
+                    );
+
+                    const formData = new FormData(form);
+                    const shipping = Object.fromEntries(formData.entries());
+                    delete shipping.paymentScreenshot;
+
+                    const order = placeOrder(shipping, screenshotDataUrl);
+                    await submitOrderToFormspree(order, screenshotDataUrl);
+
+                    form.reset();
+                    document.getElementById("screenshotPreview").style.display = "none";
+                    window.VVXUrl.navigate(`/order-confirmation?order=${order.id}`);
+                    window.VVXToast.success("Order & payment proof submitted!");
+                } catch (err) {
+                    console.error("checkout: submission failed", err);
+                    window.VVXToast.error(
+                        err && err.message ? err.message : "Could not submit your order. Please try again."
+                    );
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalBtnText;
+                }
             }
 
-            function placeOrder(shipping) {
+            async function submitOrderToFormspree(order, screenshotDataUrl) {
+                const u = window.VVXUtils;
+                const itemsText = order.items.map(function(item) {
+                    return `${item.name}${item.size ? " (" + item.size + ")" : ""} × ${item.qty} — ${u.formatPrice(item.lineTotal, order.currency)}`;
+                }).join("\n");
+
+                const fd = new FormData();
+                fd.append("_subject", `New Vovex Noir Order — Receipt ${order.receiptNumber}`);
+                fd.append("receiptNumber", order.receiptNumber);
+                fd.append("orderId", order.id);
+                fd.append("fullName", order.shipping.fullName || "");
+                fd.append("email", order.shipping.email || "");
+                fd.append("_replyto", order.shipping.email || "");
+                fd.append("phone", order.shipping.phone || "");
+                fd.append("address", order.shipping.address || "");
+                fd.append("city", order.shipping.city || "");
+                fd.append("country", order.shipping.country || "");
+                fd.append("items", itemsText);
+                fd.append("orderTotal", u.formatPrice(order.subtotal, order.currency));
+                fd.append("depositDueNow", u.formatPrice(order.deposit, order.currency));
+                fd.append("balanceDueOnDelivery", u.formatPrice(order.balance, order.currency));
+                fd.append("paymentMethod", `TeleBirr ${TELEBIRR_NUMBER}`);
+                // Compressed screenshot, sent as an embedded image string (not a real file
+                // part) so it arrives even on Formspree's free plan. NOTE: Formspree's free
+                // plan rejects the *entire* submission with a "file uploads not permitted"
+                // error if a real <input type="file"> part is present in the request at all
+                // — so we deliberately never send screenshotFile as an actual file part here.
+                // If you upgrade to a paid Formspree plan with file-upload support, you can
+                // add back: fd.append("paymentScreenshotFile", screenshotFile, screenshotFile.name);
+                fd.append("paymentScreenshotImage", screenshotDataUrl);
+
+                if (FORMSPREE_ENDPOINT.indexOf("YOUR_FORMSPREE_ID") !== -1) {
+                    console.warn("VVXCheckout: FORMSPREE_ENDPOINT is not configured yet — order was NOT emailed. See the comment above FORMSPREE_ENDPOINT in this file.");
+                    return true;
+                }
+
+                const res = await fetch(FORMSPREE_ENDPOINT, {
+                    method: "POST",
+                    body: fd,
+                    headers: { "Accept": "application/json" }
+                });
+
+                if (!res.ok) {
+                    let msg = "We couldn't submit your order right now. Please try again in a moment.";
+                    try {
+                        const data = await res.json();
+                        if (data && data.errors && data.errors.length) {
+                            msg = data.errors.map(err => err.message).join(", ");
+                        }
+                    } catch (parseErr) {
+                        /* keep default message */
+                    }
+                    throw new Error(msg);
+                }
+
+                return true;
+            }
+
+            function placeOrder(shipping, screenshotDataUrl) {
                 const details = window.VVXCart.getCartDetails();
                 const subtotal = window.VVXCart.getCartSubtotal();
+                const { deposit, balance } = calcDeposit(subtotal);
 
                 const order = {
                     id: "VVX-" + Date.now().toString().slice(-8),
+                    receiptNumber: generateReceiptNumber(),
                     date: new Date().toISOString(),
                     shipping,
                     items: details.map(l => ({
@@ -4966,7 +5321,11 @@
                         thumbnail: l.product.thumbnail
                     })),
                     subtotal,
-                    currency: details[0].product.currency
+                    deposit,
+                    balance,
+                    currency: details[0].product.currency,
+                    paymentMethod: `TeleBirr ${TELEBIRR_NUMBER}`,
+                    screenshotDataUrl
                 };
 
                 try {
@@ -5028,15 +5387,42 @@
                             `;
                 }).join("");
 
+                const receiptNumber = order.receiptNumber || order.id;
+                const orderDate = order.date ? new Date(order.date).toLocaleString() : "";
+
                 container.innerHTML = `
                             <h1>Thank you, ${u.escapeHtml(order.shipping.fullName || "")}!</h1>
                             <p class="confirmation-order-id">Order ${u.escapeHtml(order.id)}</p>
-                            <p>A confirmation has been recorded for <strong>${u.escapeHtml(order.shipping.email || "")}</strong>. We'll ship to:</p>
+                            <p>Your order and TeleBirr payment screenshot have been sent to us for <strong>${u.escapeHtml(order.shipping.email || "")}</strong>. We'll ship to:</p>
                             <p>${u.escapeHtml(order.shipping.address || "")}, ${u.escapeHtml(order.shipping.city || "")}, ${u.escapeHtml(order.shipping.country || "")}</p>
                             <div class="confirmation-items">${itemsHtml}</div>
-                            <div class="cart-summary-row total" style="max-width:500px;margin:0 auto;"><span>Total Paid</span><span>${u.formatPrice(order.subtotal, order.currency)}</span></div>
+
+                            <div class="receipt-box" id="receiptBox">
+                                <h3>Payment Receipt</h3>
+                                <div class="receipt-row"><span>Receipt No.</span><span>${u.escapeHtml(receiptNumber)}</span></div>
+                                <div class="receipt-row"><span>Order No.</span><span>${u.escapeHtml(order.id)}</span></div>
+                                <div class="receipt-row"><span>Date</span><span>${u.escapeHtml(orderDate)}</span></div>
+                                <div class="receipt-row"><span>Payment Method</span><span>${u.escapeHtml(order.paymentMethod || "TeleBirr")}</span></div>
+                                <div class="receipt-row"><span>Order Total</span><span>${u.formatPrice(order.subtotal, order.currency)}</span></div>
+                                <div class="receipt-row deposit"><span>Paid Now (50% Deposit)</span><span>${u.formatPrice(order.deposit, order.currency)}</span></div>
+                                <div class="receipt-row total"><span>Balance Due on Delivery</span><span>${u.formatPrice(order.balance, order.currency)}</span></div>
+                                ${order.screenshotDataUrl ? `
+                                <div style="text-align:center;margin-top:1rem;">
+                                    <img src="${order.screenshotDataUrl}" alt="Payment screenshot" style="max-width:150px;max-height:150px;border:1px solid #ddd;object-fit:cover;" />
+                                    <p style="font-size:0.7rem;color:var(--vvx-text-dim);margin-top:0.4rem;">Payment screenshot on file</p>
+                                </div>` : ""}
+                            </div>
+                            <p style="text-align:center;"><button type="button" class="print-receipt-btn" id="printReceiptBtn">Print / Save Receipt</button></p>
+                            <p style="margin-top:20px;text-align:center;font-size:0.8rem;color:var(--vvx-text-dim);">Keep your receipt number <strong>${u.escapeHtml(receiptNumber)}</strong> — you may be asked for it when your order is delivered and the balance is collected.</p>
                             <p style="margin-top:30px;"><a href="#/collection" class="shop-now-button" style="color:#000;background:#fff;border-color:#000;">Continue Shopping</a></p>
                         `;
+
+                const printBtn = document.getElementById("printReceiptBtn");
+                if (printBtn) {
+                    printBtn.addEventListener("click", function() {
+                        window.print();
+                    });
+                }
             }
 
             return { init };
