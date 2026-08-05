@@ -723,6 +723,25 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
+        .admin-link {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            margin-left: 0.4rem;
+            padding: 0.3rem 0.6rem;
+            text-decoration: none;
+            color: var(--vvx-text-muted);
+            font-size: 1rem;
+            font-family: var(--font-mono);
+            border: var(--border-thin);
+            transition: color 0.3s var(--ease-soft), border-color 0.3s var(--ease-soft);
+        }
+        .admin-link:hover {
+            color: var(--vvx-text-highlight);
+            border-color: var(--vvx-military);
+            background: rgba(74, 90, 58, 0.08);
+        }
+
         .wishlist-link {
             position: relative;
             display: inline-flex;
@@ -2194,6 +2213,191 @@
             font-style: italic;
         }
 
+        /* ---- admin: add product page ---- */
+        .admin-wrap {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem 5rem;
+            text-align: left;
+        }
+        .admin-intro h2 {
+            font-family: var(--font-display);
+            font-weight: 400;
+            font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+            letter-spacing: 0.02em;
+            color: var(--vvx-text-highlight);
+            margin-bottom: 0.6rem;
+        }
+        .admin-note {
+            font-size: 0.85rem;
+            color: var(--vvx-text-dim);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            max-width: 640px;
+        }
+        .admin-note code {
+            font-family: var(--font-mono);
+            font-size: 0.8em;
+            color: var(--vvx-text-secondary);
+        }
+        .admin-form {
+            padding-bottom: 2rem;
+            border-bottom: var(--border-medium);
+            margin-bottom: 2rem;
+        }
+        .form-group textarea {
+            width: 100%;
+            padding: 0.65rem 0.7rem;
+            background: var(--vvx-black);
+            border: var(--border-thin);
+            border-radius: 0;
+            color: var(--vvx-text-highlight);
+            font-size: 0.9rem;
+            font-family: var(--font-body);
+            outline: none;
+            resize: vertical;
+            transition: border-color 0.3s var(--ease-soft);
+        }
+        .form-group textarea:focus {
+            border-color: var(--vvx-military);
+        }
+        .admin-checkbox-row {
+            gap: 1.4rem;
+            align-items: center;
+            margin-bottom: 1.4rem;
+        }
+        .admin-checkbox {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--vvx-text-muted);
+            cursor: pointer;
+            flex: none;
+        }
+        .admin-checkbox input {
+            accent-color: var(--vvx-olive);
+            width: 15px;
+            height: 15px;
+            cursor: pointer;
+        }
+        .admin-manage-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+        .admin-manage-head h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            letter-spacing: 0.03em;
+            color: var(--vvx-text-highlight);
+            margin: 0;
+        }
+        .admin-manage-head h3 span {
+            color: var(--vvx-text-dim);
+            font-weight: 400;
+        }
+        .admin-empty {
+            font-size: 0.85rem;
+            color: var(--vvx-text-dim);
+            font-style: italic;
+        }
+        .product-manage-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+        }
+        .manage-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.7rem;
+            border: var(--border-thin);
+            background: rgba(255, 255, 255, 0.015);
+        }
+        .manage-thumb {
+            width: 52px;
+            height: 52px;
+            object-fit: cover;
+            flex-shrink: 0;
+            background: var(--vvx-charcoal);
+        }
+        .manage-info {
+            flex: 1 1 auto;
+            min-width: 0;
+        }
+        .manage-info .manage-name {
+            font-size: 0.85rem;
+            color: var(--vvx-text-highlight);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .manage-info .manage-meta {
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            color: var(--vvx-text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 0.2rem;
+        }
+        .manage-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-shrink: 0;
+        }
+        .manage-actions button {
+            background: transparent;
+            border: var(--border-thin);
+            color: var(--vvx-text-muted);
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            padding: 0.4rem 0.6rem;
+            cursor: pointer;
+            transition: border-color 0.3s var(--ease-soft), color 0.3s var(--ease-soft);
+        }
+        .manage-actions button:hover {
+            color: var(--vvx-text-highlight);
+            border-color: var(--vvx-military);
+        }
+        .manage-actions .manage-delete:hover {
+            color: #e8b8b0;
+            border-color: var(--vvx-deep-red);
+        }
+        .admin-code-box {
+            margin-top: 1.5rem;
+            border: var(--border-medium);
+            padding: 1rem;
+        }
+        .admin-code-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.8rem;
+            margin-bottom: 0.6rem;
+            font-size: 0.75rem;
+            color: var(--vvx-text-dim);
+        }
+        .admin-code-textarea {
+            width: 100%;
+            background: var(--vvx-black);
+            color: var(--vvx-text-secondary);
+            border: var(--border-thin);
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            line-height: 1.5;
+            padding: 0.7rem;
+            resize: vertical;
+        }
+
         /* ---- TeleBirr payment box ---- */
         .telebirr-box {
             background: #f5f0ea;
@@ -2904,6 +3108,7 @@
                     <div class="mode-toggle" onclick="toggleMode()" aria-label="Toggle dark mode">
                         <i>&#9789;</i>
                     </div>
+                    <a href="#/admin" class="admin-link" aria-label="Add new product" title="Add Product">＋</a>
                     <a href="#/wishlist" class="wishlist-link" aria-label="View wishlist">
                         ♡<span class="wishlist-count" id="wishlistCount" style="display:none;">0</span>
                     </a>
@@ -3152,6 +3357,159 @@
     </div>
 
     <!-- ============================================================
+         PAGE: ADMIN — ADD PRODUCT  (route: #/admin)
+         Lets you add new products through a form instead of editing
+         the PRODUCTS array by hand. New products are saved to this
+         browser's localStorage and merged into window.PRODUCTS, so
+         they show up across the site (home, collections, search)
+         right away.
+         ============================================================ -->
+    <div id="page-admin" style="display:none;">
+        <section class="admin-wrap">
+            <div class="admin-intro">
+                <h2>Add a Product</h2>
+                <p class="admin-note">
+                    Fill this out and submit to add a new product — no code editing needed. It's saved in this
+                    browser and appears across the site immediately. It lives in this browser only though, so to
+                    make it permanent for every visitor, use <strong>"Copy code"</strong> below and paste the
+                    result into the <code>PRODUCTS</code> array in the site's code next time it's updated.
+                </p>
+            </div>
+
+            <form class="checkout-form admin-form" id="adminProductForm" novalidate>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="apName">Product Name *</label>
+                        <input type="text" id="apName" name="name" required />
+                        <span class="error-msg" id="apNameError">Please enter a product name</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="apSlug">Slug (page id, auto-filled)</label>
+                        <input type="text" id="apSlug" name="slug" placeholder="auto-generated from name" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="apDescription">Description</label>
+                    <textarea id="apDescription" name="description" rows="3" placeholder="Short product description"></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="apPrice">Price (ETB) *</label>
+                        <input type="number" id="apPrice" name="price" min="0" step="1" required />
+                        <span class="error-msg" id="apPriceError">Please enter a valid price</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="apDiscountPrice">Discount Price</label>
+                        <input type="number" id="apDiscountPrice" name="discountPrice" min="0" step="1" placeholder="leave blank if none" />
+                    </div>
+                    <div class="form-group">
+                        <label for="apStock">Stock</label>
+                        <input type="number" id="apStock" name="stock" min="0" step="1" value="1" />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="apGender">Gender</label>
+                        <select id="apGender" name="gender">
+                            <option value="unisex">Unisex</option>
+                            <option value="men">Men</option>
+                            <option value="women">Women</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="apCategory">Category *</label>
+                        <input type="text" id="apCategory" name="category" placeholder="e.g. shoes, jackets, T-shirt" required />
+                        <span class="error-msg" id="apCategoryError">Please enter a category</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="apSubcategory">Subcategory</label>
+                        <input type="text" id="apSubcategory" name="subcategory" placeholder="e.g. sneakers, baggy" />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="apStyle">Style / Genre</label>
+                        <input type="text" id="apStyle" name="style" placeholder="e.g. y2k, goth, military" />
+                    </div>
+                    <div class="form-group">
+                        <label for="apCollection">Collection</label>
+                        <input type="text" id="apCollection" name="collection" placeholder="e.g. vintage, gamers, full-outfits" />
+                    </div>
+                    <div class="form-group">
+                        <label for="apColor">Color</label>
+                        <input type="text" id="apColor" name="color" />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="apMaterial">Material(s)</label>
+                        <input type="text" id="apMaterial" name="material" placeholder="comma-separated e.g. Cotton, Polyester" />
+                    </div>
+                    <div class="form-group">
+                        <label for="apSizes">Sizes</label>
+                        <input type="text" id="apSizes" name="sizes" placeholder="comma-separated e.g. S, M, L" />
+                    </div>
+                    <div class="form-group">
+                        <label for="apSupplier">Supplier</label>
+                        <input type="text" id="apSupplier" name="supplier" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="apTags">Tags</label>
+                    <input type="text" id="apTags" name="tags" placeholder="comma-separated, used for search" />
+                </div>
+
+                <div class="form-group">
+                    <label for="apThumbnail">Thumbnail Image URL *</label>
+                    <input type="url" id="apThumbnail" name="thumbnail" placeholder="https://…" required />
+                    <span class="error-msg" id="apThumbnailError">Please enter a thumbnail image URL</span>
+                </div>
+                <div class="form-group">
+                    <label for="apHeroImage">Hero Image URL</label>
+                    <input type="url" id="apHeroImage" name="heroImage" placeholder="leave blank to reuse thumbnail" />
+                </div>
+                <div class="form-group">
+                    <label for="apGallery">Gallery Image URLs</label>
+                    <input type="text" id="apGallery" name="galleryImages" placeholder="comma-separated list of image URLs" />
+                </div>
+
+                <div class="form-row admin-checkbox-row">
+                    <label class="admin-checkbox"><input type="checkbox" id="apFeatured" /> Featured</label>
+                    <label class="admin-checkbox"><input type="checkbox" id="apNewArrival" checked /> New Arrival</label>
+                    <label class="admin-checkbox"><input type="checkbox" id="apBestSeller" /> Best Seller</label>
+                    <label class="admin-checkbox"><input type="checkbox" id="apSale" /> On Sale</label>
+                </div>
+
+                <button type="submit" class="place-order-btn" id="apSubmitBtn">Add Product</button>
+            </form>
+
+            <div class="admin-manage">
+                <div class="admin-manage-head">
+                    <h3>Products You've Added <span id="apCount">(0)</span></h3>
+                    <button type="button" class="copy-btn" id="apCopyAllBtn">Copy code for all</button>
+                </div>
+                <div class="product-manage-list" id="apManageList">
+                    <p class="admin-empty" id="apEmptyMsg">You haven't added any products yet — fill out the form above to get started.</p>
+                </div>
+            </div>
+
+            <div class="admin-code-box" id="apCodeBox" style="display:none;">
+                <div class="admin-code-head">
+                    <span>Copied to clipboard — paste this into the <code>PRODUCTS</code> array in the code:</span>
+                    <button type="button" class="copy-btn" id="apCloseCodeBtn">Close</button>
+                </div>
+                <textarea class="admin-code-textarea" id="apCodeTextarea" readonly rows="10"></textarea>
+            </div>
+        </section>
+    </div>
+
+    <!-- ============================================================
          SHARED FOOTER
          ============================================================ -->
     <footer>
@@ -3267,10 +3625,10 @@
             slug: "y2k-platform-sneakers DC",
             name: "Y2K Platform Sneakers DC",
             description: "Chunky 2000s-inspired sneakers built for the alt aesthetic.",
-            price: 2450,
+            price: 10450,
             discountPrice: null,
             currency: "ETB",
-            gender: "men",
+            gender: "unisex",
             category: "shoes",
             subcategory: "sneakers",
             style: "y2k",
@@ -3278,76 +3636,77 @@
             color: "black",
             material: "synthetic",
             sizes: ["40", "41", "42", "43", "44"],
-            stock: 22,
+            stock: 5,
             featured: false,
             newArrival: true,
             bestSeller: false,
             sale: false,
             rating: 0,
             reviews: 0,
-            tags: ["shoes", "sneakers", "y2k", "men", "vintage"],
+            tags: ["shoes", "sneakers", "y2k", "men", "vintage", "women","unisex"],
             thumbnail: "https://i.pinimg.com/736x/5b/f5/3e/5bf53ee9676cf7b9440fbac38b7fb969.jpg",
             heroImage: "https://i.pinimg.com/736x/47/78/78/477878d4c80bc13ea6d181a696731a53.jpg",
             galleryImages: ["https://i.pinimg.com/736x/5b/f5/3e/5bf53ee9676cf7b9440fbac38b7fb969.jpg", "https://i.pinimg.com/736x/47/78/78/477878d4c80bc13ea6d181a696731a53.jpg"],
             dateAdded: "2026-05-02",
-            supplier: "Qoda"
+            supplier: "Vovex"
         }, {
             id: 2,
-            slug: "military belt",
-            name: "Operation Desert Storm Military Belt",
-            description: "Heavy-duty  belt with a  steel military buckle. Came straight after serving in Operation Desert Storm in Iraq.",
-            price: 3620,
+            slug: "White Alt cross T-shirt y2k",
+            name: "White Alt cross y2k T-shirt ",
+            description: "White Y2K alt cross tee with a bold edgy graphic, blending early 2000s rebellion with modern streetwear style.",
+            price: 2600,
             discountPrice: null,
             currency: "ETB",
             gender: "men",
-            category: "belts",
-            subcategory: "military-belts",
-            style: "military",
+            category: "T-shirt",
+            subcategory: "Alt-y2k",
+            style: "y2k alt",
             collection: null,
-            color: "sandy",
-            material: "Steel",
+            color: "white",
+            material: ["Cotton","Polyester"],
             sizes: ["S", "M", "L"],
-            stock: 40,
+            stock: 400,
             featured: false,
             newArrival: false,
             bestSeller: false,
             sale: false,
             rating: 0,
             reviews: 0,
-            tags: ["belt", "military", "men", "desertstorm"],
-            thumbnail: "https://i.pinimg.com/1200x/51/71/f5/5171f5b3eaed3df56379dffb0c75ef65.jpg",
-            heroImage: "https://i.pinimg.com/1200x/95/6d/a8/956da8a01fbf0295ccb5150bc395180b.jpg",
-            galleryImages: ["https://i.pinimg.com/1200x/95/6d/a8/956da8a01fbf0295ccb5150bc395180b.jpg", "https://i.pinimg.com/1200x/95/6d/a8/956da8a01fbf0295ccb5150bc395180b.jpg"],
+            tags: ["T-shirt", "Alt", "men", "y2k", "rock and roll"],
+            thumbnail: "https://i.pinimg.com/736x/2f/c4/a3/2fc4a379313c69b6da8f3b87e281574c.jpg",
+            heroImage: "https://i.pinimg.com/736x/05/fb/cb/05fbcb035d2525647e13be0bb5109cca.jpg",
+            galleryImages: ["https://i.pinimg.com/736x/2f/c4/a3/2fc4a379313c69b6da8f3b87e281574c.jpg", "https://i.pinimg.com/736x/05/fb/cb/05fbcb035d2525647e13be0bb5109cca.jpg"],
             dateAdded: "2026-03-01",
-            supplier: "Qoda"
+            supplier: "BnyT"
         }, {
             id: 3,
-            slug: "classic-studded-belt",
-            name: "Classic Studded Belt",
-            description: "Everyday leather belt finished with subtle stud detailing.",
-            price: 1540,
+            slug: "Y2K Summer New Retro Green Fashion Skull",
+            name: "Y2K Summer New Retro Green Fashion Skull ",
+            description: "Y2K Summer New Retro Green Fashion Skull Extra Large Pattern Printed T-shirt Men's Harajuku Gothic",
+            price: 2600,
+            discountPrice: null,
             currency: "ETB",
             gender: "men",
-            category: "belts",
-            subcategory: "other-belts",
-            style: "goth",
+            category: "T-shirt",
+            subcategory: "Alt-y2k",
+            style: "y2k alt",
             collection: null,
-            color: "black",
-            material: "leather",
-            sizes: ["S", "M", "L", "XL"],
-            stock: 31,
+            color: "Green",
+            material: ["Cotton","Polyester"],
+            sizes: ["S", "M", "L"],
+            stock: 400,
             featured: false,
             newArrival: false,
             bestSeller: false,
-            sale: true,
+            sale: false,
             rating: 0,
             reviews: 0,
-            tags: ["belt", "studded", "men"],
-            thumbnail: "https://i.pinimg.com/736x/b8/ff/34/b8ff344bd34ca6f976f0de37238ff31b.jpg",
-            heroImage: "https://i.pinimg.com/736x/68/9f/68/689f686c6b2b14b5b297def6af10157d.jpg",
-            galleryImages: ["https://i.pinimg.com/736x/b8/ff/34/b8ff344bd34ca6f976f0de37238ff31b.jpg", "https://i.pinimg.com/736x/68/9f/68/689f686c6b2b14b5b297def6af10157d.jpg"],
-            dateAdded: "2026-02-27",
-            supplier: "Qoda"
+            tags: ["T-shirt", "Alt", "men", "y2k", "rock and roll"],
+            thumbnail: "https://i.pinimg.com/1200x/14/ca/2c/14ca2c11d6cb0b73b0f2f1b69c1c7281.jpg",
+            heroImage: "https://i.pinimg.com/736x/23/b5/a1/23b5a1a1d02f99cd383cd04521b05d9b.jpg",
+            galleryImages: ["https://i.pinimg.com/1200x/14/ca/2c/14ca2c11d6cb0b73b0f2f1b69c1c7281.jpg", "https://i.pinimg.com/736x/23/b5/a1/23b5a1a1d02f99cd383cd04521b05d9b.jpg"],
+            dateAdded: "2026-03-01",
+            supplier: "BnyT"
         }, {
             id: 4,
             slug: "mens-winter-coat",
@@ -3406,10 +3765,84 @@
             galleryImages: ["https://i.pinimg.com/736x/06/ec/51/06ec51c763d9964b0b9835b1bb0c181e.jpg", "https://i.pinimg.com/1200x/3e/f4/cb/3ef4cb3b5a7e2f9a8d1b26f14d229ec9.jpg"],
             dateAdded: "2026-01-30",
             supplier: "Qoda"
-        },];
+        },{
+            id: 6,
+            slug: "Call of Duty Modern Warfare 2 Promo Large Graphic Tee Infinity Ward Mens",
+            name: "Call of Duty Modern Warfare 2 Promo Large Graphic Tee Infinity Ward Mens",
+            description: "Call of Duty Modern Warfare 2 Promo Large Graphic Tee Infinity Ward Mens",
+            price: 2600,
+            discountPrice: null,
+            currency: "ETB",
+            gender: "men",
+            category: "For gamers and anime fans",
+            subcategory: "gamers",
+            style: null,
+            collection: "gamers",
+            color: "black",
+            material: ["cotton","Polyester"],
+            sizes: ["S","M","L","XL"],
+            stock: 400,
+            featured: true,
+            newArrival: false,
+            bestSeller: true,
+            sale: false,
+            rating: 0,
+            reviews: 0,
+            tags: ["T-shirt", "men", "Gamers and Anime Fans", "gamers","Call of Duty"],
+            thumbnail: "https://i.pinimg.com/736x/42/74/a2/4274a25838a8cb11923368d381ac322b.jpg",
+            heroImage: "https://i.pinimg.com/1200x/60/c8/23/60c823e3b75b0dd1af63ac5456c747c5.jpg",
+            galleryImages: ["https://i.pinimg.com/1200x/60/c8/23/60c823e3b75b0dd1af63ac5456c747c5.jpg", "https://i.pinimg.com/1200x/60/c8/23/60c823e3b75b0dd1af63ac5456c747c5.jpg"],
+            dateAdded: "2026-01-30",
+            supplier: "BnyT"
+        },{
+            id: 6,
+            slug: "Gildan Black T Shirt Black Monster Energy Drink T Shirt With Graphic Design | Color: Black",
+            name: "Gildan Black T Shirt Black Monster Energy Drink T Shirt With Graphic Design | Color: Black",
+            description: "Your Go-To Tee Comfortable, Chic & Made To Be Yours Crafted From Premium, This Tee Offers Unbeatable Softness And Breathability.",
+            price: 2600,
+            discountPrice: null,
+            currency: "ETB",
+            gender: "men",
+            category: "gamers",
+            subcategory: "gamers",
+            style: null,
+            collection: "gamers",
+            color: "black",
+            material: ["cotton","Polyester"],
+            sizes: ["S","M","L","XL"],
+            stock: 400,
+            featured: true,
+            newArrival: false,
+            bestSeller: true,
+            sale: false,
+            rating: 0,
+            reviews: 0,
+            tags: ["T-shirt", "men", "Gamers and Anime Fans", "gamers","DC","Monster"],
+            thumbnail: "https://i.pinimg.com/1200x/13/d8/16/13d8163ac121e103bf427480060519aa.jpg",
+            heroImage: "https://i.pinimg.com/1200x/13/d8/16/13d8163ac121e103bf427480060519aa.jpg",
+            galleryImages: ["https://i.pinimg.com/1200x/13/d8/16/13d8163ac121e103bf427480060519aa.jpg", "https://i.pinimg.com/1200x/13/d8/16/13d8163ac121e103bf427480060519aa.jpg"],
+            dateAdded: "2026-01-30",
+            supplier: "BnyT"}];
 
         if (typeof window !== "undefined") {
             window.PRODUCTS = PRODUCTS;
+
+            // Merge in any products added via the Admin page (#/admin), persisted
+            // in this browser's localStorage. This keeps window.PRODUCTS as the
+            // single source of truth everywhere else on the site.
+            try {
+                const customRaw = window.localStorage.getItem("vvx_custom_products");
+                const custom = customRaw ? JSON.parse(customRaw) : [];
+                if (Array.isArray(custom)) {
+                    custom.forEach(function(p) {
+                        if (p && !window.PRODUCTS.some(function(existing) { return existing.id === p.id; })) {
+                            window.PRODUCTS.push(p);
+                        }
+                    });
+                }
+            } catch (e) {
+                /* localStorage unavailable or corrupt — ignore, site still works with base products */
+            }
         }
     </script>
 
@@ -5855,6 +6288,309 @@
     </script>
 
     <!-- ==========================================================================
+         admin.js — powers the #/admin "Add Product" page. Lets you add products
+         through a form instead of hand-editing the PRODUCTS array. New products
+         are pushed into window.PRODUCTS (so they show up everywhere immediately)
+         and saved to localStorage under "vvx_custom_products" (so they persist
+         across reloads in this browser). Also offers a "copy code" button that
+         generates the PRODUCTS-array-shaped JS text for pasting into the source
+         file if you want a product to be permanent for every visitor.
+         ========================================================================== -->
+    <script>
+        const VVXAdmin = (function() {
+            "use strict";
+
+            const CUSTOM_KEY = "vvx_custom_products";
+            let bound = false;
+
+            function loadCustom() {
+                try {
+                    const raw = window.localStorage.getItem(CUSTOM_KEY);
+                    const list = raw ? JSON.parse(raw) : [];
+                    return Array.isArray(list) ? list : [];
+                } catch (e) {
+                    return [];
+                }
+            }
+
+            function saveCustom(list) {
+                try {
+                    window.localStorage.setItem(CUSTOM_KEY, JSON.stringify(list));
+                } catch (e) {
+                    window.VVXToast.error("Couldn't save to this browser's storage");
+                }
+            }
+
+            function slugify(text) {
+                return String(text || "")
+                    .toLowerCase()
+                    .trim()
+                    .replace(/[^a-z0-9]+/g, "-")
+                    .replace(/(^-|-$)/g, "") || "product";
+            }
+
+            function splitList(value) {
+                return String(value || "")
+                    .split(",")
+                    .map(function(s) { return s.trim(); })
+                    .filter(Boolean);
+            }
+
+            function nextId() {
+                const ids = (window.PRODUCTS || []).map(function(p) { return p.id; }).filter(function(n) {
+                    return typeof n === "number" && !isNaN(n);
+                });
+                return ids.length ? Math.max.apply(null, ids) + 1 : 1;
+            }
+
+            function uniqueSlug(base, id) {
+                const taken = (window.PRODUCTS || []).some(function(p) { return p.slug === base; });
+                return taken ? `${base}-${id}` : base;
+            }
+
+            function el(id) {
+                return document.getElementById(id);
+            }
+
+            function clearErrors(form) {
+                form.querySelectorAll(".error-msg.visible").forEach(function(span) {
+                    span.classList.remove("visible");
+                });
+                form.querySelectorAll(".error").forEach(function(input) {
+                    input.classList.remove("error");
+                });
+            }
+
+            function showError(inputId, errorId) {
+                const input = el(inputId);
+                const error = el(errorId);
+                if (input) input.classList.add("error");
+                if (error) error.classList.add("visible");
+            }
+
+            function buildProductFromForm() {
+                const name = el("apName").value.trim();
+                const price = parseFloat(el("apPrice").value);
+                const thumbnail = el("apThumbnail").value.trim();
+
+                const id = nextId();
+                const rawSlug = el("apSlug").value.trim() || slugify(name);
+                const slug = uniqueSlug(slugify(rawSlug), id);
+                const material = splitList(el("apMaterial").value);
+                const discountRaw = el("apDiscountPrice").value;
+                const heroImage = el("apHeroImage").value.trim() || thumbnail;
+                const gallery = splitList(el("apGallery").value);
+
+                return {
+                    id: id,
+                    slug: slug,
+                    name: name,
+                    description: el("apDescription").value.trim(),
+                    price: price,
+                    discountPrice: discountRaw !== "" ? parseFloat(discountRaw) : null,
+                    currency: "ETB",
+                    gender: el("apGender").value,
+                    category: el("apCategory").value.trim(),
+                    subcategory: el("apSubcategory").value.trim(),
+                    style: el("apStyle").value.trim() || null,
+                    collection: el("apCollection").value.trim() || null,
+                    color: el("apColor").value.trim(),
+                    material: material.length > 1 ? material : (material[0] || ""),
+                    sizes: splitList(el("apSizes").value),
+                    stock: parseInt(el("apStock").value, 10) || 0,
+                    featured: el("apFeatured").checked,
+                    newArrival: el("apNewArrival").checked,
+                    bestSeller: el("apBestSeller").checked,
+                    sale: el("apSale").checked,
+                    rating: 0,
+                    reviews: 0,
+                    tags: splitList(el("apTags").value),
+                    thumbnail: thumbnail,
+                    heroImage: heroImage,
+                    galleryImages: gallery.length ? gallery : [thumbnail],
+                    dateAdded: new Date().toISOString().slice(0, 10),
+                    supplier: el("apSupplier").value.trim()
+                };
+            }
+
+            function validate() {
+                const form = el("adminProductForm");
+                clearErrors(form);
+                let ok = true;
+
+                if (!el("apName").value.trim()) {
+                    showError("apName", "apNameError");
+                    ok = false;
+                }
+                if (!el("apCategory").value.trim()) {
+                    showError("apCategory", "apCategoryError");
+                    ok = false;
+                }
+                const price = parseFloat(el("apPrice").value);
+                if (isNaN(price) || price < 0) {
+                    showError("apPrice", "apPriceError");
+                    ok = false;
+                }
+                if (!el("apThumbnail").value.trim()) {
+                    showError("apThumbnail", "apThumbnailError");
+                    ok = false;
+                }
+
+                return ok;
+            }
+
+            function formatProductCode(p) {
+                return "  " + JSON.stringify(p, null, 4).replace(/\n/g, "\n  ") + ",";
+            }
+
+            function copyText(text) {
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    return navigator.clipboard.writeText(text);
+                }
+                const ta = document.createElement("textarea");
+                ta.value = text;
+                ta.style.position = "fixed";
+                ta.style.opacity = "0";
+                document.body.appendChild(ta);
+                ta.select();
+                try { document.execCommand("copy"); } catch (e) { /* ignore */ }
+                document.body.removeChild(ta);
+                return Promise.resolve();
+            }
+
+            function showCode(text) {
+                el("apCodeTextarea").value = text;
+                el("apCodeBox").style.display = "";
+                copyText(text).then(function() {
+                    window.VVXToast.success("Code copied to clipboard");
+                }).catch(function() {
+                    window.VVXToast.info("Select the text below and copy it manually");
+                });
+            }
+
+            function renderManageList() {
+                const custom = loadCustom();
+                const list = el("apManageList");
+                const empty = el("apEmptyMsg");
+                el("apCount").textContent = `(${custom.length})`;
+
+                if (!custom.length) {
+                    list.innerHTML = "";
+                    list.appendChild(empty);
+                    return;
+                }
+
+                list.innerHTML = custom.map(function(p) {
+                    const price = window.VVXUtils && window.VVXUtils.formatPrice
+                        ? window.VVXUtils.formatPrice(p.price, p.currency)
+                        : `${p.price} ${p.currency || ""}`;
+                    const name = window.VVXUtils ? window.VVXUtils.escapeHtml(p.name || "") : (p.name || "");
+                    return `
+                        <div class="manage-item" data-id="${p.id}">
+                            <img class="manage-thumb" src="${p.thumbnail}" alt="" loading="lazy" onerror="this.style.opacity='0.15'" />
+                            <div class="manage-info">
+                                <div class="manage-name">${name}</div>
+                                <div class="manage-meta">${p.category || ""}${p.style ? " · " + p.style : ""} · ${price}</div>
+                            </div>
+                            <div class="manage-actions">
+                                <button type="button" class="manage-copy" data-id="${p.id}">Copy code</button>
+                                <button type="button" class="manage-delete" data-id="${p.id}">Delete</button>
+                            </div>
+                        </div>
+                    `;
+                }).join("");
+            }
+
+            function handleSubmit(e) {
+                e.preventDefault();
+                if (!validate()) {
+                    window.VVXToast.error("Please fix the highlighted fields");
+                    return;
+                }
+
+                const product = buildProductFromForm();
+
+                window.PRODUCTS = window.PRODUCTS || [];
+                window.PRODUCTS.push(product);
+
+                const custom = loadCustom();
+                custom.push(product);
+                saveCustom(custom);
+
+                window.VVXToast.success(`${product.name} added`);
+                el("adminProductForm").reset();
+                el("apStock").value = 1;
+                el("apNewArrival").checked = true;
+                clearErrors(el("adminProductForm"));
+                renderManageList();
+            }
+
+            function handleManageClick(e) {
+                const copyBtn = e.target.closest(".manage-copy");
+                if (copyBtn) {
+                    const id = parseInt(copyBtn.getAttribute("data-id"), 10);
+                    const product = loadCustom().find(function(p) { return p.id === id; });
+                    if (product) showCode(formatProductCode(product));
+                    return;
+                }
+
+                const delBtn = e.target.closest(".manage-delete");
+                if (delBtn) {
+                    const id = parseInt(delBtn.getAttribute("data-id"), 10);
+                    const custom = loadCustom().filter(function(p) { return p.id !== id; });
+                    saveCustom(custom);
+                    window.PRODUCTS = (window.PRODUCTS || []).filter(function(p) { return p.id !== id; });
+                    window.VVXToast.info("Product removed");
+                    renderManageList();
+                }
+            }
+
+            function handleCopyAll() {
+                const custom = loadCustom();
+                if (!custom.length) {
+                    window.VVXToast.info("You haven't added any products yet");
+                    return;
+                }
+                const text = custom.map(formatProductCode).join("\n");
+                showCode(text);
+            }
+
+            function bindOnce() {
+                if (bound) return;
+                bound = true;
+
+                el("adminProductForm").addEventListener("submit", handleSubmit);
+                el("apManageList").addEventListener("click", handleManageClick);
+                el("apCopyAllBtn").addEventListener("click", handleCopyAll);
+                el("apCloseCodeBtn").addEventListener("click", function() {
+                    el("apCodeBox").style.display = "none";
+                });
+
+                el("apName").addEventListener("input", function() {
+                    if (!el("apSlug").dataset.touched) {
+                        el("apSlug").value = slugify(el("apName").value);
+                    }
+                });
+                el("apSlug").addEventListener("input", function() {
+                    el("apSlug").dataset.touched = "1";
+                });
+            }
+
+            function init() {
+                if (!el("page-admin")) return;
+                bindOnce();
+                renderManageList();
+            }
+
+            return { init };
+        })();
+
+        if (typeof window !== "undefined") {
+            window.VVXAdmin = VVXAdmin;
+        }
+    </script>
+
+    <!-- ==========================================================================
          router.js — the piece that ties everything into ONE file. Shows/hides
          the right "page" div based on location.hash and re-runs that page's
          controller, replacing what used to be separate .html file loads.
@@ -5870,7 +6606,8 @@
                 "cart": { id: "page-cart", run: () => window.VVXCartPage.init() },
                 "wishlist": { id: "page-wishlist", run: () => window.VVXWishlistPage.init() },
                 "checkout": { id: "page-checkout", run: () => window.VVXCheckout.init() },
-                "order-confirmation": { id: "page-confirmation", run: () => window.VVXOrderConfirmation.init() }
+                "order-confirmation": { id: "page-confirmation", run: () => window.VVXOrderConfirmation.init() },
+                "admin": { id: "page-admin", run: () => window.VVXAdmin.init() }
             };
 
             function currentPath() {
