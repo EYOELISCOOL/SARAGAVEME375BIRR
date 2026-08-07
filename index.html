@@ -4416,15 +4416,6 @@
                     "";
 
                 return `
-                            <div class="product-item">
-                                <img src="${u.escapeHtml(product.thumbnail)}" alt="${u.escapeHtml(product.name)}" loading="lazy" />
-                                <div class="product-info">
-                                    <h3>${u.escapeHtml(product.name)}</h3>
-                                    <p>${u.escapeHtml(product.description)}</p>
-                                    ${supplierHtml}
-                                    <a href="${href}" class="product-btn">${ctaLabel || "Check Store"}</a>
-                                </div>
-                            </div>
                         `;
             }
 
