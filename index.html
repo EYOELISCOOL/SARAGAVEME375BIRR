@@ -8,6 +8,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Roboto:wght@300;400;500;700&family=Poppins:wght@400;500;600&family=Montserrat:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet" />
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230a0a0a'/%3E%3Ctext x='32' y='42' font-family='Georgia,serif' font-size='30' font-style='italic' font-weight='700' fill='%23c4b8a8' text-anchor='middle'%3EV%3C/text%3E%3C/svg%3E" />
 
+    <!-- html2canvas for receipt download -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
+    </script>
+
     <style>
         /* ============================================================
            VVX NOIR — SITE STYLESHEET (refined for readability & contrast)
@@ -2487,6 +2491,51 @@
             object-fit: cover;
         }
 
+        /* ---- PayPal section ---- */
+        .paypal-section {
+            background: #f5f0ea;
+            border: 1px solid var(--vvx-black, #1a1a1a);
+            padding: 1.4rem 1.6rem;
+            margin-top: 1.4rem;
+            display: none;
+        }
+        .paypal-section h3 {
+            font-family: var(--font-alt);
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 0.9rem;
+            color: #1a1a1a;
+        }
+        .paypal-section .paypal-total {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--vvx-rust, #a8492e);
+            margin: 0.5rem 0;
+        }
+        .paypal-section .paypal-note {
+            font-size: 0.78rem;
+            color: #333;
+        }
+        .paypal-btn {
+            display: inline-block;
+            background: #0070ba;
+            color: #fff;
+            padding: 0.65rem 2rem;
+            border: none;
+            border-radius: 4px;
+            font-family: var(--font-alt);
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            text-decoration: none;
+        }
+        .paypal-btn:hover {
+            background: #005ea6;
+        }
+
         /* ---- Receipt box (order confirmation) ---- */
         .receipt-box {
             border: 1px solid var(--vvx-black, #1a1a1a);
@@ -2495,6 +2544,7 @@
             max-width: 480px;
             text-align: left;
             background: #fdfbf8;
+            color: #1a1a1a;
         }
         .receipt-box h3 {
             text-align: center;
@@ -2516,7 +2566,8 @@
         .receipt-row.total {
             font-weight: 700;
         }
-        .print-receipt-btn {
+        .print-receipt-btn,
+        .download-receipt-btn {
             display: inline-block;
             margin-top: 0.4rem;
             padding: 0.65rem 1.6rem;
@@ -2529,11 +2580,47 @@
             cursor: pointer;
             transition: background-color 0.3s var(--ease-soft);
         }
-        .print-receipt-btn:hover {
+        .print-receipt-btn:hover,
+        .download-receipt-btn:hover {
             background: #f5f0ea;
         }
+        .download-receipt-btn {
+            background: var(--vvx-black, #1a1a1a);
+            color: #fdfbf8;
+            border-color: var(--vvx-black, #1a1a1a);
+            margin-left: 0.4rem;
+        }
+        .download-receipt-btn:hover {
+            background: #2a2a2a;
+            color: #fff;
+        }
+        .receipt-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            justify-content: center;
+            margin-top: 0.8rem;
+            padding-top: 0.8rem;
+            border-top: 1px solid #ddd;
+        }
         @media print {
-            header, footer, .print-receipt-btn, .shop-now-button, .mode-toggle {
+
+            header,
+            footer,
+            .print-receipt-btn,
+            .download-receipt-btn,
+            .shop-now-button,
+            .mode-toggle,
+            .receipt-actions {
+                display: none !important;
+            }
+            .receipt-box {
+                border: 1px solid #000 !important;
+                background: #fff !important;
+                color: #000 !important;
+                box-shadow: none !important;
+            }
+            .receipt-box .receipt-actions {
                 display: none !important;
             }
         }
@@ -2866,6 +2953,20 @@
                 left: 1rem;
                 max-width: none;
             }
+
+            .receipt-box {
+                padding: 1rem 1.2rem;
+                margin: 1rem 0.5rem;
+            }
+            .receipt-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .receipt-actions .print-receipt-btn,
+            .receipt-actions .download-receipt-btn {
+                margin-left: 0;
+                text-align: center;
+            }
         }
 
         @media (max-width: 480px) {
@@ -3027,13 +3128,13 @@
                                     <a href="#/collection?gender=men&category=belts">Others</a>
                                     <a href="#/collection?gender=men&category=tops">Tops</a>
                                     <a href="#/collection?gender=men&category=pants">Pants</a>
-                                   
+
                                 </div>
                                 <div class="category">
                                     <h3>Tops</h3>
                                     <a href="#/collection?gender=men&category=jackets&subcategory=winter-coats">Goth Jackets</a>
                                     <a href="#/collection?gender=men&category=jackets&subcategory=leather-jackets">Leather Jackets</a>
-                                   
+
                                 </div>
                             </div>
                         </li>
@@ -3044,7 +3145,7 @@
                                     <h3>Handbags</h3>
                                     <a href="#/collection?gender=women&category=handbags&subcategory=totes">Goth Shoes</a>
                                     <a href="#/collection?gender=women&category=handbags&subcategory=clutches">y2k shoes</a>
-                                    
+
                                 </div>
                                 <div class="category">
                                     <h3>Jackets</h3>
@@ -3061,7 +3162,7 @@
                                 <div class="category">
                                     <h3>Combos</h3>
                                     <a href="#/collection?collection=full-outfits&subcategory=combos" style="display:block;">
-                                       
+
                                     </a>
                                 </div>
                                 <div class="category">
@@ -3108,7 +3209,7 @@
                     <div class="mode-toggle" onclick="toggleMode()" aria-label="Toggle dark mode">
                         <i>&#9789;</i>
                     </div>
-                  
+
                     <a href="#/wishlist" class="wishlist-link" aria-label="View wishlist">
                         ♡<span class="wishlist-count" id="wishlistCount" style="display:none;">0</span>
                     </a>
@@ -3291,16 +3392,25 @@
                 </div>
 
                 <div class="form-row">
+
+                    <!-- Country dropdown -->
                     <div class="form-group">
-                        <label for="city">City</label>
-                        <input type="text" id="city" name="city" required />
-                        <span class="error-msg" id="cityError">Please enter your city</span>
+                        <label for="countrySelect">Country</label>
+                        <select id="countrySelect" name="country" required>
+                            <option value="">— Select Country —</option>
+                        </select>
+                        <span class="error-msg" id="countryError">Please select a country</span>
                     </div>
+
+                    <!-- City dropdown -->
                     <div class="form-group">
-                        <label for="country">Country</label>
-                        <input type="text" id="country" name="country" required />
-                        <span class="error-msg" id="countryError">Please enter your country</span>
+                        <label for="citySelect">City</label>
+                        <select id="citySelect" name="city" required>
+                            <option value="">— Select City —</option>
+                        </select>
+                        <span class="error-msg" id="cityError">Please select a city</span>
                     </div>
+
                     <div class="form-group">
                         <label for="phone">Phone</label>
                         <input type="tel" id="phone" name="phone" required />
@@ -3308,7 +3418,8 @@
                     </div>
                 </div>
 
-                <div class="telebirr-box">
+                <!-- TeleBirr Box (for Ethiopia) -->
+                <div class="telebirr-box" id="telebirrBox">
                     <h3>Pay 50% Deposit via TeleBirr</h3>
                     <div class="telebirr-row">
                         <span class="label">Send to</span>
@@ -3319,6 +3430,10 @@
                     <div class="telebirr-row">
                         <span class="label">Order Total</span>
                         <span class="value" id="orderTotalAmount">—</span>
+                    </div>
+                    <div class="telebirr-row">
+                        <span class="label">Shipping</span>
+                        <span class="value" id="shippingAmount">—</span>
                     </div>
                     <div class="telebirr-row">
                         <span class="label">Pay Now (50% Deposit)</span>
@@ -3340,7 +3455,18 @@
                     </div>
                 </div>
 
-                <p class="payment-note">Your order details and payment screenshot are sent to us securely when you submit. No card details are ever collected or stored.</p>
+                <!-- PayPal Section (for international orders) -->
+                <div class="paypal-section" id="paypalSection">
+                    <h3>Pay with PayPal</h3>
+                    <p class="paypal-note">Total amount in Euros (EUR) — you will be redirected to PayPal to complete the payment.</p>
+                    <div class="paypal-total" id="paypalTotal">—</div>
+                    <p style="margin-top:0.8rem;">
+                        <a href="#" id="paypalCheckoutLink" class="paypal-btn" target="_blank">Pay with PayPal</a>
+                    </p>
+                    <p class="paypal-note" style="margin-top:0.5rem;">After clicking, you will complete your payment on the PayPal website. Your order will be processed once payment is confirmed.</p>
+                </div>
+
+                <p class="payment-note" id="paymentNote">Your order details and payment screenshot are sent to us securely when you submit. No card details are ever collected or stored.</p>
 
                 <button type="submit" class="place-order-btn" id="placeOrderBtn">Submit Order &amp; Payment Proof</button>
             </form>
@@ -3621,35 +3747,6 @@
          ========================================================================== -->
     <script>
         const PRODUCTS = [ {
-            id: 1,
-            slug: "y2k-platform-sneakers DC",
-            name: "Y2K Platform Sneakers DC",
-            description: "Chunky 2000s-inspired sneakers built for the alt aesthetic.",
-            price: 10450,
-            discountPrice: null,
-            currency: "ETB",
-            gender: "unisex",
-            category: "shoes",
-            subcategory: "sneakers",
-            style: "y2k",
-            collection: "vintage",
-            color: "black",
-            material: "synthetic",
-            sizes: ["40", "41", "42", "43", "44"],
-            stock: 5,
-            featured: false,
-            newArrival: true,
-            bestSeller: false,
-            sale: false,
-            rating: 0,
-            reviews: 0,
-            tags: ["shoes", "sneakers", "y2k", "men", "vintage", "women","unisex"],
-            thumbnail: "https://i.pinimg.com/736x/5b/f5/3e/5bf53ee9676cf7b9440fbac38b7fb969.jpg",
-            heroImage: "https://i.pinimg.com/736x/47/78/78/477878d4c80bc13ea6d181a696731a53.jpg",
-            galleryImages: ["https://i.pinimg.com/736x/5b/f5/3e/5bf53ee9676cf7b9440fbac38b7fb969.jpg", "https://i.pinimg.com/736x/47/78/78/477878d4c80bc13ea6d181a696731a53.jpg"],
-            dateAdded: "2026-05-02",
-            supplier: "Vovex"
-        }, {
             id: 2,
             slug: "White Alt cross T-shirt y2k",
             name: "White Alt cross y2k T-shirt ",
@@ -4526,7 +4623,7 @@
     <!-- ==========================================================================
          collectionMeta.js
          ========================================================================== -->
-         
+
     <script>
         const VVXCollectionMeta = (function() {
 
@@ -5326,7 +5423,7 @@
 
     <!-- ==========================================================================
          checkout.js — controller for the Checkout "page" (#/checkout)
-         with improved validation
+         with improved validation + country/city + shipping + PayPal for international
          ========================================================================== -->
     <script>
         const VVXCheckout = (function() {
@@ -5350,8 +5447,153 @@
             const DEPOSIT_RATE = 0.5;
             const SCREENSHOT_MAX_DIMENSION = 900;
             const SCREENSHOT_JPEG_QUALITY = 0.72;
+            const EXCHANGE_RATE_ETB_TO_EUR = 120; // 1 EUR = 120 ETB (approximate)
+
+            // ---- COUNTRY & CITY DATA ----
+            const COUNTRY_DATA = {
+                "Ethiopia": {
+                    cities: ["Addis Ababa", "Adama", "Bahir Dar", "Dire Dawa", "Gondar", "Hawassa", "Jimma", "Mekelle", "Dessie", "Harar"]
+                },
+                "Germany": {
+                    cities: ["Berlin", "Munich", "Hamburg", "Cologne", "Frankfurt", "Stuttgart", "Düsseldorf", "Dresden", "Nuremberg", "Leipzig"]
+                },
+                "Italy": {
+                    cities: ["Rome", "Milan", "Naples", "Turin", "Palermo", "Genoa", "Bologna", "Florence", "Bari", "Catania"]
+                },
+                "Austria": {
+                    cities: ["Vienna", "Graz", "Linz", "Salzburg", "Innsbruck", "Klagenfurt", "Villach", "Wels", "Sankt Pölten", "Bregenz"]
+                },
+                "France": {
+                    cities: ["Paris", "Marseille", "Lyon", "Toulouse", "Nice", "Nantes", "Strasbourg", "Montpellier", "Bordeaux", "Lille"]
+                },
+                "Spain": {
+                    cities: ["Madrid", "Barcelona", "Valencia", "Seville", "Zaragoza", "Málaga", "Murcia", "Palma", "Las Palmas", "Bilbao"]
+                },
+                "Portugal": {
+                    cities: ["Lisbon", "Porto", "Braga", "Coimbra", "Aveiro", "Faro", "Évora", "Cascais", "Sintra", "Guimarães"]
+                },
+                "United Kingdom": {
+                    cities: ["London", "Birmingham", "Manchester", "Liverpool", "Bristol", "Sheffield", "Edinburgh", "Glasgow", "Leeds", "Cardiff"]
+                },
+                "Poland": {
+                    cities: ["Warsaw", "Krakow", "Wrocław", "Poznań", "Gdańsk", "Szczecin", "Łódź", "Lublin", "Katowice", "Białystok"]
+                },
+                "Switzerland": {
+                    cities: ["Zurich", "Geneva", "Basel", "Bern", "Lausanne", "Lucerne", "St. Gallen", "Winterthur", "Lugano", "Zug"]
+                },
+                "Hungary": {
+                    cities: ["Budapest", "Debrecen", "Szeged", "Miskolc", "Pécs", "Győr", "Nyíregyháza", "Kecskemét", "Székesfehérvár", "Szombathely"]
+                },
+                "Croatia": {
+                    cities: ["Zagreb", "Split", "Rijeka", "Osijek", "Zadar", "Velika Gorica", "Slavonski Brod", "Pula", "Karlovac", "Sisak"]
+                },
+                "Romania": {
+                    cities: ["Bucharest", "Cluj-Napoca", "Timișoara", "Iași", "Constanța", "Craiova", "Brașov", "Galați", "Ploiești", "Oradea"]
+                },
+                "Russia": {
+                    cities: ["Moscow", "Saint Petersburg", "Novosibirsk", "Yekaterinburg", "Kazan", "Nizhny Novgorod", "Chelyabinsk", "Samara", "Omsk", "Rostov-on-Don"]
+                },
+                "Sweden": {
+                    cities: ["Stockholm", "Gothenburg", "Malmö", "Uppsala", "Västerås", "Örebro", "Linköping", "Helsingborg", "Jönköping", "Norrköping"]
+                },
+                "Norway": {
+                    cities: ["Oslo", "Bergen", "Trondheim", "Stavanger", "Drammen", "Fredrikstad", "Kristiansand", "Sandnes", "Tromsø", "Ålesund"]
+                },
+                "Denmark": {
+                    cities: ["Copenhagen", "Aarhus", "Odense", "Aalborg", "Esbjerg", "Randers", "Kolding", "Horsens", "Vejle", "Roskilde"]
+                },
+                "Iceland": {
+                    cities: ["Reykjavík", "Kópavogur", "Hafnarfjörður", "Garðabær", "Mosfellsbær", "Akureyri", "Reykjanesbær", "Selfoss", "Seltjarnarnes", "Vestmannaeyjar"]
+                },
+                "Ireland": {
+                    cities: ["Dublin", "Cork", "Limerick", "Galway", "Waterford", "Drogheda", "Dundalk", "Swords", "Bray", "Navan"]
+                },
+                "Scotland": {
+                    cities: ["Edinburgh", "Glasgow", "Aberdeen", "Dundee", "Paisley", "Inverness", "Stirling", "Perth", "Kilmarnock", "Ayr"]
+                },
+                "Belgium": {
+                    cities: ["Brussels", "Antwerp", "Ghent", "Charleroi", "Liège", "Bruges", "Namur", "Leuven", "Mons", "Mechelen"]
+                },
+                "Greece": {
+                    cities: ["Athens", "Thessaloniki", "Patras", "Heraklion", "Larissa", "Volos", "Ioannina", "Chania", "Komotini", "Kavala"]
+                },
+                "Cyprus": {
+                    cities: ["Nicosia", "Limassol", "Larnaca", "Famagusta", "Paphos", "Kyrenia", "Paralimni", "Lakatamia", "Agia Napa", "Protaras"]
+                },
+                "USA": {
+                    cities: ["New York", "Los Angeles", "Chicago", "Houston", "Phoenix", "Philadelphia", "San Antonio", "San Diego", "Dallas", "Austin"]
+                },
+                "Canada": {
+                    cities: ["Toronto", "Vancouver", "Montreal", "Calgary", "Edmonton", "Ottawa", "Quebec City", "Winnipeg", "Hamilton", "Halifax"]
+                },
+                "Mexico": {
+                    cities: ["Mexico City", "Guadalajara", "Monterrey", "Puebla", "Toluca", "Tijuana", "Ciudad Juárez", "León", "Santiago de Querétaro", "Cancún"]
+                },
+                "Egypt": {
+                    cities: ["Cairo", "Alexandria", "Giza", "Port Said", "Suez", "Luxor", "Mansoura", "Tanta", "Asyut", "Ismailia"]
+                },
+                "Morocco": {
+                    cities: ["Casablanca", "Rabat", "Fez", "Marrakech", "Tangier", "Agadir", "Meknes", "Oujda", "Kenitra", "Tetouan"]
+                },
+                "Tunisia": {
+                    cities: ["Tunis", "Sfax", "Sousse", "Ettadhamen", "Kairouan", "Gabès", "Bizerte", "Aryanah", "Gafsa", "El Mourouj"]
+                },
+                "Algeria": {
+                    cities: ["Algiers", "Oran", "Constantine", "Annaba", "Blida", "Batna", "Djelfa", "Sétif", "Sidi Bel Abbès", "Biskra"]
+                },
+                "Luxembourg": {
+                    cities: ["Luxembourg City", "Esch-sur-Alzette", "Differdange", "Dudelange", "Pétange", "Hesperange", "Bettembourg", "Schifflange", "Mamer", "Strassen"]
+                },
+                "RSA": {
+                    cities: ["Cape Town", "Johannesburg", "Durban", "Pretoria", "Port Elizabeth", "Bloemfontein", "East London", "Pietermaritzburg", "Nelspruit", "Kimberley"]
+                },
+                "KSA": {
+                    cities: ["Riyadh", "Jeddah", "Mecca", "Medina", "Dammam", "Khobar", "Dhahran", "Taif", "Tabuk", "Abha"]
+                }
+            };
+
+            // ---- SHIPPING RATES (ETB per product) ----
+            // Ethiopia: 0 ETB (free)
+            // For other countries: shipping cost per product
+            const SHIPPING_RATES = {
+                "Ethiopia": 0,
+                "Germany": 500,
+                "Italy": 480,
+                "Austria": 470,
+                "France": 510,
+                "Spain": 490,
+                "Portugal": 460,
+                "United Kingdom": 550,
+                "Poland": 430,
+                "Switzerland": 520,
+                "Hungary": 410,
+                "Croatia": 400,
+                "Romania": 390,
+                "Russia": 600,
+                "Sweden": 560,
+                "Norway": 580,
+                "Denmark": 540,
+                "Iceland": 620,
+                "Ireland": 530,
+                "Scotland": 540,
+                "Belgium": 480,
+                "Greece": 450,
+                "Cyprus": 440,
+                "USA": 700,
+                "Canada": 680,
+                "Mexico": 550,
+                "Egypt": 350,
+                "Morocco": 320,
+                "Tunisia": 310,
+                "Algeria": 330,
+                "Luxembourg": 460,
+                "RSA": 480,
+                "KSA": 420
+            };
 
             let listenerBound = false;
+            let selectedCountry = "";
+            let selectedCity = "";
 
             function init() {
                 document.title = "VVX | Checkout";
@@ -5362,14 +5604,24 @@
                     window.VVXToast.info("Your cart is empty");
                     return;
                 }
+
+                populateCountryDropdown();
                 renderSummary(details);
-                updatePaymentBox(window.VVXCart.getCartSubtotal(), details[0].product.currency);
+                // Initially show TeleBirr (Ethiopia default) and hide PayPal
+                document.getElementById("telebirrBox").style.display = "block";
+                document.getElementById("paypalSection").style.display = "none";
+                document.getElementById("paymentScreenshot").removeAttribute("required"); // not required if PayPal
+
+                // Update totals based on default country (Ethiopia)
+                const subtotal = window.VVXCart.getCartSubtotal();
+                updatePaymentBox(subtotal, details[0].product.currency, "Ethiopia");
 
                 if (!listenerBound) {
                     const form = document.getElementById("checkoutForm");
                     form.addEventListener("submit", handleSubmit);
+
                     // Real-time validation on blur
-                    form.querySelectorAll("input").forEach(input => {
+                    form.querySelectorAll("input, select").forEach(input => {
                         input.addEventListener("blur", function() {
                             validateField(this);
                         });
@@ -5378,6 +5630,16 @@
                                 validateField(this);
                             }
                         });
+                        input.addEventListener("change", function() {
+                            if (this.classList.contains("error")) {
+                                validateField(this);
+                            }
+                        });
+                    });
+
+                    const countrySelect = document.getElementById("countrySelect");
+                    countrySelect.addEventListener("change", function() {
+                        onCountryChange(this.value);
                     });
 
                     const screenshotInput = document.getElementById("paymentScreenshot");
@@ -5390,7 +5652,82 @@
                         copyBtn.addEventListener("click", handleCopyTelebirr);
                     }
 
+                    // PayPal link click handler
+                    const paypalLink = document.getElementById("paypalCheckoutLink");
+                    if (paypalLink) {
+                        paypalLink.addEventListener("click", function(e) {
+                            e.preventDefault();
+                            // Simulate PayPal payment: submit the order but with PayPal method
+                            // We'll just trigger the form submission with a flag
+                            // Actually we want to submit order and then redirect to PayPal? We'll just show a message.
+                            // Let's just submit the form normally; the handleSubmit will detect PayPal and act.
+                            // But we want the PayPal button to submit the form with a hidden flag.
+                            // We'll set a hidden input to indicate PayPal payment.
+                            const hidden = document.createElement("input");
+                            hidden.type = "hidden";
+                            hidden.name = "paymentMethod";
+                            hidden.value = "paypal";
+                            form.appendChild(hidden);
+                            // Also remove required from screenshot
+                            document.getElementById("paymentScreenshot").removeAttribute("required");
+                            // Submit form
+                            form.dispatchEvent(new Event("submit"));
+                        });
+                    }
+
                     listenerBound = true;
+                }
+            }
+
+            function populateCountryDropdown() {
+                const select = document.getElementById("countrySelect");
+                const countries = Object.keys(COUNTRY_DATA).sort();
+                const html = countries.map(c => `<option value="${c}">${c}</option>`).join("");
+                select.innerHTML = `<option value="">— Select Country —</option>${html}`;
+            }
+
+            function onCountryChange(country) {
+                selectedCountry = country;
+                const citySelect = document.getElementById("citySelect");
+                const cityError = document.getElementById("cityError");
+
+                // Clear previous city selection
+                citySelect.innerHTML = `<option value="">— Select City —</option>`;
+                citySelect.value = "";
+                if (cityError) cityError.classList.remove("visible");
+                citySelect.classList.remove("error");
+
+                if (country && COUNTRY_DATA[country]) {
+                    const cities = COUNTRY_DATA[country].cities;
+                    const cityHtml = cities.map(c => `<option value="${c}">${c}</option>`).join("");
+                    citySelect.innerHTML = `<option value="">— Select City —</option>${cityHtml}`;
+                    citySelect.disabled = false;
+                } else {
+                    citySelect.disabled = true;
+                }
+
+                const details = window.VVXCart.getCartDetails();
+                if (details.length > 0) {
+                    const subtotal = window.VVXCart.getCartSubtotal();
+                    const currency = details[0].product.currency;
+                    // Show/hide payment sections
+                    if (country === "Ethiopia") {
+                        document.getElementById("telebirrBox").style.display = "block";
+                        document.getElementById("paypalSection").style.display = "none";
+                        // Require screenshot for TeleBirr
+                        document.getElementById("paymentScreenshot").setAttribute("required", "required");
+                        document.getElementById("paymentNote").textContent = "Your order details and payment screenshot are sent to us securely when you submit. No card details are ever collected or stored.";
+                        updatePaymentBox(subtotal, "ETB", country);
+                        renderSummary(details, "ETB", country);
+                    } else {
+                        document.getElementById("telebirrBox").style.display = "none";
+                        document.getElementById("paypalSection").style.display = "block";
+                        document.getElementById("paymentScreenshot").removeAttribute("required");
+                        document.getElementById("paymentNote").textContent = "You will be redirected to PayPal to complete the payment. Your order will be processed after payment confirmation.";
+                        // Convert to EUR
+                        updatePaymentBox(subtotal, "EUR", country);
+                        renderSummary(details, "EUR", country);
+                    }
                 }
             }
 
@@ -5400,15 +5737,110 @@
                 return { deposit, balance };
             }
 
-            function updatePaymentBox(subtotal, currency) {
+            function calcShipping(country) {
+                if (!country) return 0;
+                const rate = SHIPPING_RATES[country];
+                if (rate === undefined) return 0;
+                return rate;
+            }
+
+            function calcShippingTotal(country) {
+                const rate = calcShipping(country);
+                if (rate === 0) return 0;
+                const details = window.VVXCart.getCartDetails();
+                const totalQty = details.reduce((sum, line) => sum + line.qty, 0);
+                return rate * totalQty;
+            }
+
+            function getCurrencyForCountry(country) {
+                return country === "Ethiopia" ? "ETB" : "EUR";
+            }
+
+            function convertToCurrency(amount, fromCurrency, toCurrency) {
+                if (fromCurrency === toCurrency) return amount;
+                if (fromCurrency === "ETB" && toCurrency === "EUR") {
+                    return amount / EXCHANGE_RATE_ETB_TO_EUR;
+                }
+                if (fromCurrency === "EUR" && toCurrency === "ETB") {
+                    return amount * EXCHANGE_RATE_ETB_TO_EUR;
+                }
+                return amount;
+            }
+
+            function updatePaymentBox(subtotal, currency, country) {
                 const u = window.VVXUtils;
-                const { deposit, balance } = calcDeposit(subtotal);
+                const shippingTotal = calcShippingTotal(country);
+                const totalWithShipping = subtotal + shippingTotal;
+
+                // Convert to target currency if needed
+                const targetCurrency = getCurrencyForCountry(country);
+                const totalConverted = convertToCurrency(totalWithShipping, "ETB", targetCurrency);
+                const shippingConverted = convertToCurrency(shippingTotal, "ETB", targetCurrency);
+                const { deposit, balance } = calcDeposit(totalConverted);
+
                 const totalEl = document.getElementById("orderTotalAmount");
+                const shippingEl = document.getElementById("shippingAmount");
                 const depositEl = document.getElementById("depositAmount");
                 const balanceEl = document.getElementById("balanceAmount");
-                if (totalEl) totalEl.textContent = u.formatPrice(subtotal, currency);
-                if (depositEl) depositEl.textContent = u.formatPrice(deposit, currency);
-                if (balanceEl) balanceEl.textContent = u.formatPrice(balance, currency);
+                const paypalTotalEl = document.getElementById("paypalTotal");
+
+                if (totalEl) totalEl.textContent = u.formatPrice(totalConverted, targetCurrency);
+                if (shippingEl) {
+                    if (country === "Ethiopia" || shippingTotal === 0) {
+                        shippingEl.textContent = "0 ETB (Free)";
+                    } else {
+                        shippingEl.textContent = u.formatPrice(shippingConverted, targetCurrency);
+                    }
+                }
+                if (depositEl) depositEl.textContent = u.formatPrice(deposit, targetCurrency);
+                if (balanceEl) balanceEl.textContent = u.formatPrice(balance, targetCurrency);
+                if (paypalTotalEl) {
+                    paypalTotalEl.textContent = u.formatPrice(totalConverted, targetCurrency);
+                }
+            }
+
+            function renderSummary(details, currencyOverride, country) {
+                const container = document.getElementById("checkoutSummary");
+                const u = window.VVXUtils;
+
+                const targetCurrency = currencyOverride || getCurrencyForCountry(country || "Ethiopia");
+
+                const itemsHtml = details.map(function(line) {
+                    const priceInTarget = convertToCurrency(line.unitPrice, "ETB", targetCurrency);
+                    const lineTotalInTarget = priceInTarget * line.qty;
+                    return `
+                                <div class="cart-summary-row">
+                                    <span>${u.escapeHtml(line.product.name)} ${line.size ? `(${u.escapeHtml(line.size)})` : ""} × ${line.qty}</span>
+                                    <span>${u.formatPrice(lineTotalInTarget, targetCurrency)}</span>
+                                </div>
+                            `;
+                }).join("");
+
+                const subtotal = window.VVXCart.getCartSubtotal();
+                const countryName = country || "Ethiopia";
+                const shippingTotal = calcShippingTotal(countryName);
+                const totalWithShipping = subtotal + shippingTotal;
+                const totalConverted = convertToCurrency(totalWithShipping, "ETB", targetCurrency);
+                const shippingConverted = convertToCurrency(shippingTotal, "ETB", targetCurrency);
+                const { deposit, balance } = calcDeposit(totalConverted);
+
+                const shippingDisplay = (countryName === "Ethiopia" || shippingTotal === 0) ?
+                    "0 ETB (Free)" :
+                    u.formatPrice(shippingConverted, targetCurrency);
+
+                container.innerHTML = `
+                            <h3>Order Summary</h3>
+                            ${itemsHtml}
+                            <div class="cart-summary-row"><span>Subtotal</span><span>${u.formatPrice(convertToCurrency(subtotal, "ETB", targetCurrency), targetCurrency)}</span></div>
+                            <div class="cart-summary-row"><span>Shipping</span><span>${shippingDisplay}</span></div>
+                            <div class="cart-summary-row total"><span>Total</span><span>${u.formatPrice(totalConverted, targetCurrency)}</span></div>
+                            ${countryName === "Ethiopia" ? `
+                                <div class="cart-summary-row"><span>Deposit due now (50%)</span><span>${u.formatPrice(deposit, targetCurrency)}</span></div>
+                                <div class="cart-summary-row"><span>Due on delivery (50%)</span><span>${u.formatPrice(balance, targetCurrency)}</span></div>
+                            ` : `
+                                <div class="cart-summary-row"><span>Payment via PayPal</span><span>Full amount</span></div>
+                            `}
+                        `;
             }
 
             function handleCopyTelebirr(e) {
@@ -5483,32 +5915,6 @@
                 });
             }
 
-            function renderSummary(details) {
-                const container = document.getElementById("checkoutSummary");
-                const u = window.VVXUtils;
-
-                const itemsHtml = details.map(function(line) {
-                    return `
-                                <div class="cart-summary-row">
-                                    <span>${u.escapeHtml(line.product.name)} ${line.size ? `(${u.escapeHtml(line.size)})` : ""} × ${line.qty}</span>
-                                    <span>${u.formatPrice(line.lineTotal, line.product.currency)}</span>
-                                </div>
-                            `;
-                }).join("");
-
-                const subtotal = window.VVXCart.getCartSubtotal();
-                const currency = details[0].product.currency;
-                const { deposit, balance } = calcDeposit(subtotal);
-
-                container.innerHTML = `
-                            <h3>Order Summary</h3>
-                            ${itemsHtml}
-                            <div class="cart-summary-row total"><span>Total</span><span>${u.formatPrice(subtotal, currency)}</span></div>
-                            <div class="cart-summary-row"><span>Deposit due now (50%)</span><span>${u.formatPrice(deposit, currency)}</span></div>
-                            <div class="cart-summary-row"><span>Due on delivery (50%)</span><span>${u.formatPrice(balance, currency)}</span></div>
-                        `;
-            }
-
             function validateField(input) {
                 const errorEl = document.getElementById(input.id + "Error");
                 if (!errorEl) return true;
@@ -5536,6 +5942,16 @@
                         valid = false;
                         msg = "Please upload a screenshot of your TeleBirr payment";
                     }
+                } else if (input.id === "countrySelect" && input.hasAttribute("required")) {
+                    if (!input.value || input.value === "") {
+                        valid = false;
+                        msg = "Please select a country";
+                    }
+                } else if (input.id === "citySelect" && input.hasAttribute("required")) {
+                    if (!input.value || input.value === "") {
+                        valid = false;
+                        msg = "Please select a city";
+                    }
                 }
 
                 if (!valid) {
@@ -5552,12 +5968,27 @@
 
             function validateForm(form) {
                 let allValid = true;
-                const inputs = form.querySelectorAll("input[required]");
+                const inputs = form.querySelectorAll("input[required], select[required]");
                 inputs.forEach(input => {
                     if (!validateField(input)) {
                         allValid = false;
                     }
                 });
+                // Special check for country/city dropdowns
+                const country = document.getElementById("countrySelect").value;
+                const city = document.getElementById("citySelect").value;
+                if (!country || country === "") {
+                    document.getElementById("countrySelect").classList.add("error");
+                    document.getElementById("countryError").textContent = "Please select a country";
+                    document.getElementById("countryError").classList.add("visible");
+                    allValid = false;
+                }
+                if (!city || city === "") {
+                    document.getElementById("citySelect").classList.add("error");
+                    document.getElementById("cityError").textContent = "Please select a city";
+                    document.getElementById("cityError").classList.add("visible");
+                    allValid = false;
+                }
                 return allValid;
             }
 
@@ -5582,23 +6013,37 @@
                 submitBtn.textContent = "Submitting…";
 
                 try {
-                    const screenshotInput = document.getElementById("paymentScreenshot");
-                    const screenshotFile = screenshotInput.files[0];
-                    const screenshotDataUrl = await compressImageToDataUrl(
-                        screenshotFile, SCREENSHOT_MAX_DIMENSION, SCREENSHOT_JPEG_QUALITY
-                    );
+                    const country = document.getElementById("countrySelect").value;
+                    const isEthiopia = country === "Ethiopia";
+                    let screenshotDataUrl = null;
+                    if (isEthiopia) {
+                        const screenshotInput = document.getElementById("paymentScreenshot");
+                        const screenshotFile = screenshotInput.files[0];
+                        screenshotDataUrl = await compressImageToDataUrl(
+                            screenshotFile, SCREENSHOT_MAX_DIMENSION, SCREENSHOT_JPEG_QUALITY
+                        );
+                    }
 
                     const formData = new FormData(form);
                     const shipping = Object.fromEntries(formData.entries());
                     delete shipping.paymentScreenshot;
+                    // If PayPal, add a flag
+                    const isPayPal = !isEthiopia;
+                    const paymentMethod = isPayPal ? "PayPal" : "TeleBirr";
 
-                    const order = placeOrder(shipping, screenshotDataUrl);
-                    await submitOrderToFormspree(order, screenshotDataUrl);
+                    const order = placeOrder(shipping, screenshotDataUrl, paymentMethod);
+                    await submitOrderToFormspree(order, screenshotDataUrl, isEthiopia);
 
                     form.reset();
                     document.getElementById("screenshotPreview").style.display = "none";
+                    document.getElementById("countrySelect").value = "";
+                    document.getElementById("citySelect").innerHTML = `<option value="">— Select City —</option>`;
+                    document.getElementById("citySelect").disabled = true;
+                    // Reset payment sections to default
+                    document.getElementById("telebirrBox").style.display = "block";
+                    document.getElementById("paypalSection").style.display = "none";
                     window.VVXUrl.navigate(`/order-confirmation?order=${order.id}`);
-                    window.VVXToast.success("Order & payment proof submitted!");
+                    window.VVXToast.success("Order submitted successfully!");
                 } catch (err) {
                     console.error("checkout: submission failed", err);
                     window.VVXToast.error(
@@ -5609,7 +6054,7 @@
                 }
             }
 
-            async function submitOrderToFormspree(order, screenshotDataUrl) {
+            async function submitOrderToFormspree(order, screenshotDataUrl, isEthiopia) {
                 const u = window.VVXUtils;
                 const itemsText = order.items.map(function(item) {
                     return `${item.name}${item.size ? " (" + item.size + ")" : ""} × ${item.qty} — ${u.formatPrice(item.lineTotal, order.currency)}`;
@@ -5628,17 +6073,15 @@
                 fd.append("country", order.shipping.country || "");
                 fd.append("items", itemsText);
                 fd.append("orderTotal", u.formatPrice(order.subtotal, order.currency));
-                fd.append("depositDueNow", u.formatPrice(order.deposit, order.currency));
-                fd.append("balanceDueOnDelivery", u.formatPrice(order.balance, order.currency));
-                fd.append("paymentMethod", `TeleBirr ${TELEBIRR_NUMBER}`);
-                // Compressed screenshot, sent as an embedded image string (not a real file
-                // part) so it arrives even on Formspree's free plan. NOTE: Formspree's free
-                // plan rejects the *entire* submission with a "file uploads not permitted"
-                // error if a real <input type="file"> part is present in the request at all
-                // — so we deliberately never send screenshotFile as an actual file part here.
-                // If you upgrade to a paid Formspree plan with file-upload support, you can
-                // add back: fd.append("paymentScreenshotFile", screenshotFile, screenshotFile.name);
-                fd.append("paymentScreenshotImage", screenshotDataUrl);
+                fd.append("shippingCost", u.formatPrice(order.shippingCost, order.currency));
+                fd.append("paymentMethod", order.paymentMethod);
+                if (isEthiopia) {
+                    fd.append("depositDueNow", u.formatPrice(order.deposit, order.currency));
+                    fd.append("balanceDueOnDelivery", u.formatPrice(order.balance, order.currency));
+                    fd.append("paymentScreenshotImage", screenshotDataUrl);
+                } else {
+                    fd.append("paymentStatus", "Pending PayPal");
+                }
 
                 if (FORMSPREE_ENDPOINT.indexOf("YOUR_FORMSPREE_ID") !== -1) {
                     console.warn("VVXCheckout: FORMSPREE_ENDPOINT is not configured yet — order was NOT emailed. See the comment above FORMSPREE_ENDPOINT in this file.");
@@ -5667,10 +6110,16 @@
                 return true;
             }
 
-            function placeOrder(shipping, screenshotDataUrl) {
+            function placeOrder(shipping, screenshotDataUrl, paymentMethod) {
                 const details = window.VVXCart.getCartDetails();
                 const subtotal = window.VVXCart.getCartSubtotal();
-                const { deposit, balance } = calcDeposit(subtotal);
+                const country = shipping.country || "";
+                const shippingCost = calcShippingTotal(country);
+                const totalWithShipping = subtotal + shippingCost;
+                const targetCurrency = getCurrencyForCountry(country);
+                const totalConverted = convertToCurrency(totalWithShipping, "ETB", targetCurrency);
+                const shippingConverted = convertToCurrency(shippingCost, "ETB", targetCurrency);
+                const { deposit, balance } = calcDeposit(totalConverted);
 
                 const order = {
                     id: "VVX-" + Date.now().toString().slice(-8),
@@ -5686,12 +6135,13 @@
                         lineTotal: l.lineTotal,
                         thumbnail: l.product.thumbnail
                     })),
-                    subtotal,
+                    subtotal: totalConverted,
+                    shippingCost: shippingConverted,
                     deposit,
                     balance,
-                    currency: details[0].product.currency,
-                    paymentMethod: `TeleBirr ${TELEBIRR_NUMBER}`,
-                    screenshotDataUrl
+                    currency: targetCurrency,
+                    paymentMethod: paymentMethod,
+                    screenshotDataUrl: screenshotDataUrl
                 };
 
                 try {
@@ -5714,6 +6164,7 @@
 
     <!-- ==========================================================================
          orderConfirmation.js — controller for the Order Confirmation "page"
+         with an always-visible DOWNLOAD RECEIPT NOW button
          ========================================================================== -->
     <script>
         const VVXOrderConfirmation = (function() {
@@ -5755,11 +6206,20 @@
 
                 const receiptNumber = order.receiptNumber || order.id;
                 const orderDate = order.date ? new Date(order.date).toLocaleString() : "";
+                const shippingCostDisplay = (order.shippingCost && order.shippingCost > 0) ?
+                    `<div class="receipt-row"><span>Shipping</span><span>${u.formatPrice(order.shippingCost, order.currency)}</span></div>` :
+                    `<div class="receipt-row"><span>Shipping</span><span>Free</span></div>`;
+
+                // Determine payment method display
+                const isPayPal = order.paymentMethod === "PayPal";
+                const depositLine = isPayPal ? "" : `<div class="receipt-row deposit"><span>Paid Now (50% Deposit)</span><span>${u.formatPrice(order.deposit, order.currency)}</span></div>`;
+                const balanceLine = isPayPal ? "" : `<div class="receipt-row total"><span>Balance Due on Delivery</span><span>${u.formatPrice(order.balance, order.currency)}</span></div>`;
+                const paymentMethodLabel = isPayPal ? "PayPal (Full Payment)" : "TeleBirr (50% Deposit)";
 
                 container.innerHTML = `
                             <h1>Thank you, ${u.escapeHtml(order.shipping.fullName || "")}!</h1>
                             <p class="confirmation-order-id">Order ${u.escapeHtml(order.id)}</p>
-                            <p>Your order and TeleBirr payment screenshot have been sent to us for <strong>${u.escapeHtml(order.shipping.email || "")}</strong>. We'll ship to:</p>
+                            <p>Your order has been submitted successfully. We'll ship to:</p>
                             <p>${u.escapeHtml(order.shipping.address || "")}, ${u.escapeHtml(order.shipping.city || "")}, ${u.escapeHtml(order.shipping.country || "")}</p>
                             <div class="confirmation-items">${itemsHtml}</div>
 
@@ -5768,25 +6228,143 @@
                                 <div class="receipt-row"><span>Receipt No.</span><span>${u.escapeHtml(receiptNumber)}</span></div>
                                 <div class="receipt-row"><span>Order No.</span><span>${u.escapeHtml(order.id)}</span></div>
                                 <div class="receipt-row"><span>Date</span><span>${u.escapeHtml(orderDate)}</span></div>
-                                <div class="receipt-row"><span>Payment Method</span><span>${u.escapeHtml(order.paymentMethod || "TeleBirr")}</span></div>
+                                <div class="receipt-row"><span>Payment Method</span><span>${u.escapeHtml(paymentMethodLabel)}</span></div>
                                 <div class="receipt-row"><span>Order Total</span><span>${u.formatPrice(order.subtotal, order.currency)}</span></div>
-                                <div class="receipt-row deposit"><span>Paid Now (50% Deposit)</span><span>${u.formatPrice(order.deposit, order.currency)}</span></div>
-                                <div class="receipt-row total"><span>Balance Due on Delivery</span><span>${u.formatPrice(order.balance, order.currency)}</span></div>
-                                ${order.screenshotDataUrl ? `
+                                ${shippingCostDisplay}
+                                ${depositLine}
+                                ${balanceLine}
+                                ${!isPayPal && order.screenshotDataUrl ? `
                                 <div style="text-align:center;margin-top:1rem;">
                                     <img src="${order.screenshotDataUrl}" alt="Payment screenshot" style="max-width:150px;max-height:150px;border:1px solid #ddd;object-fit:cover;" />
                                     <p style="font-size:0.7rem;color:var(--vvx-text-dim);margin-top:0.4rem;">Payment screenshot on file</p>
                                 </div>` : ""}
+                                <!-- RECEIPT ACTIONS: always visible -->
+                                <div class="receipt-actions">
+                                    <button type="button" class="print-receipt-btn" id="printReceiptBtn">Print / Save Receipt</button>
+                                    <button type="button" class="download-receipt-btn" id="downloadReceiptBtn">⬇ Download Receipt Now</button>
+                                </div>
                             </div>
-                            <p style="text-align:center;"><button type="button" class="print-receipt-btn" id="printReceiptBtn">Print / Save Receipt</button></p>
-                            <p style="margin-top:20px;text-align:center;font-size:0.8rem;color:var(--vvx-text-dim);">Keep your receipt number <strong>${u.escapeHtml(receiptNumber)}</strong> — you may be asked for it when your order is delivered and the balance is collected.</p>
+
+                            <p style="margin-top:20px;text-align:center;font-size:0.8rem;color:var(--vvx-text-dim);">Keep your receipt number <strong>${u.escapeHtml(receiptNumber)}</strong> for your records.</p>
                             <p style="margin-top:30px;"><a href="#/collection" class="shop-now-button" style="color:#000;background:#fff;border-color:#000;">Continue Shopping</a></p>
                         `;
 
+                // Print button
                 const printBtn = document.getElementById("printReceiptBtn");
                 if (printBtn) {
                     printBtn.addEventListener("click", function() {
                         window.print();
+                    });
+                }
+
+                // DOWNLOAD RECEIPT NOW button — uses html2canvas to capture the receipt as an image
+                const downloadBtn = document.getElementById("downloadReceiptBtn");
+                if (downloadBtn) {
+                    downloadBtn.addEventListener("click", function() {
+                        const receiptBox = document.getElementById("receiptBox");
+                        if (!receiptBox) {
+                            window.VVXToast.error("Receipt not found");
+                            return;
+                        }
+
+                        // Show a loading state
+                        const originalText = downloadBtn.textContent;
+                        downloadBtn.textContent = "Generating…";
+                        downloadBtn.disabled = true;
+
+                        // Use html2canvas (loaded from CDN in the head)
+                        if (typeof html2canvas === "undefined") {
+                            window.VVXToast.error("html2canvas library not loaded. Please check your internet connection.");
+                            downloadBtn.textContent = originalText;
+                            downloadBtn.disabled = false;
+                            return;
+                        }
+
+                        // Clone the receipt to avoid affecting the live DOM during capture
+                        const clone = receiptBox.cloneNode(true);
+                        // Remove any existing actions from the clone to avoid duplication
+                        const actionsClone = clone.querySelector(".receipt-actions");
+                        if (actionsClone) actionsClone.remove();
+                        // Also remove any nested download buttons
+                        const cloneBtn = clone.querySelector(".download-receipt-btn");
+                        if (cloneBtn) cloneBtn.remove();
+                        const clonePrint = clone.querySelector(".print-receipt-btn");
+                        if (clonePrint) clonePrint.remove();
+
+                        // Temporarily append clone to body for capture
+                        clone.style.position = "fixed";
+                        clone.style.left = "-9999px";
+                        clone.style.top = "0";
+                        clone.style.zIndex = "-1";
+                        clone.style.background = "#fdfbf8";
+                        clone.style.color = "#1a1a1a";
+                        clone.style.border = "1px solid #1a1a1a";
+                        clone.style.padding = "1.5rem 1.7rem";
+                        clone.style.maxWidth = "480px";
+                        clone.style.margin = "0";
+                        clone.style.boxSizing = "border-box";
+                        document.body.appendChild(clone);
+
+                        // Ensure images in the clone are loaded
+                        const imgs = clone.querySelectorAll("img");
+                        let imagesLoaded = 0;
+                        const totalImages = imgs.length;
+
+                        function tryCapture() {
+                            html2canvas(clone, {
+                                scale: 2,
+                                useCORS: true,
+                                allowTaint: true,
+                                backgroundColor: "#fdfbf8",
+                                logging: false,
+                                width: clone.scrollWidth || 480,
+                                height: clone.scrollHeight || 600
+                            }).then(function(canvas) {
+                                // Remove the clone
+                                document.body.removeChild(clone);
+                                // Download the image
+                                const link = document.createElement("a");
+                                link.download = `VVX_Receipt_${order.receiptNumber || order.id}.png`;
+                                link.href = canvas.toDataURL("image/png");
+                                link.click();
+                                window.VVXToast.success("Receipt downloaded!");
+                                downloadBtn.textContent = originalText;
+                                downloadBtn.disabled = false;
+                            }).catch(function(err) {
+                                console.error("html2canvas error:", err);
+                                document.body.removeChild(clone);
+                                window.VVXToast.error("Could not generate receipt image. Please use Print instead.");
+                                downloadBtn.textContent = originalText;
+                                downloadBtn.disabled = false;
+                            });
+                        }
+
+                        if (totalImages === 0) {
+                            tryCapture();
+                        } else {
+                            imgs.forEach(function(img) {
+                                if (img.complete) {
+                                    imagesLoaded++;
+                                    if (imagesLoaded === totalImages) tryCapture();
+                                } else {
+                                    img.onload = function() {
+                                        imagesLoaded++;
+                                        if (imagesLoaded === totalImages) tryCapture();
+                                    };
+                                    img.onerror = function() {
+                                        imagesLoaded++;
+                                        if (imagesLoaded === totalImages) tryCapture();
+                                    };
+                                }
+                            });
+                            // Fallback: if images don't load within 3s, try anyway
+                            setTimeout(function() {
+                                if (imagesLoaded < totalImages) {
+                                    imagesLoaded = totalImages;
+                                    tryCapture();
+                                }
+                            }, 3000);
+                        }
                     });
                 }
             }
