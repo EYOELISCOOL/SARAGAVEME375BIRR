@@ -3039,6 +3039,210 @@
                 padding: 0.7rem 1rem;
             }
         }
+
+        /* ============================================================
+           SPIDER-MAN LIMITED DROP — promotional section
+           ============================================================ */
+        .spidey-drop {
+            position: relative;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 560px;
+            background: var(--vvx-black);
+            border-bottom: var(--border-thin);
+            overflow: hidden;
+        }
+        .spidey-drop-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 4rem 5vw;
+            gap: 0.9rem;
+        }
+        .spidey-drop-label {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--vvx-rust);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6em;
+        }
+        .spidey-drop-label::before {
+            content: '';
+            width: 22px;
+            height: 1px;
+            background: var(--vvx-rust);
+        }
+        .spidey-drop-headline {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: clamp(3rem, 7vw, 6rem);
+            letter-spacing: -0.02em;
+            line-height: 0.95;
+            text-transform: uppercase;
+            color: var(--vvx-text-highlight);
+            margin: 0.1em 0 0.15em 0;
+            text-shadow: 0 6px 40px rgba(106, 26, 26, 0.35);
+        }
+        .spidey-drop-desc {
+            font-family: var(--font-display);
+            font-style: italic;
+            font-weight: 400;
+            font-size: clamp(1rem, 1.6vw, 1.3rem);
+            color: var(--vvx-text-secondary);
+            max-width: 34ch;
+            line-height: 1.5;
+            margin: 0 0 0.6em 0;
+        }
+        .spidey-drop-actions {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1.1rem;
+            margin-top: 0.4rem;
+        }
+        .spidey-drop-cta {
+            display: inline-block;
+            font-family: var(--font-alt);
+            font-weight: 500;
+            font-size: 0.75rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            padding: 0.9rem 2.6rem;
+            background-color: transparent;
+            color: #f5f0ea;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 0;
+            text-decoration: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.4s var(--ease-out-expo), color 0.4s var(--ease-out-expo);
+        }
+        .spidey-drop-cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--vvx-deep-red);
+            transition: left 0.4s var(--ease-out-expo);
+            z-index: -1;
+        }
+        .spidey-drop-cta:hover {
+            border-color: var(--vvx-rust);
+        }
+        .spidey-drop-cta:hover::before {
+            left: 0;
+        }
+        .spidey-drop-explore {
+            font-family: var(--font-alt);
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--vvx-text-muted);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            padding-bottom: 2px;
+            transition: color 0.3s var(--ease-soft), border-color 0.3s var(--ease-soft);
+        }
+        .spidey-drop-explore:hover {
+            color: var(--vvx-text-highlight);
+            border-color: var(--vvx-rust);
+        }
+        .spidey-drop-media {
+            position: relative;
+            overflow: hidden;
+            background: #050505;
+        }
+        .spidey-drop-media img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 20%;
+            filter: contrast(1.08) saturate(0.9) brightness(0.92);
+            transition: transform 0.8s var(--ease-out-expo);
+        }
+        .spidey-drop:hover .spidey-drop-media img {
+            transform: scale(1.04);
+        }
+        .spidey-drop-media::after {
+            /* cinematic vignette + red edge glow so the art feels integrated, not pasted-in */
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(90deg, rgba(10, 10, 10, 0.92) 0%, rgba(10, 10, 10, 0) 16%),
+                radial-gradient(ellipse at 75% 30%, rgba(106, 26, 26, 0.22) 0%, transparent 55%),
+                linear-gradient(180deg, rgba(10, 10, 10, 0) 55%, rgba(0, 0, 0, 0.75) 100%);
+            pointer-events: none;
+        }
+        .spidey-drop-media-web {
+            /* subtle web-inspired line detail in the corner */
+            position: absolute;
+            top: -40px;
+            right: -40px;
+            width: 220px;
+            height: 220px;
+            opacity: 0.18;
+            pointer-events: none;
+        }
+        .spidey-drop-placeholder-tag {
+            display: none;
+            position: absolute;
+            bottom: 1.2rem;
+            right: 1.2rem;
+            z-index: 2;
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--vvx-text-dim);
+            background: rgba(10, 10, 10, 0.65);
+            border: var(--border-thin);
+            padding: 0.4em 0.8em;
+            pointer-events: none;
+        }
+        /* shown automatically if the image below fails to load, so it's obvious what to replace */
+        .spidey-drop-media.is-placeholder {
+            background:
+                radial-gradient(ellipse at 72% 22%, rgba(122, 42, 26, 0.35) 0%, transparent 60%),
+                linear-gradient(155deg, #0a0a0a 0%, #161616 55%, #0a0a0a 100%);
+        }
+        .spidey-drop-media.is-placeholder .spidey-drop-placeholder-tag {
+            display: block;
+        }
+
+        @media (max-width: 900px) {
+            .spidey-drop {
+                grid-template-columns: 1fr;
+                min-height: 0;
+            }
+            .spidey-drop-media {
+                height: 52vh;
+                min-height: 320px;
+                order: 1;
+            }
+            .spidey-drop-content {
+                order: 2;
+                padding: 3rem 6vw 3.5rem;
+                align-items: flex-start;
+                text-align: left;
+            }
+            .spidey-drop-headline {
+                font-size: clamp(2.6rem, 12vw, 4rem);
+            }
+        }
     </style>
 </head>
 <body>
@@ -3247,6 +3451,36 @@
                 <h1></h1>
                 <p class="sub-headline"></p>
                 <a href="#/collection" class="shop-now-button">Shop Now</a>
+            </div>
+        </section>
+
+        <section class="spidey-drop" id="spideyDropSection" aria-label="Spider-Man limited drop">
+            <div class="spidey-drop-content">
+                <span class="spidey-drop-label">Limited Drop</span>
+                <h2 class="spidey-drop-headline">Spider-Man</h2>
+                <p class="spidey-drop-desc">The city is calling. Step into the web.</p>
+                <div class="spidey-drop-actions">
+                    <a href="#/collection?collection=spider-man" class="spidey-drop-cta">Shop The Drop →</a>
+                    <a href="#/collection?collection=spider-man" class="spidey-drop-explore">Explore The Collection</a>
+                </div>
+            </div>
+            <div class="spidey-drop-media" id="spideyDropMedia">
+                <img
+                    src="./spider.jpg"
+                    alt="Spider-Man limited drop campaign artwork"
+                    onerror="this.style.display='none'; this.closest('.spidey-drop-media').classList.add('is-placeholder');" />
+                <svg class="spidey-drop-media-web" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <g fill="none" stroke="#f5f0ea" stroke-width="0.6">
+                        <circle cx="200" cy="0" r="40" />
+                        <circle cx="200" cy="0" r="90" />
+                        <circle cx="200" cy="0" r="140" />
+                        <line x1="200" y1="0" x2="60" y2="140" />
+                        <line x1="200" y1="0" x2="110" y2="200" />
+                        <line x1="200" y1="0" x2="170" y2="200" />
+                        <line x1="200" y1="0" x2="200" y2="200" />
+                    </g>
+                </svg>
+                <span class="spidey-drop-placeholder-tag">Replace image: spiderman-drop.jpg</span>
             </div>
         </section>
 
