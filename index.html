@@ -1870,11 +1870,13 @@
         }
 
         .size-selector,
-        .qty-selector {
+        .qty-selector,
+        .color-selector {
             margin-bottom: 1.5rem;
         }
         .size-selector h4,
-        .qty-selector h4 {
+        .qty-selector h4,
+        .color-selector h4 {
             font-family: var(--font-mono);
             font-size: 0.7rem;
             text-transform: uppercase;
@@ -1903,6 +1905,32 @@
             color: var(--vvx-text-highlight);
         }
         .size-option.selected {
+            background: var(--vvx-military);
+            color: #f5f0ea;
+            border-color: var(--vvx-military);
+        }
+
+        .color-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .color-option {
+            padding: 0.3rem 0.9rem;
+            border: var(--border-thin);
+            background: transparent;
+            color: var(--vvx-text-muted);
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: all 0.3s var(--ease-soft);
+            text-transform: capitalize;
+        }
+        .color-option:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            color: var(--vvx-text-highlight);
+        }
+        .color-option.selected {
             background: var(--vvx-military);
             color: #f5f0ea;
             border-color: var(--vvx-military);
@@ -3240,6 +3268,106 @@
                 font-size: clamp(2.6rem, 12vw, 4rem);
             }
         }
+
+        /* ---- custom page styles (about, careers, contact, press, faq) ---- */
+        .static-page {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 2rem 1.5rem;
+            text-align: left;
+        }
+        .static-page h1 {
+            font-family: var(--font-display);
+            font-weight: 400;
+            font-size: clamp(2rem, 4vw, 3rem);
+            letter-spacing: 0.02em;
+            color: var(--vvx-text-highlight);
+            margin-bottom: 0.5rem;
+        }
+        .static-page .subhead {
+            font-family: var(--font-alt);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--vvx-text-muted);
+            margin-bottom: 2rem;
+            border-bottom: var(--border-thin);
+            padding-bottom: 0.8rem;
+        }
+        .static-page p {
+            font-family: var(--font-body);
+            font-size: 1rem;
+            line-height: 1.8;
+            color: var(--vvx-text-secondary);
+            margin-bottom: 1.2rem;
+        }
+        .static-page .team-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+            margin: 2rem 0 3rem;
+        }
+        .team-card {
+            background: var(--vvx-dark-gray);
+            border: var(--border-thin);
+            padding: 1.5rem 1rem 1.2rem;
+            text-align: center;
+            width: 220px;
+            transition: transform 0.3s var(--ease-soft), border-color 0.3s var(--ease-soft);
+        }
+        .team-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--vvx-military);
+        }
+        .team-card img {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--vvx-military);
+            margin-bottom: 0.8rem;
+        }
+        .team-card h3 {
+            font-family: var(--font-alt);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--vvx-text-highlight);
+            margin: 0.4rem 0 0.1rem;
+        }
+        .team-card .role {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--vvx-vintage-beige);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        .team-card .bio {
+            font-family: var(--font-body);
+            font-size: 0.8rem;
+            color: var(--vvx-text-muted);
+            margin-top: 0.6rem;
+        }
+        .static-page .story {
+            max-width: 720px;
+            margin: 0 auto;
+            text-align: left;
+        }
+        .static-page .story p:last-child {
+            margin-bottom: 0;
+        }
+        .static-page .placeholder-msg {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            color: var(--vvx-text-dim);
+            padding: 2rem 0;
+            text-align: center;
+        }
+        .static-page .placeholder-msg a {
+            color: var(--vvx-vintage-beige);
+            text-decoration: none;
+            border-bottom: 1px dotted;
+        }
     </style>
 </head>
 <body>
@@ -3714,11 +3842,6 @@
 
     <!-- ============================================================
          PAGE: ADMIN — ADD PRODUCT  (route: #/admin)
-         Lets you add new products through a form instead of editing
-         the PRODUCTS array by hand. New products are saved to this
-         browser's localStorage and merged into window.PRODUCTS, so
-         they show up across the site (home, collections, search)
-         right away.
          ============================================================ -->
     <div id="page-admin" style="display:none;">
         <section class="admin-wrap">
@@ -3866,6 +3989,107 @@
     </div>
 
     <!-- ============================================================
+         PAGES: About, Careers, Contact, Press, FAQ
+         ============================================================ -->
+    <!-- ABOUT -->
+    <div id="page-about" style="display:none;">
+        <section class="static-page">
+            <h1>About Vovex Noir</h1>
+            <div class="subhead">Our story &amp; the people behind the brand</div>
+
+            <div class="story">
+                <p>
+                    Behind Vovex Noir is a dedicated team working across design, products, technology, branding, and creative direction.
+                    <strong>Eyoel Mulugeta Bazie</strong> leads the brand as Founder &amp; CEO of Vovex, while <strong>Miliyard Tewodros Kebede</strong> serves as Products Manager, helping shape the products and bring concepts from ideas into reality. The rest of the Vovex Noir team comes directly from the wider Vovex team, bringing together the skills and creativity behind the brand.
+                </p>
+                <p>
+                    Vovex Noir is more than a clothing line. It is a project built by people who wanted to create their own space in fashion—one where creativity, individuality, and culture come first. We are building the brand from the ground up, one design, one collection, and one idea at a time. This is our story, and we're only at the beginning.
+                </p>
+            </div>
+
+            <div class="team-grid">
+                <!-- Eyoel Mulugeta Bazie -->
+                <div class="team-card">
+                    <!-- Replace the src below with the actual photo URL for Eyoel -->
+                    <img src="https://www.vovex.tech/Resources/Emb.jfif" alt="Eyoel Mulugeta Bazie" />
+                    <h3>Eyoel Mulugeta Bazie</h3>
+                    <div class="role">Founder &amp; CEO, Vovex</div>
+                    <p class="bio">Leading the vision and strategy behind Vovex Noir.</p>
+                </div>
+
+                <!-- Miliyard Tewodros Kebede -->
+                <div class="team-card">
+                    <!-- Replace the src below with the actual photo URL for Miliyard -->
+                    <img src="./miliyard.jpg" alt="Miliyard Tewodros Kebede" />
+                    <h3>Miliyard Tewodros Kebede</h3>
+                    <div class="role">Products Manager</div>
+                    <p class="bio">Shaping products and turning ideas into reality.</p>
+                </div>
+            </div>
+
+            <p style="text-align:center; color:var(--vvx-text-dim); font-size:0.8rem; margin-top:1rem;">
+                The rest of the Vovex Noir team comes from the wider Vovex team, contributing across design, technology, branding, creative direction, products, and operations.
+            </p>
+        </section>
+    </div>
+
+    <!-- CAREERS -->
+    <div id="page-careers" style="display:none;">
+        <section class="static-page">
+            <h1>Careers</h1>
+            <div class="subhead">Join the team</div>
+            <div class="placeholder-msg">
+                There are no job openings at this time.
+            </div>
+        </section>
+    </div>
+
+    <!-- CONTACT -->
+    <div id="page-contact" style="display:none;">
+        <section class="static-page">
+            <h1>Contact Us</h1>
+            <div class="subhead">We'd love to hear from you</div>
+            <p>For general inquiries, please reach out to us at:</p>
+            <p><strong>Email:</strong> <a href="mailto:info@vovex.com" style="color:var(--vvx-vintage-beige);">vovex.eyoel@gmail.com</a></p>
+            <p><strong>Phone:</strong> +251 934 592 679</p>
+            <p style="margin-top:2rem;">We aim to respond within 24 hours.</p>
+        </section>
+    </div>
+
+    <!-- PRESS -->
+    <div id="page-press" style="display:none;">
+        <section class="static-page">
+            <h1>Press</h1>
+            <div class="subhead">Media &amp; press kit</div>
+            <p>For press inquiries, interviews, or media assets, please contact our press team:</p>
+            <p><strong>Email:</strong> <a href="mailto:press@vovex.com" style="color:var(--vvx-vintage-beige);">press@vovex.com</a></p>
+            <p>We will get back to you as soon as possible.</p>
+        </section>
+    </div>
+
+    <!-- FAQ -->
+    <div id="page-faq" style="display:none;">
+        <section class="static-page">
+            <h1>FAQ</h1>
+            <div class="subhead">Frequently asked questions</div>
+            <div style="text-align:left; max-width:700px; margin:0 auto;">
+                <div style="margin-bottom:1.5rem;">
+                    <h4 style="font-family:var(--font-alt); color:var(--vvx-text-highlight); margin-bottom:0.3rem;">What payment methods do you accept?</h4>
+                    <p style="color:var(--vvx-text-secondary);">We accept TeleBirr (for Ethiopian customers) and PayPal (for international orders).</p>
+                </div>
+                <div style="margin-bottom:1.5rem;">
+                    <h4 style="font-family:var(--font-alt); color:var(--vvx-text-highlight); margin-bottom:0.3rem;">Do you ship internationally?</h4>
+                    <p style="color:var(--vvx-text-secondary);">Yes, we ship to many countries worldwide. Shipping costs are calculated at checkout.</p>
+                </div>
+                <div style="margin-bottom:1.5rem;">
+                    <h4 style="font-family:var(--font-alt); color:var(--vvx-text-highlight); margin-bottom:0.3rem;">How long does delivery take?</h4>
+                    <p style="color:var(--vvx-text-secondary);">Delivery times vary by destination. Typically 5-10 business days for international orders.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ============================================================
          SHARED FOOTER
          ============================================================ -->
     <footer>
@@ -3874,17 +4098,17 @@
                 <div class="footer-section">
                     <h4>Customer Care</h4>
                     <ul>
-                        <li><a href="#">Contact Us</a></li>
-                        <li><a href="#">Press</a></li>
-                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#/contact">Contact Us</a></li>
+                        <li><a href="#/press">Press</a></li>
+                        <li><a href="#/faq">FAQ</a></li>
                         <li><a href="#">Catalog Unsubscribe</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
                     <h4>About Us</h4>
                     <ul>
-                        <li><a href="#">About VVX</a></li>
-                        <li><a href="#">Careers</a></li>
+                        <li><a href="#/about">About VVX</a></li>
+                        <li><a href="#/careers">Careers</a></li>
                         <li><a href="#">Affiliates</a></li>
                     </ul>
                 </div>
@@ -3914,8 +4138,8 @@
             <div class="footer-bottom">
                 <p>&copy; 2026 Vovex, Vovex Noir. All rights reserved.</p>
                 <p class="footer-links">
-                    <a href="#">Privacy Policy</a> |
-                    <a href="#">Terms &amp; Conditions</a> |
+                    <a href="https://www.vovex.tech/privacypolicy.html" target="_blank">Privacy Policy</a> |
+                    <a href="https://www.vovex.tech/privacypolicy.html" target="_blank">Terms &amp; Conditions</a> |
                     <a href="#">Site Map</a>
                 </p>
             </div>
@@ -4939,6 +5163,38 @@
         },
         {
             id: 32,
+            slug: "Death Note Anime Manga Cosplay ",
+            name: "Death Note Anime Manga Cosplay ",
+            description: "Death Note Anime Manga Cosplay, Death Note Anime Manga Cosplay ",
+            price: 2600,
+            discountPrice: null,
+            currency: "ETB",
+            category: "Anime Graphic T-Shirt",
+            subcategory: "deathnote",
+            style: "anime",
+            collection: "gamers",
+            color: "Black",
+            colors: ["Black", "White"],
+            sizes: ["S", "M", "L", "XL"],
+            stock: 400,
+            featured: false,
+            newArrival: true,
+            bestSeller: false,
+            sale: false,
+            rating: 0,
+            reviews: 0,
+            tags: ["anime", "manga", "Berserk", "grunge", "streetwear", "death" , "deathnote" , "death-note"],
+            thumbnail: "https://i.pinimg.com/736x/04/94/9f/04949fc101f24a28d9308f65ec048424.jpg",
+            heroImage: "https://i.pinimg.com/736x/1b/7b/2c/1b7b2c9cbc51f27c5edc6b53e3174909.jpg",
+            galleryImages: ["https://i.pinimg.com/736x/1b/7b/2c/1b7b2c9cbc51f27c5edc6b53e3174909.jpg", "https://i.pinimg.com/736x/04/94/9f/04949fc101f24a28d9308f65ec048424.jpg"],
+            dateAdded: "2026-08-14",
+            anime: "Deathnote",
+            characters: [],
+            availability: "in_stock",
+            sourceUrl: "https://thrwbcks.com/products/teal-grunge-anime-shirt",
+            sourceId: "throwbacks-anime-025"
+        },{
+            id: 33,
             slug: "berserk-teal-grunge-tee",
             name: "Berserk Teal Grunge Tee",
             description: "Grunge manga tee referencing Berserk with teal coloring.",
@@ -6179,7 +6435,7 @@
 
     <!-- ==========================================================================
          product.js — controller for the Product "page" (#/product?slug=...)
-         Now shows supplier on the detail page.
+         Now shows supplier and color selector on the detail page.
          ========================================================================== -->
     <script>
         const VVXProduct = (function() {
@@ -6188,6 +6444,7 @@
                 product: null,
                 activeImage: null,
                 selectedSize: null,
+                selectedColor: null,
                 qty: 1
             };
 
@@ -6223,6 +6480,7 @@
                 state.product = product;
                 state.activeImage = product.heroImage || product.thumbnail;
                 state.selectedSize = (product.sizes && product.sizes[0]) || null;
+                state.selectedColor = (product.colors && product.colors[0]) || null;
                 state.qty = 1;
 
                 document.title = `VVX | ${product.name}`;
@@ -6263,6 +6521,19 @@
                               ` :
                     "";
 
+                const colorsHtml = (product.colors && product.colors.length > 1) ?
+                    `
+                                <div class="color-selector">
+                                    <h4>Color</h4>
+                                    <div class="color-options">
+                                        ${product.colors.map(color => `
+                                            <button type="button" class="color-option ${color === state.selectedColor ? "selected" : ""}" data-color="${u.escapeHtml(color)}">${u.escapeHtml(color)}</button>
+                                        `).join("")}
+                                    </div>
+                                </div>
+                              ` :
+                    (product.colors && product.colors.length === 1 ? `<p style="color:var(--vvx-text-dim);font-size:0.8rem;">Color: ${u.escapeHtml(product.colors[0])}</p>` : "");
+
                 const stockHtml = product.stock <= 5 ?
                     `<p class="stock-note">Only ${product.stock} left in stock</p>` :
                     "";
@@ -6290,6 +6561,7 @@
                                     <p class="product-detail-description">${u.escapeHtml(product.description)}</p>
                                     ${supplierHtml}
                                     <p class="product-detail-meta">${u.titleCase(product.color || "")} · ${u.titleCase(product.material || "")} · ${u.titleCase(product.gender || "")}</p>
+                                    ${colorsHtml}
                                     ${sizesHtml}
                                     <div class="qty-selector">
                                         <h4>Quantity</h4>
@@ -6333,6 +6605,15 @@
                         state.selectedSize = btn.getAttribute("data-size");
                         window.VVXUtils.qsa(".size-option", container).forEach(b => b.classList.remove("selected"));
                         btn.classList.add("selected");
+                    });
+                });
+
+                window.VVXUtils.qsa(".color-option", container).forEach(function(btn) {
+                    btn.addEventListener("click", function() {
+                        state.selectedColor = btn.getAttribute("data-color");
+                        window.VVXUtils.qsa(".color-option", container).forEach(b => b.classList.remove("selected"));
+                        btn.classList.add("selected");
+                        // Optionally change main image to the first gallery image (if any) – not needed.
                     });
                 });
 
@@ -6533,7 +6814,6 @@
 
     <!-- ==========================================================================
          checkout.js — controller for the Checkout "page" (#/checkout)
-         with improved validation + country/city + shipping + PayPal for international
          ========================================================================== -->
     <script>
         const VVXCheckout = (function() {
@@ -7909,13 +8189,7 @@
     </script>
 
     <!-- ==========================================================================
-         admin.js — powers the #/admin "Add Product" page. Lets you add products
-         through a form instead of hand-editing the PRODUCTS array. New products
-         are pushed into window.PRODUCTS (so they show up everywhere immediately)
-         and saved to localStorage under "vvx_custom_products" (so they persist
-         across reloads in this browser). Also offers a "copy code" button that
-         generates the PRODUCTS-array-shaped JS text for pasting into the source
-         file if you want a product to be permanent for every visitor.
+         admin.js — powers the #/admin "Add Product" page.
          ========================================================================== -->
     <script>
         const VVXAdmin = (function() {
@@ -8212,9 +8486,7 @@
     </script>
 
     <!-- ==========================================================================
-         router.js — the piece that ties everything into ONE file. Shows/hides
-         the right "page" div based on location.hash and re-runs that page's
-         controller, replacing what used to be separate .html file loads.
+         router.js — the piece that ties everything into ONE file.
          ========================================================================== -->
     <script>
         (function() {
@@ -8228,7 +8500,12 @@
                 "wishlist": { id: "page-wishlist", run: () => window.VVXWishlistPage.init() },
                 "checkout": { id: "page-checkout", run: () => window.VVXCheckout.init() },
                 "order-confirmation": { id: "page-confirmation", run: () => window.VVXOrderConfirmation.init() },
-                "admin": { id: "page-admin", run: () => window.VVXAdmin.init() }
+                "admin": { id: "page-admin", run: () => window.VVXAdmin.init() },
+                "about": { id: "page-about", run: () => { document.title = "VVX | About"; } },
+                "careers": { id: "page-careers", run: () => { document.title = "VVX | Careers"; } },
+                "contact": { id: "page-contact", run: () => { document.title = "VVX | Contact"; } },
+                "press": { id: "page-press", run: () => { document.title = "VVX | Press"; } },
+                "faq": { id: "page-faq", run: () => { document.title = "VVX | FAQ"; } }
             };
 
             function currentPath() {
