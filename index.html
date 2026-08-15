@@ -2436,6 +2436,7 @@
             border: 1px solid var(--vvx-black, #1a1a1a);
             padding: 1.4rem 1.6rem;
             margin-top: 1.4rem;
+            border-radius: 4px;
         }
         .telebirr-box h3 {
             font-family: var(--font-alt);
@@ -2443,6 +2444,7 @@
             letter-spacing: 0.1em;
             text-transform: uppercase;
             margin-bottom: 0.9rem;
+            color: #1a1a1a;
         }
         .telebirr-row {
             display: flex;
@@ -2466,6 +2468,7 @@
             font-weight: 600;
             display: flex;
             align-items: center;
+            gap: 0.5rem;
         }
         .telebirr-row .value.deposit-amount {
             font-size: 1.05rem;
@@ -2491,6 +2494,23 @@
             color: var(--vvx-text-dim);
             margin-top: 0.7rem;
             line-height: 1.55;
+        }
+        .telebirr-instructions strong {
+            color: #1a1a1a;
+        }
+        .telebirr-payment-notice {
+            background: #e8e0d6;
+            padding: 0.9rem 1rem;
+            border-left: 4px solid var(--vvx-military, #4a5a3a);
+            margin-bottom: 1rem;
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: #1a1a1a;
+            border-radius: 2px;
+        }
+        .telebirr-payment-notice strong {
+            color: #1a1a1a;
+            font-weight: 700;
         }
         .screenshot-upload-group {
             margin-top: 1.1rem;
@@ -2526,6 +2546,7 @@
             padding: 1.4rem 1.6rem;
             margin-top: 1.4rem;
             display: none;
+            border-radius: 4px;
         }
         .paypal-section h3 {
             font-family: var(--font-alt);
@@ -3779,9 +3800,16 @@
                 <!-- TeleBirr Box (for Ethiopia) -->
                 <div class="telebirr-box" id="telebirrBox">
                     <h3>Pay 50% Deposit via TeleBirr</h3>
+
+                    <!-- NOTICE: clear payment instructions for Ethiopian customers -->
+                    <div class="telebirr-payment-notice">
+                        <strong>📱 Send all Ethiopian payments to:</strong> 0934592679 — Eyueal (TeleBirr)
+                    </div>
+
                     <div class="telebirr-row">
                         <span class="label">Send to</span>
-                        <span class="value">+251 934 592 679
+                        <span class="value">
+                            0934592679 — Eyueal
                             <button type="button" class="copy-btn" id="copyTelebirrBtn">Copy</button>
                         </span>
                     </div>
@@ -3801,7 +3829,13 @@
                         <span class="label">Balance Due on Delivery</span>
                         <span class="value" id="balanceAmount">—</span>
                     </div>
-                    <p class="telebirr-instructions">Send the <strong>50% deposit</strong> shown above to the TeleBirr number, then upload a screenshot of the payment confirmation below. The remaining 50% balance is paid when your order is delivered to you.</p>
+
+                    <p class="telebirr-instructions">
+                        <strong>How to pay:</strong> Send the <strong>50% deposit</strong> shown above to
+                        <strong>0934592679 — Eyueal</strong> via TeleBirr.
+                        Then upload a screenshot of the payment confirmation below.
+                        The remaining 50% balance is paid when your order is delivered to you.
+                    </p>
 
                     <div class="form-group screenshot-upload-group">
                         <label for="paymentScreenshot">Payment Screenshot</label>
@@ -6833,7 +6867,8 @@
             //    changes needed on that front).
             // ==========================================================================
             const FORMSPREE_ENDPOINT = "https://formspree.io/f/xjybbkjl";
-            const TELEBIRR_NUMBER = "+251934592679";
+            const TELEBIRR_NUMBER = "0934592679";
+            const TELEBIRR_NAME = "Eyueal";
             const DEPOSIT_RATE = 0.5;
             const SCREENSHOT_MAX_DIMENSION = 900;
             const SCREENSHOT_JPEG_QUALITY = 0.72;
@@ -7235,14 +7270,15 @@
 
             function handleCopyTelebirr(e) {
                 e.preventDefault();
+                const fullNumber = `${TELEBIRR_NUMBER} — ${TELEBIRR_NAME}`;
                 if (navigator.clipboard && navigator.clipboard.writeText) {
                     navigator.clipboard.writeText(TELEBIRR_NUMBER).then(function() {
                         window.VVXToast.success("TeleBirr number copied");
                     }).catch(function() {
-                        window.VVXToast.info(`TeleBirr number: ${TELEBIRR_NUMBER}`);
+                        window.VVXToast.info(`TeleBirr: ${fullNumber}`);
                     });
                 } else {
-                    window.VVXToast.info(`TeleBirr number: ${TELEBIRR_NUMBER}`);
+                    window.VVXToast.info(`TeleBirr: ${fullNumber}`);
                 }
             }
 
