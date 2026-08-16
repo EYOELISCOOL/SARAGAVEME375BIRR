@@ -3389,6 +3389,54 @@
             text-decoration: none;
             border-bottom: 1px dotted;
         }
+
+        /* ============================================================
+           PROMO CODE STYLES – added for the discount system
+           ============================================================ */
+        #promoCodeInput:focus {
+            border-color: var(--vvx-military) !important;
+        }
+
+        #applyPromoBtn:hover {
+            background: var(--vvx-military);
+            color: #f5f0ea;
+            border-color: var(--vvx-military);
+        }
+
+        #removePromoBtn:hover {
+            background: rgba(106, 26, 26, 0.12);
+            border-color: var(--vvx-deep-red);
+        }
+
+        .promo-msg-success {
+            color: var(--vvx-olive);
+        }
+        .promo-msg-error {
+            color: var(--vvx-rust);
+        }
+        .promo-msg-info {
+            color: var(--vvx-text-muted);
+        }
+
+        @media (max-width: 480px) {
+            .promo-input-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            #applyPromoBtn {
+                align-self: stretch !important;
+                padding: 0.6rem 1rem;
+            }
+            #promoActiveDisplay>div {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.4rem;
+            }
+            #removePromoBtn {
+                margin-left: 0 !important;
+                align-self: flex-start;
+            }
+        }
     </style>
 </head>
 <body>
@@ -3794,6 +3842,30 @@
                         <label for="phone">Phone</label>
                         <input type="tel" id="phone" name="phone" required />
                         <span class="error-msg" id="phoneError">Please enter a valid phone number</span>
+                    </div>
+                </div>
+
+                <!-- ============================================================
+                     PROMO CODE SECTION – added to checkout form
+                     ============================================================ -->
+                <div class="promo-section" id="promoSection" style="margin: 1.2rem 0 1.8rem 0; padding: 1.2rem 0; border-top: var(--border-thin); border-bottom: var(--border-thin);">
+                    <div class="promo-input-row" id="promoInputRow" style="display:flex; flex-wrap:wrap; gap:0.6rem; align-items:center;">
+                        <div style="flex:1 1 200px; min-width:160px;">
+                            <label for="promoCodeInput" style="display:block; font-family:var(--font-mono); font-size:0.65rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--vvx-text-muted); margin-bottom:0.35rem;">Promo Code</label>
+                            <input type="text" id="promoCodeInput" placeholder="Enter promo code" style="width:100%; padding:0.65rem 0.7rem; background:var(--vvx-black); border:var(--border-thin); border-radius:0; color:var(--vvx-text-highlight); font-size:0.9rem; font-family:var(--font-body); outline:none; transition:border-color 0.3s var(--ease-soft);" />
+                        </div>
+                        <button type="button" id="applyPromoBtn" style="align-self:flex-end; background:transparent; color:var(--vvx-text-secondary); border:var(--border-thin); padding:0.55rem 1.4rem; cursor:pointer; font-family:var(--font-alt); font-size:0.65rem; font-weight:600; letter-spacing:0.15em; text-transform:uppercase; border-radius:0; transition:all 0.3s var(--ease-soft);">Apply</button>
+                    </div>
+
+                    <div id="promoStatus" style="margin-top:0.6rem; font-size:0.85rem; font-family:var(--font-body); min-height:1.6rem;"></div>
+
+                    <div id="promoActiveDisplay" style="display:none; margin-top:0.4rem; padding:0.6rem 0.8rem; background:rgba(74,90,58,0.12); border-left:3px solid var(--vvx-military);">
+                        <div style="display:flex; flex-wrap:wrap; align-items:center; gap:0.8rem;">
+                            <span style="font-family:var(--font-mono); font-size:0.75rem; letter-spacing:0.06em; color:var(--vvx-text-muted);">Applied:</span>
+                            <span id="promoActiveCode" style="font-family:var(--font-mono); font-weight:700; font-size:0.85rem; color:var(--vvx-text-highlight);">—</span>
+                            <span id="promoActiveDiscount" style="font-family:var(--font-mono); font-size:0.75rem; color:var(--vvx-vintage-beige);">—</span>
+                            <button type="button" id="removePromoBtn" style="margin-left:auto; background:none; border:var(--border-thin); color:var(--vvx-rust); padding:0.25rem 0.9rem; cursor:pointer; font-family:var(--font-alt); font-size:0.6rem; letter-spacing:0.08em; text-transform:uppercase; border-radius:0; transition:all 0.3s var(--ease-soft);">Remove</button>
+                        </div>
                     </div>
                 </div>
 
@@ -7586,6 +7658,607 @@
         if (typeof window !== "undefined") {
             window.VVXCheckout = VVXCheckout;
         }
+    </script>
+
+    <!-- ==========================================================================
+         PROMO CODE MODULE – VVXPromo
+         ========================================================================== -->
+    <script>
+        /**
+         * VVXPromo — complete promo code system
+         * Centralised configuration for easy future management.
+         * Edit the PROMO_CODES object to add, remove, or change codes.
+         */
+        const VVXPromo = (function() {
+            "use strict";
+
+            // ─── CONFIGURATION ──────────────────────────────────────────
+            // Edit this object to add, remove, or change promo codes.
+            // Each key is the normalized (lowercase) version of the code.
+            const PROMO_CODES = {
+                'smacks12': { display: 'Smacks12', discount: 0.10 },
+                'nattyrocks': { display: 'NATTYROCKS', discount: 0.10 },
+                'asta10': { display: 'ASTA10', discount: 0.10 },
+                'sketch': { display: 'Sketch', discount: 0.10 },
+                // ─── Add future codes here ────────────────────────────
+                // 'newcode':   { display: 'NEWCODE',   discount: 0.20 },
+                // 'summer':    { display: 'SUMMER',    discount: 0.15 },
+                // 'welcome':   { display: 'WELCOME',   discount: 0.10 },
+            };
+
+            // ─── STATE ────────────────────────────────────────────────
+            let applied = null; // { normalized, display, discount }
+
+            // ─── HELPERS ──────────────────────────────────────────────
+            function normalize(code) {
+                return String(code || '').toLowerCase().trim();
+            }
+
+            function getCodeData(normalized) {
+                return PROMO_CODES[normalized] || null;
+            }
+
+            function isValid(normalized) {
+                return !!PROMO_CODES[normalized];
+            }
+
+            // ─── PUBLIC API ───────────────────────────────────────────
+
+            /** Apply a promo code. Returns { success, message, discount? } */
+            function apply(code) {
+                const norm = normalize(code);
+                if (!norm) {
+                    return { success: false, message: 'Please enter a promo code.' };
+                }
+
+                const data = getCodeData(norm);
+                if (!data) {
+                    return { success: false, message: 'Invalid promo code. Please check the code and try again.' };
+                }
+
+                if (applied) {
+                    return {
+                        success: false,
+                        message: 'A promo code is already applied. Remove it before applying another code.',
+                        alreadyActive: true
+                    };
+                }
+
+                applied = {
+                    normalized: norm,
+                    display: data.display,
+                    discount: data.discount
+                };
+
+                document.dispatchEvent(new CustomEvent('vvx:promo-applied', {
+                    detail: { code: applied.display, discount: applied.discount }
+                }));
+
+                return {
+                    success: true,
+                    message: `Promo code applied! You saved ${(data.discount * 100)}%.`,
+                    discount: data.discount,
+                    display: data.display
+                };
+            }
+
+            /** Remove the currently applied promo code. */
+            function remove() {
+                if (!applied) return false;
+                const removed = { ...applied };
+                applied = null;
+
+                document.dispatchEvent(new CustomEvent('vvx:promo-removed', {
+                    detail: { code: removed.display }
+                }));
+
+                return true;
+            }
+
+            /** Get the currently applied promo code info, or null. */
+            function getApplied() {
+                return applied ? { ...applied } : null;
+            }
+
+            /** Check if a promo code is currently active. */
+            function isActive() {
+                return applied !== null;
+            }
+
+            /** Calculate the discount amount for a given subtotal. Returns 0 if no promo. */
+            function calculateDiscount(subtotal) {
+                if (!applied || subtotal <= 0) return 0;
+                const discount = subtotal * applied.discount;
+                return Math.min(discount, subtotal);
+            }
+
+            /** Get the discount rate (0.0 – 1.0) of the active promo, or 0. */
+            function getDiscountRate() {
+                return applied ? applied.discount : 0;
+            }
+
+            /** Get the display name of the active promo, or null. */
+            function getDisplayCode() {
+                return applied ? applied.display : null;
+            }
+
+            /** Check if a given code is valid (without applying it). */
+            function checkValidity(code) {
+                const norm = normalize(code);
+                return isValid(norm) ? { valid: true, data: PROMO_CODES[norm] } : { valid: false };
+            }
+
+            /** Get the full promo codes configuration (read-only). */
+            function getConfig() {
+                return { ...PROMO_CODES };
+            }
+
+            // ─── INIT ──────────────────────────────────────────────────
+            // Recalculate totals whenever the cart changes
+            if (typeof document !== 'undefined') {
+                document.addEventListener('vvx:cart-updated', function() {
+                    if (applied) {
+                        document.dispatchEvent(new CustomEvent('vvx:promo-applied', {
+                            detail: { code: applied.display, discount: applied.discount }
+                        }));
+                    }
+                });
+            }
+
+            return {
+                apply,
+                remove,
+                getApplied,
+                isActive,
+                calculateDiscount,
+                getDiscountRate,
+                getDisplayCode,
+                checkValidity,
+                getConfig,
+                _config: PROMO_CODES
+            };
+        })();
+
+        if (typeof window !== 'undefined') {
+            window.VVXPromo = VVXPromo;
+        }
+    </script>
+
+    <!-- ==========================================================================
+         PROMO CODE INTEGRATION – hooks into VVXCheckout
+         ========================================================================== -->
+    <script>
+        (function() {
+            "use strict";
+
+            // DOM refs
+            const promoInput = document.getElementById('promoCodeInput');
+            const applyBtn = document.getElementById('applyPromoBtn');
+            const removeBtn = document.getElementById('removePromoBtn');
+            const promoStatus = document.getElementById('promoStatus');
+            const promoActiveDisplay = document.getElementById('promoActiveDisplay');
+            const promoActiveCode = document.getElementById('promoActiveCode');
+            const promoActiveDiscount = document.getElementById('promoActiveDiscount');
+
+            function setStatus(message, type) {
+                if (!promoStatus) return;
+                const cls = type === 'success' ? 'promo-msg-success' :
+                    type === 'error' ? 'promo-msg-error' :
+                    'promo-msg-info';
+                promoStatus.innerHTML = `<span class="${cls}">${message}</span>`;
+            }
+
+            function clearStatus() {
+                if (promoStatus) promoStatus.innerHTML = '';
+            }
+
+            function updateActiveDisplay() {
+                const applied = VVXPromo.getApplied();
+                if (applied && promoActiveDisplay) {
+                    promoActiveDisplay.style.display = 'block';
+                    if (promoActiveCode) promoActiveCode.textContent = applied.display;
+                    if (promoActiveDiscount) {
+                        const pct = Math.round(applied.discount * 100);
+                        promoActiveDiscount.textContent = `${pct}% OFF`;
+                    }
+                    const inputRow = document.getElementById('promoInputRow');
+                    if (inputRow) inputRow.style.display = 'none';
+                    clearStatus();
+                } else if (promoActiveDisplay) {
+                    promoActiveDisplay.style.display = 'none';
+                    const inputRow = document.getElementById('promoInputRow');
+                    if (inputRow) inputRow.style.display = 'flex';
+                }
+            }
+
+            function handleApply() {
+                const code = promoInput ? promoInput.value.trim() : '';
+                const result = VVXPromo.apply(code);
+
+                if (result.success) {
+                    setStatus(result.message, 'success');
+                    if (promoInput) promoInput.value = '';
+                    updateActiveDisplay();
+                    triggerCheckoutRefresh();
+                } else {
+                    setStatus(result.message, 'error');
+                    if (result.alreadyActive) {
+                        updateActiveDisplay();
+                    }
+                }
+            }
+
+            function handleRemove() {
+                const removed = VVXPromo.remove();
+                if (removed) {
+                    setStatus('Promo code removed. You can now apply a new code.', 'info');
+                    updateActiveDisplay();
+                    const inputRow = document.getElementById('promoInputRow');
+                    if (inputRow) inputRow.style.display = 'flex';
+                    triggerCheckoutRefresh();
+                    setTimeout(clearStatus, 3000);
+                }
+            }
+
+            function triggerCheckoutRefresh() {
+                document.dispatchEvent(new CustomEvent('vvx:promo-changed'));
+                document.dispatchEvent(new CustomEvent('vvx:cart-updated', {
+                    detail: { cart: VVXCart ? VVXCart.getCart() : [] }
+                }));
+            }
+
+            if (promoInput) {
+                promoInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        handleApply();
+                    }
+                });
+            }
+
+            if (applyBtn) applyBtn.addEventListener('click', handleApply);
+            if (removeBtn) removeBtn.addEventListener('click', handleRemove);
+
+            updateActiveDisplay();
+
+            document.addEventListener('vvx:promo-applied', updateActiveDisplay);
+            document.addEventListener('vvx:promo-removed', updateActiveDisplay);
+
+            // ─── Extend VVXCheckout ──────────────────────────────────
+
+            // Wait for VVXCheckout to be defined
+            const checkInterval = setInterval(function() {
+                if (typeof VVXCheckout !== 'undefined' && VVXCheckout) {
+                    clearInterval(checkInterval);
+                    extendCheckout();
+                }
+            }, 100);
+
+            function extendCheckout() {
+                // Store original functions
+                const originalRenderSummary = VVXCheckout.renderSummary;
+                const originalUpdatePaymentBox = VVXCheckout.updatePaymentBox;
+                const originalHandleSubmit = VVXCheckout.handleSubmit;
+                const originalPlaceOrder = VVXCheckout.placeOrder;
+
+                // Override renderSummary
+                VVXCheckout.renderSummary = function(details, currencyOverride, country) {
+                    const u = window.VVXUtils;
+                    const targetCurrency = currencyOverride || 'ETB';
+                    const countryName = country || 'Ethiopia';
+
+                    const subtotal = window.VVXCart.getCartSubtotal();
+                    const discountAmount = VVXPromo.calculateDiscount(subtotal);
+                    const discountedSubtotal = Math.max(0, subtotal - discountAmount);
+
+                    const shippingTotal = VVXCheckout.calcShippingTotal ? VVXCheckout.calcShippingTotal(countryName) : 0;
+                    const totalWithShipping = discountedSubtotal + shippingTotal;
+                    const totalConverted = VVXCheckout.convertToCurrency ? VVXCheckout.convertToCurrency(totalWithShipping, 'ETB', targetCurrency) : totalWithShipping;
+                    const subtotalConverted = VVXCheckout.convertToCurrency ? VVXCheckout.convertToCurrency(subtotal, 'ETB', targetCurrency) : subtotal;
+                    const discountConverted = VVXCheckout.convertToCurrency ? VVXCheckout.convertToCurrency(discountAmount, 'ETB', targetCurrency) : discountAmount;
+                    const shippingConverted = VVXCheckout.convertToCurrency ? VVXCheckout.convertToCurrency(shippingTotal, 'ETB', targetCurrency) : shippingTotal;
+
+                    const container = document.getElementById('checkoutSummary');
+                    if (!container) return;
+
+                    const itemsHtml = details.map(function(line) {
+                        const priceInTarget = VVXCheckout.convertToCurrency ? VVXCheckout.convertToCurrency(line.unitPrice, 'ETB', targetCurrency) : line.unitPrice;
+                        const lineTotalInTarget = priceInTarget * line.qty;
+                        return `
+                                    <div class="cart-summary-row">
+                                        <span>${u.escapeHtml(line.product.name)} ${line.size ? `(${u.escapeHtml(line.size)})` : ""} × ${line.qty}</span>
+                                        <span>${u.formatPrice(lineTotalInTarget, targetCurrency)}</span>
+                                    </div>
+                                `;
+                    }).join('');
+
+                    const discountRow = VVXPromo.isActive() && discountConverted > 0 ?
+                        `<div class="cart-summary-row" style="color:var(--vvx-vintage-beige);">
+                            <span>Promo (${Math.round(VVXPromo.getDiscountRate() * 100)}%)</span>
+                            <span>-${u.formatPrice(discountConverted, targetCurrency)}</span>
+                        </div>` :
+                        '';
+
+                    const shippingDisplay = (countryName === 'Ethiopia' || shippingTotal === 0) ?
+                        '0 ETB (Free)' :
+                        u.formatPrice(shippingConverted, targetCurrency);
+
+                    const { deposit, balance } = VVXCheckout.calcDeposit ? VVXCheckout.calcDeposit(totalConverted) : { deposit: totalConverted * 0.5, balance: totalConverted * 0.5 };
+
+                    container.innerHTML = `
+                                <h3>Order Summary</h3>
+                                ${itemsHtml}
+                                <div class="cart-summary-row"><span>Subtotal</span><span>${u.formatPrice(subtotalConverted, targetCurrency)}</span></div>
+                                ${discountRow}
+                                <div class="cart-summary-row"><span>Shipping</span><span>${shippingDisplay}</span></div>
+                                <div class="cart-summary-row total"><span>Total</span><span>${u.formatPrice(totalConverted, targetCurrency)}</span></div>
+                                ${countryName === 'Ethiopia' ? `
+                                    <div class="cart-summary-row"><span>Deposit due now (50%)</span><span>${u.formatPrice(deposit, targetCurrency)}</span></div>
+                                    <div class="cart-summary-row"><span>Due on delivery (50%)</span><span>${u.formatPrice(balance, targetCurrency)}</span></div>
+                                ` : `
+                                    <div class="cart-summary-row"><span>Payment via PayPal</span><span>Full amount</span></div>
+                                `}
+                            `;
+                };
+
+                // Override updatePaymentBox
+                VVXCheckout.updatePaymentBox = function(subtotal, currency, country) {
+                    const u = window.VVXUtils;
+                    const countryName = country || 'Ethiopia';
+                    const targetCurrency = VVXCheckout.getCurrencyForCountry ? VVXCheckout.getCurrencyForCountry(countryName) : 'ETB';
+
+                    const discountAmount = VVXPromo.calculateDiscount(subtotal);
+                    const discountedSubtotal = Math.max(0, subtotal - discountAmount);
+
+                    const shippingTotal = VVXCheckout.calcShippingTotal ? VVXCheckout.calcShippingTotal(countryName) : 0;
+                    const totalWithShipping = discountedSubtotal + shippingTotal;
+
+                    const totalConverted = VVXCheckout.convertToCurrency ? VVXCheckout.convertToCurrency(totalWithShipping, 'ETB', targetCurrency) : totalWithShipping;
+                    const shippingConverted = VVXCheckout.convertToCurrency ? VVXCheckout.convertToCurrency(shippingTotal, 'ETB', targetCurrency) : shippingTotal;
+                    const discountConverted = VVXCheckout.convertToCurrency ? VVXCheckout.convertToCurrency(discountAmount, 'ETB', targetCurrency) : discountAmount;
+
+                    const { deposit, balance } = VVXCheckout.calcDeposit ? VVXCheckout.calcDeposit(totalConverted) : { deposit: totalConverted * 0.5, balance: totalConverted * 0.5 };
+
+                    const totalEl = document.getElementById('orderTotalAmount');
+                    const shippingEl = document.getElementById('shippingAmount');
+                    const depositEl = document.getElementById('depositAmount');
+                    const balanceEl = document.getElementById('balanceAmount');
+                    const paypalTotalEl = document.getElementById('paypalTotal');
+
+                    if (totalEl) totalEl.textContent = u.formatPrice(totalConverted, targetCurrency);
+                    if (shippingEl) {
+                        if (countryName === 'Ethiopia' || shippingTotal === 0) {
+                            shippingEl.textContent = '0 ETB (Free)';
+                        } else {
+                            shippingEl.textContent = u.formatPrice(shippingConverted, targetCurrency);
+                        }
+                    }
+                    if (depositEl) depositEl.textContent = u.formatPrice(deposit, targetCurrency);
+                    if (balanceEl) balanceEl.textContent = u.formatPrice(balance, targetCurrency);
+                    if (paypalTotalEl) {
+                        paypalTotalEl.textContent = u.formatPrice(totalConverted, targetCurrency);
+                    }
+                };
+
+                // Override handleSubmit
+                VVXCheckout.handleSubmit = async function(e) {
+                    e.preventDefault();
+                    const form = e.target;
+
+                    if (typeof VVXCheckout.validateForm === 'function') {
+                        if (!VVXCheckout.validateForm(form)) {
+                            window.VVXToast.error('Please fix all errors before continuing');
+                            return;
+                        }
+                    }
+
+                    const submitBtn = document.getElementById('placeOrderBtn');
+                    const originalBtnText = submitBtn.textContent;
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = 'Submitting…';
+
+                    try {
+                        const country = document.getElementById('countrySelect').value;
+                        const isEthiopia = country === 'Ethiopia';
+                        let screenshotDataUrl = null;
+
+                        if (isEthiopia) {
+                            const screenshotInput = document.getElementById('paymentScreenshot');
+                            const screenshotFile = screenshotInput.files[0];
+                            if (screenshotFile && typeof VVXCheckout.compressImageToDataUrl === 'function') {
+                                screenshotDataUrl = await VVXCheckout.compressImageToDataUrl(screenshotFile, 900, 0.72);
+                            }
+                        }
+
+                        const formData = new FormData(form);
+                        const shipping = Object.fromEntries(formData.entries());
+                        delete shipping.paymentScreenshot;
+                        const isPayPal = !isEthiopia;
+                        const paymentMethod = isPayPal ? 'PayPal' : 'TeleBirr';
+
+                        const appliedPromo = VVXPromo.getApplied();
+                        const promoCode = appliedPromo ? appliedPromo.display : null;
+                        const promoDiscount = appliedPromo ? appliedPromo.discount : 0;
+
+                        const order = VVXCheckout.placeOrder(shipping, screenshotDataUrl, paymentMethod);
+
+                        if (promoCode) {
+                            order.promoCode = promoCode;
+                            order.promoDiscountRate = promoDiscount;
+                            order.promoDiscountAmount = VVXPromo.calculateDiscount(window.VVXCart.getCartSubtotal());
+                        }
+
+                        await VVXCheckout.submitOrderToFormspree(order, screenshotDataUrl, isEthiopia);
+
+                        form.reset();
+                        const preview = document.getElementById('screenshotPreview');
+                        if (preview) preview.style.display = 'none';
+                        document.getElementById('countrySelect').value = '';
+                        document.getElementById('citySelect').innerHTML = `<option value="">— Select City —</option>`;
+                        document.getElementById('citySelect').disabled = true;
+                        document.getElementById('telebirrBox').style.display = 'block';
+                        document.getElementById('paypalSection').style.display = 'none';
+
+                        VVXPromo.remove();
+                        updateActiveDisplay();
+
+                        window.VVXUrl.navigate(`/order-confirmation?order=${order.id}`);
+                        window.VVXToast.success('Order submitted successfully!');
+
+                    } catch (err) {
+                        console.error('checkout: submission failed', err);
+                        window.VVXToast.error(err && err.message ? err.message : 'Could not submit your order. Please try again.');
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = originalBtnText;
+                    }
+                };
+
+                // Override placeOrder to include promo
+                if (originalPlaceOrder) {
+                    VVXCheckout.placeOrder = function(shipping, screenshotDataUrl, paymentMethod) {
+                        const details = window.VVXCart.getCartDetails();
+                        const subtotal = window.VVXCart.getCartSubtotal();
+                        const country = shipping.country || '';
+                        const shippingCost = VVXCheckout.calcShippingTotal ? VVXCheckout.calcShippingTotal(country) : 0;
+
+                        const discountAmount = VVXPromo.calculateDiscount(subtotal);
+                        const discountedSubtotal = Math.max(0, subtotal - discountAmount);
+                        const totalWithShipping = discountedSubtotal + shippingCost;
+
+                        const targetCurrency = VVXCheckout.getCurrencyForCountry ? VVXCheckout.getCurrencyForCountry(country) : 'ETB';
+                        const totalConverted = VVXCheckout.convertToCurrency ? VVXCheckout.convertToCurrency(totalWithShipping, 'ETB', targetCurrency) : totalWithShipping;
+                        const shippingConverted = VVXCheckout.convertToCurrency ? VVXCheckout.convertToCurrency(shippingCost, 'ETB', targetCurrency) : shippingCost;
+                        const discountConverted = VVXCheckout.convertToCurrency ? VVXCheckout.convertToCurrency(discountAmount, 'ETB', targetCurrency) : discountAmount;
+
+                        const { deposit, balance } = VVXCheckout.calcDeposit ? VVXCheckout.calcDeposit(totalConverted) : { deposit: totalConverted * 0.5, balance: totalConverted * 0.5 };
+
+                        const applied = VVXPromo.getApplied();
+
+                        const order = {
+                            id: 'VVX-' + Date.now().toString().slice(-8),
+                            receiptNumber: 'VVX-RCPT-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).slice(2, 6).toUpperCase(),
+                            date: new Date().toISOString(),
+                            shipping,
+                            items: details.map(l => ({
+                                name: l.product.name,
+                                slug: l.product.slug,
+                                size: l.size,
+                                qty: l.qty,
+                                unitPrice: l.unitPrice,
+                                lineTotal: l.lineTotal,
+                                thumbnail: l.product.thumbnail
+                            })),
+                            subtotal: totalConverted,
+                            shippingCost: shippingConverted,
+                            deposit: deposit,
+                            balance: balance,
+                            currency: targetCurrency,
+                            paymentMethod: paymentMethod,
+                            screenshotDataUrl: screenshotDataUrl,
+                            promoCode: applied ? applied.display : null,
+                            promoDiscountRate: applied ? applied.discount : 0,
+                            promoDiscountAmount: discountConverted
+                        };
+
+                        try {
+                            localStorage.setItem('vvx_last_order', JSON.stringify(order));
+                        } catch (err) {
+                            console.error('checkout: failed to store order', err);
+                        }
+
+                        window.VVXCart.clearCart();
+                        return order;
+                    };
+                }
+
+                // Override submitOrderToFormspree to include promo
+                if (VVXCheckout.submitOrderToFormspree) {
+                    const originalSubmitOrder = VVXCheckout.submitOrderToFormspree;
+                    VVXCheckout.submitOrderToFormspree = async function(order, screenshotDataUrl, isEthiopia) {
+                        const u = window.VVXUtils;
+                        const itemsText = order.items.map(function(item) {
+                            return `${item.name}${item.size ? " (" + item.size + ")" : ""} × ${item.qty} — ${u.formatPrice(item.lineTotal, order.currency)}`;
+                        }).join('\n');
+
+                        const fd = new FormData();
+                        fd.append('_subject', `New Vovex Noir Order — Receipt ${order.receiptNumber}`);
+                        fd.append('receiptNumber', order.receiptNumber);
+                        fd.append('orderId', order.id);
+                        fd.append('fullName', order.shipping.fullName || '');
+                        fd.append('email', order.shipping.email || '');
+                        fd.append('_replyto', order.shipping.email || '');
+                        fd.append('phone', order.shipping.phone || '');
+                        fd.append('address', order.shipping.address || '');
+                        fd.append('city', order.shipping.city || '');
+                        fd.append('country', order.shipping.country || '');
+                        fd.append('items', itemsText);
+                        fd.append('orderTotal', u.formatPrice(order.subtotal, order.currency));
+                        fd.append('shippingCost', u.formatPrice(order.shippingCost, order.currency));
+                        fd.append('paymentMethod', order.paymentMethod);
+
+                        if (order.promoCode) {
+                            fd.append('promoCode', order.promoCode);
+                            fd.append('promoDiscountRate', String(Math.round(order.promoDiscountRate * 100)) + '%');
+                            fd.append('promoDiscountAmount', u.formatPrice(order.promoDiscountAmount, order.currency));
+                        }
+
+                        if (isEthiopia) {
+                            fd.append('depositDueNow', u.formatPrice(order.deposit, order.currency));
+                            fd.append('balanceDueOnDelivery', u.formatPrice(order.balance, order.currency));
+                            if (screenshotDataUrl) {
+                                fd.append('paymentScreenshotImage', screenshotDataUrl);
+                            }
+                        } else {
+                            fd.append('paymentStatus', 'Pending PayPal');
+                        }
+
+                        const endpoint = 'https://formspree.io/f/xjybbkjl';
+                        const res = await fetch(endpoint, {
+                            method: 'POST',
+                            body: fd,
+                            headers: { 'Accept': 'application/json' }
+                        });
+
+                        if (!res.ok) {
+                            let msg = 'We couldn\'t submit your order right now. Please try again in a moment.';
+                            try {
+                                const data = await res.json();
+                                if (data && data.errors && data.errors.length) {
+                                    msg = data.errors.map(err => err.message).join(', ');
+                                }
+                            } catch (parseErr) { /* keep default */ }
+                            throw new Error(msg);
+                        }
+
+                        return true;
+                    };
+                }
+
+                // ─── Refresh function ─────────────────────────────────
+                VVXCheckout.refreshSummary = function() {
+                    const details = window.VVXCart.getCartDetails();
+                    const country = document.getElementById('countrySelect')?.value || 'Ethiopia';
+                    const currency = VVXCheckout.getCurrencyForCountry ? VVXCheckout.getCurrencyForCountry(country) : 'ETB';
+                    if (VVXCheckout.renderSummary) {
+                        VVXCheckout.renderSummary(details, currency, country);
+                    }
+                    const subtotal = window.VVXCart.getCartSubtotal();
+                    if (VVXCheckout.updatePaymentBox) {
+                        VVXCheckout.updatePaymentBox(subtotal, currency, country);
+                    }
+                };
+
+                // Listen for promo changes to refresh summary
+                document.addEventListener('vvx:promo-changed', function() {
+                    if (VVXCheckout.refreshSummary) {
+                        VVXCheckout.refreshSummary();
+                    }
+                });
+
+                console.log('[VVXPromo] Successfully integrated with VVXCheckout');
+            }
+
+        })();
     </script>
 
     <!-- ==========================================================================
