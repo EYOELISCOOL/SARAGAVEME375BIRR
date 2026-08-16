@@ -3437,6 +3437,34 @@
                 align-self: flex-start;
             }
         }
+
+        /* ─── Cash on Delivery notice ─────────────────────────────── */
+        .cod-notice {
+            background: #f5f0ea;
+            border: 1px solid var(--vvx-black, #1a1a1a);
+            padding: 1.4rem 1.6rem;
+            margin-top: 1.4rem;
+            border-radius: 4px;
+            color: #1a1a1a;
+        }
+        .cod-notice h3 {
+            font-family: var(--font-alt);
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            color: #1a1a1a;
+        }
+        .cod-notice p {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #1a1a1a;
+            margin: 0.3rem 0;
+        }
+        .cod-notice strong {
+            color: #1a1a1a;
+            font-weight: 700;
+        }
     </style>
 </head>
 <body>
@@ -3869,70 +3897,16 @@
                     </div>
                 </div>
 
-                <!-- TeleBirr Box (for Ethiopia) -->
-                <div class="telebirr-box" id="telebirrBox">
-                    <h3>Pay 50% Deposit via TeleBirr</h3>
-
-                    <!-- NOTICE: clear payment instructions for Ethiopian customers -->
-                    <div class="telebirr-payment-notice">
-                        <strong>📱 Send all Ethiopian payments to:</strong> 0934592679 — Eyueal (TeleBirr)
-                    </div>
-
-                    <div class="telebirr-row">
-                        <span class="label">Send to</span>
-                        <span class="value">
-                            0934592679 — Eyueal
-                            <button type="button" class="copy-btn" id="copyTelebirrBtn">Copy</button>
-                        </span>
-                    </div>
-                    <div class="telebirr-row">
-                        <span class="label">Order Total</span>
-                        <span class="value" id="orderTotalAmount">—</span>
-                    </div>
-                    <div class="telebirr-row">
-                        <span class="label">Shipping</span>
-                        <span class="value" id="shippingAmount">—</span>
-                    </div>
-                    <div class="telebirr-row">
-                        <span class="label">Pay Now (50% Deposit)</span>
-                        <span class="value deposit-amount" id="depositAmount">—</span>
-                    </div>
-                    <div class="telebirr-row">
-                        <span class="label">Balance Due on Delivery</span>
-                        <span class="value" id="balanceAmount">—</span>
-                    </div>
-
-                    <p class="telebirr-instructions">
-                        <strong>How to pay:</strong> Send the <strong>50% deposit</strong> shown above to
-                        <strong>0934592679 — Eyueal</strong> via TeleBirr.
-                        Then upload a screenshot of the payment confirmation below.
-                        The remaining 50% balance is paid when your order is delivered to you.
-                    </p>
-
-                    <div class="form-group screenshot-upload-group">
-                        <label for="paymentScreenshot">Payment Screenshot</label>
-                        <input type="file" id="paymentScreenshot" name="paymentScreenshot" accept="image/*" required />
-                        <span class="error-msg" id="paymentScreenshotError">Please upload a screenshot of your TeleBirr payment</span>
-                        <div class="screenshot-preview" id="screenshotPreview">
-                            <img id="screenshotPreviewImg" alt="Payment screenshot preview" />
-                        </div>
-                    </div>
+                <!-- ─── Cash on Delivery Notice ────────────────────────── -->
+                <div class="cod-notice">
+                    <h3>Cash on Delivery</h3>
+                    <p><strong>Payment is collected upon delivery.</strong> No upfront payment required.</p>
+                    <p>You will receive a <strong>receipt</strong> after placing your order. Simply pay when your package arrives.</p>
                 </div>
 
-                <!-- PayPal Section (for international orders) -->
-                <div class="paypal-section" id="paypalSection">
-                    <h3>Pay with PayPal</h3>
-                    <p class="paypal-note">Total amount in Euros (EUR) — you will be redirected to PayPal to complete the payment.</p>
-                    <div class="paypal-total" id="paypalTotal">—</div>
-                    <p style="margin-top:0.8rem;">
-                        <a href="#" id="paypalCheckoutLink" class="paypal-btn" target="_blank">Pay with PayPal</a>
-                    </p>
-                    <p class="paypal-note" style="margin-top:0.5rem;">After clicking, you will complete your payment on the PayPal website. Your order will be processed once payment is confirmed.</p>
-                </div>
+                <p class="payment-note" id="paymentNote">Your order details are sent to us securely. No card details are ever collected or stored.</p>
 
-                <p class="payment-note" id="paymentNote">Your order details and payment screenshot are sent to us securely when you submit. No card details are ever collected or stored.</p>
-
-                <button type="submit" class="place-order-btn" id="placeOrderBtn">Submit Order &amp; Payment Proof</button>
+                <button type="submit" class="place-order-btn" id="placeOrderBtn">Place Order</button>
             </form>
 
             <div class="cart-summary" id="checkoutSummary"></div>
@@ -6930,20 +6904,9 @@
             // 1. Go to https://formspree.io, create a free account and a new form.
             // 2. Copy the endpoint it gives you (looks like https://formspree.io/f/abcd1234)
             //    and paste it below, replacing YOUR_FORMSPREE_ID.
-            // 3. Formspree's FREE plan emails you text fields, but does not store real
-            //    file attachments (that needs a paid plan). To keep this 100% free, the
-            //    payment screenshot is shrunk in the browser and sent as an embedded
-            //    image (a "data URL") inside the email fields, so you still receive it
-            //    with every order — you just view it by opening the field's value in a
-            //    browser tab (or upgrade Formspree later for a real attachment, no code
-            //    changes needed on that front).
+            // 3. Formspree's FREE plan emails you text fields. We no longer send screenshots.
             // ==========================================================================
             const FORMSPREE_ENDPOINT = "https://formspree.io/f/xjybbkjl";
-            const TELEBIRR_NUMBER = "0934592679";
-            const TELEBIRR_NAME = "Eyueal";
-            const DEPOSIT_RATE = 0.5;
-            const SCREENSHOT_MAX_DIMENSION = 900;
-            const SCREENSHOT_JPEG_QUALITY = 0.72;
             const EXCHANGE_RATE_ETB_TO_EUR = 120; // 1 EUR = 120 ETB (approximate)
 
             // ---- COUNTRY & CITY DATA ----
@@ -7050,8 +7013,6 @@
             };
 
             // ---- SHIPPING RATES (ETB per product) ----
-            // Ethiopia: 0 ETB (free)
-            // For other countries: shipping cost per product
             const SHIPPING_RATES = {
                 "Ethiopia": 0,
                 "Germany": 500,
@@ -7089,8 +7050,6 @@
             };
 
             let listenerBound = false;
-            let selectedCountry = "";
-            let selectedCity = "";
 
             function init() {
                 document.title = "VVX | Checkout";
@@ -7104,11 +7063,6 @@
 
                 populateCountryDropdown();
                 renderSummary(details);
-                // Initially show TeleBirr (Ethiopia default) and hide PayPal
-                document.getElementById("telebirrBox").style.display = "block";
-                document.getElementById("paypalSection").style.display = "none";
-                document.getElementById("paymentScreenshot").removeAttribute("required"); // not required if PayPal
-
                 // Update totals based on default country (Ethiopia)
                 const subtotal = window.VVXCart.getCartSubtotal();
                 updatePaymentBox(subtotal, details[0].product.currency, "Ethiopia");
@@ -7139,39 +7093,6 @@
                         onCountryChange(this.value);
                     });
 
-                    const screenshotInput = document.getElementById("paymentScreenshot");
-                    if (screenshotInput) {
-                        screenshotInput.addEventListener("change", handleScreenshotSelected);
-                    }
-
-                    const copyBtn = document.getElementById("copyTelebirrBtn");
-                    if (copyBtn) {
-                        copyBtn.addEventListener("click", handleCopyTelebirr);
-                    }
-
-                    // PayPal link click handler
-                    const paypalLink = document.getElementById("paypalCheckoutLink");
-                    if (paypalLink) {
-                        paypalLink.addEventListener("click", function(e) {
-                            e.preventDefault();
-                            // Simulate PayPal payment: submit the order but with PayPal method
-                            // We'll just trigger the form submission with a flag
-                            // Actually we want to submit order and then redirect to PayPal? We'll just show a message.
-                            // Let's just submit the form normally; the handleSubmit will detect PayPal and act.
-                            // But we want the PayPal button to submit the form with a hidden flag.
-                            // We'll set a hidden input to indicate PayPal payment.
-                            const hidden = document.createElement("input");
-                            hidden.type = "hidden";
-                            hidden.name = "paymentMethod";
-                            hidden.value = "paypal";
-                            form.appendChild(hidden);
-                            // Also remove required from screenshot
-                            document.getElementById("paymentScreenshot").removeAttribute("required");
-                            // Submit form
-                            form.dispatchEvent(new Event("submit"));
-                        });
-                    }
-
                     listenerBound = true;
                 }
             }
@@ -7184,11 +7105,9 @@
             }
 
             function onCountryChange(country) {
-                selectedCountry = country;
                 const citySelect = document.getElementById("citySelect");
                 const cityError = document.getElementById("cityError");
 
-                // Clear previous city selection
                 citySelect.innerHTML = `<option value="">— Select City —</option>`;
                 citySelect.value = "";
                 if (cityError) cityError.classList.remove("visible");
@@ -7207,38 +7126,16 @@
                 if (details.length > 0) {
                     const subtotal = window.VVXCart.getCartSubtotal();
                     const currency = details[0].product.currency;
-                    // Show/hide payment sections
-                    if (country === "Ethiopia") {
-                        document.getElementById("telebirrBox").style.display = "block";
-                        document.getElementById("paypalSection").style.display = "none";
-                        // Require screenshot for TeleBirr
-                        document.getElementById("paymentScreenshot").setAttribute("required", "required");
-                        document.getElementById("paymentNote").textContent = "Your order details and payment screenshot are sent to us securely when you submit. No card details are ever collected or stored.";
-                        updatePaymentBox(subtotal, "ETB", country);
-                        renderSummary(details, "ETB", country);
-                    } else {
-                        document.getElementById("telebirrBox").style.display = "none";
-                        document.getElementById("paypalSection").style.display = "block";
-                        document.getElementById("paymentScreenshot").removeAttribute("required");
-                        document.getElementById("paymentNote").textContent = "You will be redirected to PayPal to complete the payment. Your order will be processed after payment confirmation.";
-                        // Convert to EUR
-                        updatePaymentBox(subtotal, "EUR", country);
-                        renderSummary(details, "EUR", country);
-                    }
+                    // Always show the COD notice – no more TeleBirr/PayPal sections
+                    updatePaymentBox(subtotal, "ETB", country);
+                    renderSummary(details, "ETB", country);
                 }
-            }
-
-            function calcDeposit(subtotal) {
-                const deposit = Math.round(subtotal * DEPOSIT_RATE * 100) / 100;
-                const balance = Math.round((subtotal - deposit) * 100) / 100;
-                return { deposit, balance };
             }
 
             function calcShipping(country) {
                 if (!country) return 0;
                 const rate = SHIPPING_RATES[country];
-                if (rate === undefined) return 0;
-                return rate;
+                return rate || 0;
             }
 
             function calcShippingTotal(country) {
@@ -7247,10 +7144,6 @@
                 const details = window.VVXCart.getCartDetails();
                 const totalQty = details.reduce((sum, line) => sum + line.qty, 0);
                 return rate * totalQty;
-            }
-
-            function getCurrencyForCountry(country) {
-                return country === "Ethiopia" ? "ETB" : "EUR";
             }
 
             function convertToCurrency(amount, fromCurrency, toCurrency) {
@@ -7268,18 +7161,12 @@
                 const u = window.VVXUtils;
                 const shippingTotal = calcShippingTotal(country);
                 const totalWithShipping = subtotal + shippingTotal;
-
-                // Convert to target currency if needed
-                const targetCurrency = getCurrencyForCountry(country);
+                const targetCurrency = "ETB"; // always display in ETB on the checkout page
                 const totalConverted = convertToCurrency(totalWithShipping, "ETB", targetCurrency);
                 const shippingConverted = convertToCurrency(shippingTotal, "ETB", targetCurrency);
-                const { deposit, balance } = calcDeposit(totalConverted);
 
                 const totalEl = document.getElementById("orderTotalAmount");
                 const shippingEl = document.getElementById("shippingAmount");
-                const depositEl = document.getElementById("depositAmount");
-                const balanceEl = document.getElementById("balanceAmount");
-                const paypalTotalEl = document.getElementById("paypalTotal");
 
                 if (totalEl) totalEl.textContent = u.formatPrice(totalConverted, targetCurrency);
                 if (shippingEl) {
@@ -7289,18 +7176,13 @@
                         shippingEl.textContent = u.formatPrice(shippingConverted, targetCurrency);
                     }
                 }
-                if (depositEl) depositEl.textContent = u.formatPrice(deposit, targetCurrency);
-                if (balanceEl) balanceEl.textContent = u.formatPrice(balance, targetCurrency);
-                if (paypalTotalEl) {
-                    paypalTotalEl.textContent = u.formatPrice(totalConverted, targetCurrency);
-                }
             }
 
             function renderSummary(details, currencyOverride, country) {
                 const container = document.getElementById("checkoutSummary");
                 const u = window.VVXUtils;
 
-                const targetCurrency = currencyOverride || getCurrencyForCountry(country || "Ethiopia");
+                const targetCurrency = "ETB"; // always ETB
 
                 const itemsHtml = details.map(function(line) {
                     const priceInTarget = convertToCurrency(line.unitPrice, "ETB", targetCurrency);
@@ -7319,7 +7201,6 @@
                 const totalWithShipping = subtotal + shippingTotal;
                 const totalConverted = convertToCurrency(totalWithShipping, "ETB", targetCurrency);
                 const shippingConverted = convertToCurrency(shippingTotal, "ETB", targetCurrency);
-                const { deposit, balance } = calcDeposit(totalConverted);
 
                 const shippingDisplay = (countryName === "Ethiopia" || shippingTotal === 0) ?
                     "0 ETB (Free)" :
@@ -7331,86 +7212,10 @@
                             <div class="cart-summary-row"><span>Subtotal</span><span>${u.formatPrice(convertToCurrency(subtotal, "ETB", targetCurrency), targetCurrency)}</span></div>
                             <div class="cart-summary-row"><span>Shipping</span><span>${shippingDisplay}</span></div>
                             <div class="cart-summary-row total"><span>Total</span><span>${u.formatPrice(totalConverted, targetCurrency)}</span></div>
-                            ${countryName === "Ethiopia" ? `
-                                <div class="cart-summary-row"><span>Deposit due now (50%)</span><span>${u.formatPrice(deposit, targetCurrency)}</span></div>
-                                <div class="cart-summary-row"><span>Due on delivery (50%)</span><span>${u.formatPrice(balance, targetCurrency)}</span></div>
-                            ` : `
-                                <div class="cart-summary-row"><span>Payment via PayPal</span><span>Full amount</span></div>
-                            `}
+                            <div class="cart-summary-row" style="border-top:1px dashed var(--vvx-military); padding-top:0.5rem; margin-top:0.5rem;">
+                                <span style="font-size:0.75rem; color:var(--vvx-text-muted);">Payment collected on delivery</span>
+                            </div>
                         `;
-            }
-
-            function handleCopyTelebirr(e) {
-                e.preventDefault();
-                const fullNumber = `${TELEBIRR_NUMBER} — ${TELEBIRR_NAME}`;
-                if (navigator.clipboard && navigator.clipboard.writeText) {
-                    navigator.clipboard.writeText(TELEBIRR_NUMBER).then(function() {
-                        window.VVXToast.success("TeleBirr number copied");
-                    }).catch(function() {
-                        window.VVXToast.info(`TeleBirr: ${fullNumber}`);
-                    });
-                } else {
-                    window.VVXToast.info(`TeleBirr: ${fullNumber}`);
-                }
-            }
-
-            function handleScreenshotSelected() {
-                const input = this;
-                const previewWrap = document.getElementById("screenshotPreview");
-                const previewImg = document.getElementById("screenshotPreviewImg");
-                const file = input.files && input.files[0];
-
-                if (!file) {
-                    previewWrap.style.display = "none";
-                    return;
-                }
-
-                const reader = new FileReader();
-                reader.onload = function(ev) {
-                    previewImg.src = ev.target.result;
-                    previewWrap.style.display = "block";
-                };
-                reader.readAsDataURL(file);
-
-                input.classList.remove("error");
-                const errorEl = document.getElementById("paymentScreenshotError");
-                if (errorEl) errorEl.classList.remove("visible");
-            }
-
-            function compressImageToDataUrl(file, maxDim, quality) {
-                return new Promise(function(resolve, reject) {
-                    const reader = new FileReader();
-                    reader.onerror = function() {
-                        reject(new Error("Could not read the screenshot file"));
-                    };
-                    reader.onload = function() {
-                        const img = new Image();
-                        img.onerror = function() {
-                            reject(new Error("Could not process the screenshot file"));
-                        };
-                        img.onload = function() {
-                            let w = img.width;
-                            let h = img.height;
-                            if (w > maxDim || h > maxDim) {
-                                if (w >= h) {
-                                    h = Math.round(h * (maxDim / w));
-                                    w = maxDim;
-                                } else {
-                                    w = Math.round(w * (maxDim / h));
-                                    h = maxDim;
-                                }
-                            }
-                            const canvas = document.createElement("canvas");
-                            canvas.width = w;
-                            canvas.height = h;
-                            const ctx = canvas.getContext("2d");
-                            ctx.drawImage(img, 0, 0, w, h);
-                            resolve(canvas.toDataURL("image/jpeg", quality));
-                        };
-                        img.src = reader.result;
-                    };
-                    reader.readAsDataURL(file);
-                });
             }
 
             function validateField(input) {
@@ -7420,7 +7225,7 @@
                 let valid = true;
                 let msg = "";
 
-                if (input.hasAttribute("required") && input.type !== "file" && !input.value.trim()) {
+                if (input.hasAttribute("required") && !input.value.trim()) {
                     valid = false;
                     msg = "This field is required";
                 } else if (input.type === "email" && input.value.trim()) {
@@ -7434,11 +7239,6 @@
                     if (digits.length < 6) {
                         valid = false;
                         msg = "Please enter a valid phone number";
-                    }
-                } else if (input.id === "paymentScreenshot" && input.hasAttribute("required")) {
-                    if (!input.files || input.files.length === 0) {
-                        valid = false;
-                        msg = "Please upload a screenshot of your TeleBirr payment";
                     }
                 } else if (input.id === "countrySelect" && input.hasAttribute("required")) {
                     if (!input.value || input.value === "") {
@@ -7472,7 +7272,6 @@
                         allValid = false;
                     }
                 });
-                // Special check for country/city dropdowns
                 const country = document.getElementById("countrySelect").value;
                 const city = document.getElementById("citySelect").value;
                 if (!country || country === "") {
@@ -7511,35 +7310,17 @@
                 submitBtn.textContent = "Submitting…";
 
                 try {
-                    const country = document.getElementById("countrySelect").value;
-                    const isEthiopia = country === "Ethiopia";
-                    let screenshotDataUrl = null;
-                    if (isEthiopia) {
-                        const screenshotInput = document.getElementById("paymentScreenshot");
-                        const screenshotFile = screenshotInput.files[0];
-                        screenshotDataUrl = await compressImageToDataUrl(
-                            screenshotFile, SCREENSHOT_MAX_DIMENSION, SCREENSHOT_JPEG_QUALITY
-                        );
-                    }
-
                     const formData = new FormData(form);
                     const shipping = Object.fromEntries(formData.entries());
-                    delete shipping.paymentScreenshot;
-                    // If PayPal, add a flag
-                    const isPayPal = !isEthiopia;
-                    const paymentMethod = isPayPal ? "PayPal" : "TeleBirr";
 
-                    const order = placeOrder(shipping, screenshotDataUrl, paymentMethod);
-                    await submitOrderToFormspree(order, screenshotDataUrl, isEthiopia);
+                    const order = placeOrder(shipping);
+                    await submitOrderToFormspree(order);
 
                     form.reset();
-                    document.getElementById("screenshotPreview").style.display = "none";
                     document.getElementById("countrySelect").value = "";
                     document.getElementById("citySelect").innerHTML = `<option value="">— Select City —</option>`;
                     document.getElementById("citySelect").disabled = true;
-                    // Reset payment sections to default
-                    document.getElementById("telebirrBox").style.display = "block";
-                    document.getElementById("paypalSection").style.display = "none";
+
                     window.VVXUrl.navigate(`/order-confirmation?order=${order.id}`);
                     window.VVXToast.success("Order submitted successfully!");
                 } catch (err) {
@@ -7552,7 +7333,7 @@
                 }
             }
 
-            async function submitOrderToFormspree(order, screenshotDataUrl, isEthiopia) {
+            async function submitOrderToFormspree(order) {
                 const u = window.VVXUtils;
                 const itemsText = order.items.map(function(item) {
                     return `${item.name}${item.size ? " (" + item.size + ")" : ""} × ${item.qty} — ${u.formatPrice(item.lineTotal, order.currency)}`;
@@ -7572,14 +7353,8 @@
                 fd.append("items", itemsText);
                 fd.append("orderTotal", u.formatPrice(order.subtotal, order.currency));
                 fd.append("shippingCost", u.formatPrice(order.shippingCost, order.currency));
-                fd.append("paymentMethod", order.paymentMethod);
-                if (isEthiopia) {
-                    fd.append("depositDueNow", u.formatPrice(order.deposit, order.currency));
-                    fd.append("balanceDueOnDelivery", u.formatPrice(order.balance, order.currency));
-                    fd.append("paymentScreenshotImage", screenshotDataUrl);
-                } else {
-                    fd.append("paymentStatus", "Pending PayPal");
-                }
+                fd.append("paymentMethod", "Cash on Delivery");
+                fd.append("paymentStatus", "Pending delivery");
 
                 if (FORMSPREE_ENDPOINT.indexOf("YOUR_FORMSPREE_ID") !== -1) {
                     console.warn("VVXCheckout: FORMSPREE_ENDPOINT is not configured yet — order was NOT emailed. See the comment above FORMSPREE_ENDPOINT in this file.");
@@ -7608,16 +7383,15 @@
                 return true;
             }
 
-            function placeOrder(shipping, screenshotDataUrl, paymentMethod) {
+            function placeOrder(shipping) {
                 const details = window.VVXCart.getCartDetails();
                 const subtotal = window.VVXCart.getCartSubtotal();
                 const country = shipping.country || "";
                 const shippingCost = calcShippingTotal(country);
                 const totalWithShipping = subtotal + shippingCost;
-                const targetCurrency = getCurrencyForCountry(country);
+                const targetCurrency = "ETB";
                 const totalConverted = convertToCurrency(totalWithShipping, "ETB", targetCurrency);
                 const shippingConverted = convertToCurrency(shippingCost, "ETB", targetCurrency);
-                const { deposit, balance } = calcDeposit(totalConverted);
 
                 const order = {
                     id: "VVX-" + Date.now().toString().slice(-8),
@@ -7635,11 +7409,8 @@
                     })),
                     subtotal: totalConverted,
                     shippingCost: shippingConverted,
-                    deposit,
-                    balance,
                     currency: targetCurrency,
-                    paymentMethod: paymentMethod,
-                    screenshotDataUrl: screenshotDataUrl
+                    paymentMethod: "Cash on Delivery",
                 };
 
                 try {
@@ -7819,7 +7590,7 @@
             };
         })();
 
-        if (typeof window !== 'undefined') {
+        if (typeof window !== "undefined") {
             window.VVXPromo = VVXPromo;
         }
     </script>
@@ -7983,8 +7754,6 @@
                         '0 ETB (Free)' :
                         u.formatPrice(shippingConverted, targetCurrency);
 
-                    const { deposit, balance } = VVXCheckout.calcDeposit ? VVXCheckout.calcDeposit(totalConverted) : { deposit: totalConverted * 0.5, balance: totalConverted * 0.5 };
-
                     container.innerHTML = `
                                 <h3>Order Summary</h3>
                                 ${itemsHtml}
@@ -7992,12 +7761,9 @@
                                 ${discountRow}
                                 <div class="cart-summary-row"><span>Shipping</span><span>${shippingDisplay}</span></div>
                                 <div class="cart-summary-row total"><span>Total</span><span>${u.formatPrice(totalConverted, targetCurrency)}</span></div>
-                                ${countryName === 'Ethiopia' ? `
-                                    <div class="cart-summary-row"><span>Deposit due now (50%)</span><span>${u.formatPrice(deposit, targetCurrency)}</span></div>
-                                    <div class="cart-summary-row"><span>Due on delivery (50%)</span><span>${u.formatPrice(balance, targetCurrency)}</span></div>
-                                ` : `
-                                    <div class="cart-summary-row"><span>Payment via PayPal</span><span>Full amount</span></div>
-                                `}
+                                <div class="cart-summary-row" style="border-top:1px dashed var(--vvx-military); padding-top:0.5rem; margin-top:0.5rem;">
+                                    <span style="font-size:0.75rem; color:var(--vvx-text-muted);">Payment collected on delivery</span>
+                                </div>
                             `;
                 };
 
@@ -8005,7 +7771,7 @@
                 VVXCheckout.updatePaymentBox = function(subtotal, currency, country) {
                     const u = window.VVXUtils;
                     const countryName = country || 'Ethiopia';
-                    const targetCurrency = VVXCheckout.getCurrencyForCountry ? VVXCheckout.getCurrencyForCountry(countryName) : 'ETB';
+                    const targetCurrency = 'ETB';
 
                     const discountAmount = VVXPromo.calculateDiscount(subtotal);
                     const discountedSubtotal = Math.max(0, subtotal - discountAmount);
@@ -8015,15 +7781,9 @@
 
                     const totalConverted = VVXCheckout.convertToCurrency ? VVXCheckout.convertToCurrency(totalWithShipping, 'ETB', targetCurrency) : totalWithShipping;
                     const shippingConverted = VVXCheckout.convertToCurrency ? VVXCheckout.convertToCurrency(shippingTotal, 'ETB', targetCurrency) : shippingTotal;
-                    const discountConverted = VVXCheckout.convertToCurrency ? VVXCheckout.convertToCurrency(discountAmount, 'ETB', targetCurrency) : discountAmount;
-
-                    const { deposit, balance } = VVXCheckout.calcDeposit ? VVXCheckout.calcDeposit(totalConverted) : { deposit: totalConverted * 0.5, balance: totalConverted * 0.5 };
 
                     const totalEl = document.getElementById('orderTotalAmount');
                     const shippingEl = document.getElementById('shippingAmount');
-                    const depositEl = document.getElementById('depositAmount');
-                    const balanceEl = document.getElementById('balanceAmount');
-                    const paypalTotalEl = document.getElementById('paypalTotal');
 
                     if (totalEl) totalEl.textContent = u.formatPrice(totalConverted, targetCurrency);
                     if (shippingEl) {
@@ -8032,11 +7792,6 @@
                         } else {
                             shippingEl.textContent = u.formatPrice(shippingConverted, targetCurrency);
                         }
-                    }
-                    if (depositEl) depositEl.textContent = u.formatPrice(deposit, targetCurrency);
-                    if (balanceEl) balanceEl.textContent = u.formatPrice(balance, targetCurrency);
-                    if (paypalTotalEl) {
-                        paypalTotalEl.textContent = u.formatPrice(totalConverted, targetCurrency);
                     }
                 };
 
@@ -8058,29 +7813,14 @@
                     submitBtn.textContent = 'Submitting…';
 
                     try {
-                        const country = document.getElementById('countrySelect').value;
-                        const isEthiopia = country === 'Ethiopia';
-                        let screenshotDataUrl = null;
-
-                        if (isEthiopia) {
-                            const screenshotInput = document.getElementById('paymentScreenshot');
-                            const screenshotFile = screenshotInput.files[0];
-                            if (screenshotFile && typeof VVXCheckout.compressImageToDataUrl === 'function') {
-                                screenshotDataUrl = await VVXCheckout.compressImageToDataUrl(screenshotFile, 900, 0.72);
-                            }
-                        }
-
                         const formData = new FormData(form);
                         const shipping = Object.fromEntries(formData.entries());
-                        delete shipping.paymentScreenshot;
-                        const isPayPal = !isEthiopia;
-                        const paymentMethod = isPayPal ? 'PayPal' : 'TeleBirr';
 
                         const appliedPromo = VVXPromo.getApplied();
                         const promoCode = appliedPromo ? appliedPromo.display : null;
                         const promoDiscount = appliedPromo ? appliedPromo.discount : 0;
 
-                        const order = VVXCheckout.placeOrder(shipping, screenshotDataUrl, paymentMethod);
+                        const order = VVXCheckout.placeOrder(shipping);
 
                         if (promoCode) {
                             order.promoCode = promoCode;
@@ -8088,16 +7828,12 @@
                             order.promoDiscountAmount = VVXPromo.calculateDiscount(window.VVXCart.getCartSubtotal());
                         }
 
-                        await VVXCheckout.submitOrderToFormspree(order, screenshotDataUrl, isEthiopia);
+                        await VVXCheckout.submitOrderToFormspree(order);
 
                         form.reset();
-                        const preview = document.getElementById('screenshotPreview');
-                        if (preview) preview.style.display = 'none';
                         document.getElementById('countrySelect').value = '';
                         document.getElementById('citySelect').innerHTML = `<option value="">— Select City —</option>`;
                         document.getElementById('citySelect').disabled = true;
-                        document.getElementById('telebirrBox').style.display = 'block';
-                        document.getElementById('paypalSection').style.display = 'none';
 
                         VVXPromo.remove();
                         updateActiveDisplay();
@@ -8115,7 +7851,7 @@
 
                 // Override placeOrder to include promo
                 if (originalPlaceOrder) {
-                    VVXCheckout.placeOrder = function(shipping, screenshotDataUrl, paymentMethod) {
+                    VVXCheckout.placeOrder = function(shipping) {
                         const details = window.VVXCart.getCartDetails();
                         const subtotal = window.VVXCart.getCartSubtotal();
                         const country = shipping.country || '';
@@ -8125,12 +7861,10 @@
                         const discountedSubtotal = Math.max(0, subtotal - discountAmount);
                         const totalWithShipping = discountedSubtotal + shippingCost;
 
-                        const targetCurrency = VVXCheckout.getCurrencyForCountry ? VVXCheckout.getCurrencyForCountry(country) : 'ETB';
+                        const targetCurrency = 'ETB';
                         const totalConverted = VVXCheckout.convertToCurrency ? VVXCheckout.convertToCurrency(totalWithShipping, 'ETB', targetCurrency) : totalWithShipping;
                         const shippingConverted = VVXCheckout.convertToCurrency ? VVXCheckout.convertToCurrency(shippingCost, 'ETB', targetCurrency) : shippingCost;
                         const discountConverted = VVXCheckout.convertToCurrency ? VVXCheckout.convertToCurrency(discountAmount, 'ETB', targetCurrency) : discountAmount;
-
-                        const { deposit, balance } = VVXCheckout.calcDeposit ? VVXCheckout.calcDeposit(totalConverted) : { deposit: totalConverted * 0.5, balance: totalConverted * 0.5 };
 
                         const applied = VVXPromo.getApplied();
 
@@ -8150,11 +7884,8 @@
                             })),
                             subtotal: totalConverted,
                             shippingCost: shippingConverted,
-                            deposit: deposit,
-                            balance: balance,
                             currency: targetCurrency,
-                            paymentMethod: paymentMethod,
-                            screenshotDataUrl: screenshotDataUrl,
+                            paymentMethod: 'Cash on Delivery',
                             promoCode: applied ? applied.display : null,
                             promoDiscountRate: applied ? applied.discount : 0,
                             promoDiscountAmount: discountConverted
@@ -8174,7 +7905,7 @@
                 // Override submitOrderToFormspree to include promo
                 if (VVXCheckout.submitOrderToFormspree) {
                     const originalSubmitOrder = VVXCheckout.submitOrderToFormspree;
-                    VVXCheckout.submitOrderToFormspree = async function(order, screenshotDataUrl, isEthiopia) {
+                    VVXCheckout.submitOrderToFormspree = async function(order) {
                         const u = window.VVXUtils;
                         const itemsText = order.items.map(function(item) {
                             return `${item.name}${item.size ? " (" + item.size + ")" : ""} × ${item.qty} — ${u.formatPrice(item.lineTotal, order.currency)}`;
@@ -8194,22 +7925,13 @@
                         fd.append('items', itemsText);
                         fd.append('orderTotal', u.formatPrice(order.subtotal, order.currency));
                         fd.append('shippingCost', u.formatPrice(order.shippingCost, order.currency));
-                        fd.append('paymentMethod', order.paymentMethod);
+                        fd.append('paymentMethod', 'Cash on Delivery');
+                        fd.append('paymentStatus', 'Pending delivery');
 
                         if (order.promoCode) {
                             fd.append('promoCode', order.promoCode);
                             fd.append('promoDiscountRate', String(Math.round(order.promoDiscountRate * 100)) + '%');
                             fd.append('promoDiscountAmount', u.formatPrice(order.promoDiscountAmount, order.currency));
-                        }
-
-                        if (isEthiopia) {
-                            fd.append('depositDueNow', u.formatPrice(order.deposit, order.currency));
-                            fd.append('balanceDueOnDelivery', u.formatPrice(order.balance, order.currency));
-                            if (screenshotDataUrl) {
-                                fd.append('paymentScreenshotImage', screenshotDataUrl);
-                            }
-                        } else {
-                            fd.append('paymentStatus', 'Pending PayPal');
                         }
 
                         const endpoint = 'https://formspree.io/f/xjybbkjl';
@@ -8238,7 +7960,7 @@
                 VVXCheckout.refreshSummary = function() {
                     const details = window.VVXCart.getCartDetails();
                     const country = document.getElementById('countrySelect')?.value || 'Ethiopia';
-                    const currency = VVXCheckout.getCurrencyForCountry ? VVXCheckout.getCurrencyForCountry(country) : 'ETB';
+                    const currency = 'ETB';
                     if (VVXCheckout.renderSummary) {
                         VVXCheckout.renderSummary(details, currency, country);
                     }
@@ -8309,11 +8031,7 @@
                     `<div class="receipt-row"><span>Shipping</span><span>${u.formatPrice(order.shippingCost, order.currency)}</span></div>` :
                     `<div class="receipt-row"><span>Shipping</span><span>Free</span></div>`;
 
-                // Determine payment method display
-                const isPayPal = order.paymentMethod === "PayPal";
-                const depositLine = isPayPal ? "" : `<div class="receipt-row deposit"><span>Paid Now (50% Deposit)</span><span>${u.formatPrice(order.deposit, order.currency)}</span></div>`;
-                const balanceLine = isPayPal ? "" : `<div class="receipt-row total"><span>Balance Due on Delivery</span><span>${u.formatPrice(order.balance, order.currency)}</span></div>`;
-                const paymentMethodLabel = isPayPal ? "PayPal (Full Payment)" : "TeleBirr (50% Deposit)";
+                const paymentMethodLabel = "Cash on Delivery";
 
                 container.innerHTML = `
                             <h1>Thank you, ${u.escapeHtml(order.shipping.fullName || "")}!</h1>
@@ -8323,20 +8041,22 @@
                             <div class="confirmation-items">${itemsHtml}</div>
 
                             <div class="receipt-box" id="receiptBox">
-                                <h3>Payment Receipt</h3>
+                                <h3>Order Receipt</h3>
                                 <div class="receipt-row"><span>Receipt No.</span><span>${u.escapeHtml(receiptNumber)}</span></div>
                                 <div class="receipt-row"><span>Order No.</span><span>${u.escapeHtml(order.id)}</span></div>
                                 <div class="receipt-row"><span>Date</span><span>${u.escapeHtml(orderDate)}</span></div>
                                 <div class="receipt-row"><span>Payment Method</span><span>${u.escapeHtml(paymentMethodLabel)}</span></div>
                                 <div class="receipt-row"><span>Order Total</span><span>${u.formatPrice(order.subtotal, order.currency)}</span></div>
                                 ${shippingCostDisplay}
-                                ${depositLine}
-                                ${balanceLine}
-                                ${!isPayPal && order.screenshotDataUrl ? `
-                                <div style="text-align:center;margin-top:1rem;">
-                                    <img src="${order.screenshotDataUrl}" alt="Payment screenshot" style="max-width:150px;max-height:150px;border:1px solid #ddd;object-fit:cover;" />
-                                    <p style="font-size:0.7rem;color:var(--vvx-text-dim);margin-top:0.4rem;">Payment screenshot on file</p>
-                                </div>` : ""}
+                                ${order.promoCode ? `
+                                    <div class="receipt-row" style="color:var(--vvx-olive);">
+                                        <span>Promo (${Math.round(order.promoDiscountRate * 100)}%)</span>
+                                        <span>-${u.formatPrice(order.promoDiscountAmount, order.currency)}</span>
+                                    </div>
+                                    <div class="receipt-row total"><span>Final Total</span><span>${u.formatPrice(order.subtotal, order.currency)}</span></div>
+                                ` : `
+                                    <div class="receipt-row total"><span>Total</span><span>${u.formatPrice(order.subtotal, order.currency)}</span></div>
+                                `}
                                 <!-- RECEIPT ACTIONS: always visible -->
                                 <div class="receipt-actions">
                                     <button type="button" class="print-receipt-btn" id="printReceiptBtn">Print / Save Receipt</button>
