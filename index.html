@@ -4309,8 +4309,8 @@
             dateAdded: "2026-03-01"
         }, {
             id: 3,
-            slug: "SOLD OUT! NOT AVAILABLE ANYMORE!Y2K Summer New Retro Green Fashion Skull",
-            name: " SOLD OUT! NOT AVAILABLE ANYMORE! Y2K Summer New Retro Green Fashion Skull ",
+            slug: "Y2K Summer New Retro Green Fashion Skull",
+            name: "Y2K Summer New Retro Green Fashion Skull ",
             description: "Y2K Summer New Retro Green Fashion Skull Extra Large Pattern Printed T-shirt Men's Harajuku Gothic",
             price: 2600,
             discountPrice: null,
@@ -5600,7 +5600,39 @@
             dateAdded: "2026-08-16",
             supplier: null,
             colors: null
-        }];
+        },
+        // ─── MAISON MARGIELA NUMERIC LOGO T-SHIRT ─────────────────────
+        {
+            id: 43,
+            slug: "maison-margiela-numeric-logo-embroidered-t-shirt-white",
+            name: "Maison Margiela Numeric logo-embroidered T-shirt | White",
+            description: "Maison Margiela Numeric logo-embroidered T-shirt in white. Features the iconic numeric logo embroidery at the chest, a signature of the French fashion house.  A minimalist statement piece for the modern wardrobe.",
+            price: 2600,
+            discountPrice: null,
+            currency: "ETB",
+            gender: "men",
+            category: "T-shirt",
+            subcategory: "Luxury",
+            style: "minimalist",
+            collection: null,
+            color: "white",
+            material: ["Cotton"],
+            sizes: ["S", "M", "L", "XL"],
+            stock: 100,
+            featured: false,
+            newArrival: true,
+            bestSeller: false,
+            sale: false,
+            rating: 0,
+            reviews: 0,
+            tags: ["Maison Margiela", "T-shirt", "men", "minimalist", "luxury", "embroidered", "white", "designer"],
+            thumbnail: "https://cdn-images.farfetch-contents.com/19/02/75/22/19027522_41554015_600.jpg",
+            heroImage: "https://cdn-images.farfetch-contents.com/19/02/75/22/19027522_41554015_600.jpg",
+            galleryImages: ["https://cdn-images.farfetch-contents.com/19/02/75/22/19027522_41554015_600.jpg"],
+            dateAdded: "2026-08-17",
+            colors: null
+        }
+    ];
 
         if (typeof window !== "undefined") {
             window.PRODUCTS = PRODUCTS;
@@ -6952,7 +6984,7 @@
                         state.activeImage = thumb.getAttribute("data-src");
                         document.getElementById("productMainImage").src = state.activeImage;
                         window.VVXUtils.qsa(".product-detail-thumbs img", container).forEach(t => t.classList.remove(
-                        "active-thumb"));
+                            "active-thumb"));
                         thumb.classList.add("active-thumb");
                     });
                 });
