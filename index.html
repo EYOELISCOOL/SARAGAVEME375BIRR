@@ -4275,12 +4275,11 @@
 
     <!-- ==========================================================================
          products.js — single source of truth for every product on the site.
-         Now includes a `supplier` field for every product, and real photographic
-         placeholder imagery (via loremflickr) standing in for studio photography
-         until real product photos are uploaded.
+         Now includes the new Y2K streetwear products, with UNISEX items appearing in both
+         Men's and Women's sections.
          ========================================================================== -->
     <script>
-        const PRODUCTS = [ {
+        const PRODUCTS = [{
             id: 2,
             slug: "White Alt cross T-shirt y2k",
             name: "White Alt cross y2k T-shirt ",
@@ -4294,7 +4293,7 @@
             style: "y2k alt",
             collection: null,
             color: "white",
-            material: ["Cotton","Polyester"],
+            material: ["Cotton", "Polyester"],
             sizes: ["S", "M", "L", "XL"],
             stock: 400,
             featured: false,
@@ -4322,7 +4321,7 @@
             style: "y2k alt",
             collection: null,
             color: "Green",
-            material: ["Cotton","Polyester"],
+            material: ["Cotton", "Polyester"],
             sizes: ["S", "M", "L", "XL"],
             stock: 400,
             featured: false,
@@ -4350,8 +4349,8 @@
             style: null,
             collection: "gamers",
             color: "black",
-            material: ["cotton","Polyester"],
-            sizes: ["S","M","L","XL"],
+            material: ["cotton", "Polyester"],
+            sizes: ["S", "M", "L", "XL"],
             stock: 400,
             featured: true,
             newArrival: false,
@@ -4359,12 +4358,12 @@
             sale: false,
             rating: 0,
             reviews: 0,
-            tags: ["T-shirt", "men", "Gamers and Anime Fans", "gamers","Call of Duty"],
+            tags: ["T-shirt", "men", "Gamers and Anime Fans", "gamers", "Call of Duty"],
             thumbnail: "https://i.pinimg.com/736x/42/74/a2/4274a25838a8cb11923368d381ac322b.jpg",
             heroImage: "https://i.pinimg.com/1200x/60/c8/23/60c823e3b75b0dd1af63ac5456c747c5.jpg",
             galleryImages: ["https://i.pinimg.com/1200x/60/c8/23/60c823e3b75b0dd1af63ac5456c747c5.jpg", "https://i.pinimg.com/1200x/60/c8/23/60c823e3b75b0dd1af63ac5456c747c5.jpg"],
             dateAdded: "2026-01-30"
-        },{
+        }, {
             id: 5,
             slug: "Gildan Black T Shirt Black Monster Energy Drink T Shirt With Graphic Design | Color: Black",
             name: "Gildan Black T Shirt Black Monster Energy Drink T Shirt With Graphic Design | Color: Black",
@@ -4378,8 +4377,8 @@
             style: null,
             collection: "gamers",
             color: "black",
-            material: ["cotton","Polyester"],
-            sizes: ["S","M","L","XL"],
+            material: ["cotton", "Polyester"],
+            sizes: ["S", "M", "L", "XL"],
             stock: 400,
             featured: true,
             newArrival: false,
@@ -4387,12 +4386,12 @@
             sale: false,
             rating: 0,
             reviews: 0,
-            tags: ["T-shirt", "men", "Gamers and Anime Fans", "gamers","DC","Monster"],
+            tags: ["T-shirt", "men", "Gamers and Anime Fans", "gamers", "DC", "Monster"],
             thumbnail: "https://i.pinimg.com/1200x/13/d8/16/13d8163ac121e103bf427480060519aa.jpg",
             heroImage: "https://i.pinimg.com/1200x/13/d8/16/13d8163ac121e103bf427480060519aa.jpg",
             galleryImages: ["https://i.pinimg.com/1200x/13/d8/16/13d8163ac121e103bf427480060519aa.jpg", "https://i.pinimg.com/1200x/13/d8/16/13d8163ac121e103bf427480060519aa.jpg"],
             dateAdded: "2026-01-30"
-        },{
+        }, {
             id: 6,
             slug: "Spider-Man Web Swing Graphic T-shirt",
             name: "Spider-Man Web Swing Graphic T-shirt",
@@ -4406,8 +4405,8 @@
             style: null,
             collection: "spider-man",
             color: "red",
-            material: ["Cotton","Polyester"],
-            sizes: ["S","M","L","XL"],
+            material: ["Cotton", "Polyester"],
+            sizes: ["S", "M", "L", "XL"],
             stock: 300,
             featured: true,
             newArrival: true,
@@ -4420,7 +4419,7 @@
             heroImage: "https://i.pinimg.com/1200x/a4/0f/65/a40f652f2eb3263f2919b893b0cbd33e.jpg",
             galleryImages: ["https://i.pinimg.com/1200x/a4/0f/65/a40f652f2eb3263f2919b893b0cbd33e.jpg", "https://i.pinimg.com/1200x/a4/0f/65/a40f652f2eb3263f2919b893b0cbd33e.jpg"],
             dateAdded: "2026-08-11"
-        },{
+        }, {
             id: 7,
             slug: "Comics vintage T-shirt black spidey NO WAY HOME",
             name: "COMICS VINTAGE T-SHIRT BLACK SPIDEY NO WAY HOME",
@@ -4434,8 +4433,8 @@
             style: null,
             collection: "spider-man",
             color: "black",
-            material: ["Cotton","Polyester"],
-            sizes: ["S","M","L","XL"],
+            material: ["Cotton", "Polyester"],
+            sizes: ["S", "M", "L", "XL"],
             stock: 300,
             featured: true,
             newArrival: true,
@@ -4448,8 +4447,7 @@
             heroImage: "https://i.pinimg.com/1200x/20/da/e2/20dae2a92be6354c7d274ce1322b8b1c.jpg",
             galleryImages: ["https://i.pinimg.com/1200x/20/da/e2/20dae2a92be6354c7d274ce1322b8b1c.jpg"],
             dateAdded: "2026-08-11"
-        },
-        {
+        }, {
             id: 8,
             slug: "one-piece-crossbones-logo-tee",
             name: "One Piece Crossbones Logo Tee",
@@ -4457,6 +4455,7 @@
             price: 2600,
             discountPrice: null,
             currency: "ETB",
+            gender: "unisex",
             category: "Anime Graphic T-Shirt",
             subcategory: "one-piece",
             style: "anime",
@@ -4481,8 +4480,7 @@
             availability: "in_stock",
             sourceUrl: "https://thrwbcks.com/products/one-eye-bones-piece-tee-anime-cc17",
             sourceId: "throwbacks-anime-001"
-        },
-        {
+        }, {
             id: 9,
             slug: "spirited-away-no-face-silhouette-tee",
             name: "Spirited Away No Face Silhouette Tee",
@@ -4490,6 +4488,7 @@
             price: 2600,
             discountPrice: null,
             currency: "ETB",
+            gender: "unisex",
             category: "Anime Graphic T-Shirt",
             subcategory: "spirited-away",
             style: "anime",
@@ -4514,8 +4513,7 @@
             availability: "in_stock",
             sourceUrl: "https://thrwbcks.com/products/spirited-away-no-face-t-shirt",
             sourceId: "throwbacks-anime-002"
-        },
-        {
+        }, {
             id: 10,
             slug: "akira-kaneda-vs-tetsuo-tee",
             name: "Akira: Kaneda vs Tetsuo Tee",
@@ -4523,6 +4521,7 @@
             price: 2600,
             discountPrice: null,
             currency: "ETB",
+            gender: "unisex",
             category: "Anime Graphic T-Shirt",
             subcategory: "akira",
             style: "anime",
@@ -4547,8 +4546,7 @@
             availability: "in_stock",
             sourceUrl: "https://thrwbcks.com/products/akira-vs-tetsuo-anime-t-shirt",
             sourceId: "throwbacks-anime-003"
-        },
-        {
+        }, {
             id: 11,
             slug: "jjk-yuji-itadori-streetwear-tee",
             name: "JJK Yuji Itadori Streetwear Tee",
@@ -4556,6 +4554,7 @@
             price: 2600,
             discountPrice: null,
             currency: "ETB",
+            gender: "unisex",
             category: "Anime Graphic T-Shirt",
             subcategory: "jujutsu-kaisen",
             style: "anime",
@@ -4580,8 +4579,7 @@
             availability: "in_stock",
             sourceUrl: "https://thrwbcks.com/products/jjk-yuji-itadori-streetwear-tee",
             sourceId: "throwbacks-anime-004"
-        },
-        {
+        }, {
             id: 12,
             slug: "jjk-satoru-gojo-streetwear-tee",
             name: "JJK Satoru (Gojo) Streetwear Tee",
@@ -4589,6 +4587,7 @@
             price: 2600,
             discountPrice: null,
             currency: "ETB",
+            gender: "unisex",
             category: "Anime Graphic T-Shirt",
             subcategory: "jujutsu-kaisen",
             style: "anime",
@@ -4613,8 +4612,7 @@
             availability: "in_stock",
             sourceUrl: "https://thrwbcks.com/products/jjk-satoru-streetwear-tee",
             sourceId: "throwbacks-anime-005"
-        },
-        {
+        }, {
             id: 13,
             slug: "jjk-gojo-fingers-crossed-tee",
             name: "JJK Gojo Fingers Crossed Tee",
@@ -4622,6 +4620,7 @@
             price: 2600,
             discountPrice: null,
             currency: "ETB",
+            gender: "unisex",
             category: "Anime Graphic T-Shirt",
             subcategory: "jujutsu-kaisen",
             style: "anime",
@@ -4646,8 +4645,7 @@
             availability: "in_stock",
             sourceUrl: "https://thrwbcks.com/products/fingers-cross-satoru-jjk-graphic-tee",
             sourceId: "throwbacks-anime-006"
-        },
-        {
+        }, {
             id: 14,
             slug: "berserk-beast-of-darkness-tee",
             name: "Berserk Beast of Darkness Tee",
@@ -4655,6 +4653,7 @@
             price: 2600,
             discountPrice: null,
             currency: "ETB",
+            gender: "unisex",
             category: "Anime Graphic T-Shirt",
             subcategory: "berserk",
             style: "anime",
@@ -4679,8 +4678,7 @@
             availability: "in_stock",
             sourceUrl: "https://thrwbcks.com/products/guts-beast-of-darkness-graphic-tee",
             sourceId: "throwbacks-anime-007"
-        },
-        {
+        }, {
             id: 15,
             slug: "spirited-away-halftone-tee",
             name: "Spirited Away Halftone Tee",
@@ -4688,6 +4686,7 @@
             price: 2600,
             discountPrice: null,
             currency: "ETB",
+            gender: "unisex",
             category: "Anime Graphic T-Shirt",
             subcategory: "spirited-away",
             style: "anime",
@@ -4712,8 +4711,7 @@
             availability: "in_stock",
             sourceUrl: "https://thrwbcks.com/products/spirited-away-anime-shirt",
             sourceId: "throwbacks-anime-008"
-        },
-        {
+        }, {
             id: 16,
             slug: "berserk-dragonslayer-tee",
             name: "Berserk Dragonslayer Tee",
@@ -4721,6 +4719,7 @@
             price: 2600,
             discountPrice: null,
             currency: "ETB",
+            gender: "unisex",
             category: "Anime Graphic T-Shirt",
             subcategory: "berserk",
             style: "anime",
@@ -4745,8 +4744,7 @@
             availability: "in_stock",
             sourceUrl: "https://thrwbcks.com/products/berserk-dragonslayer-manga-t-shirt",
             sourceId: "throwbacks-anime-009"
-        },
-        {
+        }, {
             id: 17,
             slug: "akira-neo-tokyo-tee",
             name: "Akira Neo-Tokyo Tee",
@@ -4754,6 +4752,7 @@
             price: 2600,
             discountPrice: null,
             currency: "ETB",
+            gender: "unisex",
             category: "Anime Graphic T-Shirt",
             subcategory: "akira",
             style: "anime",
@@ -4778,8 +4777,7 @@
             availability: "in_stock",
             sourceUrl: "https://thrwbcks.com/products/akira-neo-tokyo-graphic-t-shirt",
             sourceId: "throwbacks-anime-010"
-        },
-        {
+        }, {
             id: 18,
             slug: "akira-poster-tee",
             name: "Akira Poster Tee",
@@ -4787,6 +4785,7 @@
             price: 2600,
             discountPrice: null,
             currency: "ETB",
+            gender: "unisex",
             category: "Anime Graphic T-Shirt",
             subcategory: "akira",
             style: "anime",
@@ -4811,8 +4810,7 @@
             availability: "in_stock",
             sourceUrl: "https://thrwbcks.com/products/akira-anime-heavyweight-streetwear-graphic-tee-shirt",
             sourceId: "throwbacks-anime-011"
-        },
-        {
+        }, {
             id: 19,
             slug: "chainsaw-man-streetwear-tee",
             name: "Chainsaw Man Streetwear Tee",
@@ -4820,6 +4818,7 @@
             price: 2600,
             discountPrice: null,
             currency: "ETB",
+            gender: "unisex",
             category: "Anime Graphic T-Shirt",
             subcategory: "chainsaw-man",
             style: "anime",
@@ -4844,8 +4843,7 @@
             availability: "in_stock",
             sourceUrl: "https://thrwbcks.com/products/chainsaw-anime-streetwear-t-shirt",
             sourceId: "throwbacks-anime-012"
-        },
-        {
+        }, {
             id: 20,
             slug: "akira-neo-tokyo-motorcycle-jacket-tee",
             name: "Akira Neo-Tokyo Motorcycle Jacket Tee",
@@ -4853,6 +4851,7 @@
             price: 2600,
             discountPrice: null,
             currency: "ETB",
+            gender: "unisex",
             category: "Anime Graphic T-Shirt",
             subcategory: "akira",
             style: "anime",
@@ -4877,8 +4876,7 @@
             availability: "in_stock",
             sourceUrl: "https://thrwbcks.com/products/akira-anime-graphic-tee-shirt-fb",
             sourceId: "throwbacks-anime-013"
-        },
-        {
+        }, {
             id: 21,
             slug: "8-bit-akira-tee",
             name: "8-Bit Akira Tee",
@@ -4886,6 +4884,7 @@
             price: 2600,
             discountPrice: null,
             currency: "ETB",
+            gender: "unisex",
             category: "Anime Graphic T-Shirt",
             subcategory: "akira",
             style: "anime",
@@ -4910,8 +4909,7 @@
             availability: "in_stock",
             sourceUrl: "https://thrwbcks.com/products/akira-8-bit-graphic-tee",
             sourceId: "throwbacks-anime-014"
-        },
-        {
+        }, {
             id: 22,
             slug: "attack-on-titan-streetwear-tee",
             name: "Attack on Titan Streetwear Tee",
@@ -4919,6 +4917,7 @@
             price: 2600,
             discountPrice: null,
             currency: "ETB",
+            gender: "unisex",
             category: "Anime Graphic T-Shirt",
             subcategory: "attack-on-titan",
             style: "anime",
@@ -4943,8 +4942,7 @@
             availability: "in_stock",
             sourceUrl: "https://thrwbcks.com/products/titan-attack-anime-graphic-tee",
             sourceId: "throwbacks-anime-015"
-        },
-        {
+        }, {
             id: 23,
             slug: "akira-jdm-motorcycle-tee",
             name: "Akira JDM Motorcycle Tee",
@@ -4952,6 +4950,7 @@
             price: 2600,
             discountPrice: null,
             currency: "ETB",
+            gender: "unisex",
             category: "Anime Graphic T-Shirt",
             subcategory: "akira",
             style: "anime",
@@ -4976,8 +4975,7 @@
             availability: "in_stock",
             sourceUrl: "https://thrwbcks.com/products/jdm-motorcycle-anime-shirt",
             sourceId: "throwbacks-anime-016"
-        },
-        {
+        }, {
             id: 24,
             slug: "berserk-watercolor-tee",
             name: "Berserk Watercolor Tee",
@@ -4985,6 +4983,7 @@
             price: 2600,
             discountPrice: null,
             currency: "ETB",
+            gender: "unisex",
             category: "Anime Graphic T-Shirt",
             subcategory: "berserk",
             style: "anime",
@@ -5009,8 +5008,7 @@
             availability: "in_stock",
             sourceUrl: "https://thrwbcks.com/products/berserk-anime-graphic-t-shirt",
             sourceId: "throwbacks-anime-017"
-        },
-        {
+        }, {
             id: 25,
             slug: "berserk-guts-streetwear-tee",
             name: "Berserk Guts Streetwear Tee",
@@ -5018,6 +5016,7 @@
             price: 2600,
             discountPrice: null,
             currency: "ETB",
+            gender: "unisex",
             category: "Anime Graphic T-Shirt",
             subcategory: "berserk",
             style: "anime",
@@ -5042,8 +5041,7 @@
             availability: "in_stock",
             sourceUrl: "https://thrwbcks.com/products/kentaro-miura-red-anime-shirt",
             sourceId: "throwbacks-anime-018"
-        },
-        {
+        }, {
             id: 26,
             slug: "naruto-uzumaki-distortion-tee",
             name: "Naruto Uzumaki Distortion Tee",
@@ -5051,6 +5049,7 @@
             price: 2600,
             discountPrice: null,
             currency: "ETB",
+            gender: "unisex",
             category: "Anime Graphic T-Shirt",
             subcategory: "naruto",
             style: "anime",
@@ -5075,8 +5074,7 @@
             availability: "in_stock",
             sourceUrl: "https://thrwbcks.com/products/uzumaki-distorted-anime-shirt",
             sourceId: "throwbacks-anime-019"
-        },
-        {
+        }, {
             id: 27,
             slug: "bleach-streetwear-tee",
             name: "Bleach Streetwear Tee",
@@ -5084,6 +5082,7 @@
             price: 2600,
             discountPrice: null,
             currency: "ETB",
+            gender: "unisex",
             category: "Anime Graphic T-Shirt",
             subcategory: "bleach",
             style: "anime",
@@ -5108,8 +5107,7 @@
             availability: "in_stock",
             sourceUrl: "https://thrwbcks.com/products/bleach-pink-halftone-shirt",
             sourceId: "throwbacks-anime-020"
-        },
-        {
+        }, {
             id: 28,
             slug: "one-piece-mugiwara-skull-tee",
             name: "One Piece Mugiwara Skull Tee",
@@ -5117,6 +5115,7 @@
             price: 2600,
             discountPrice: null,
             currency: "ETB",
+            gender: "unisex",
             category: "Anime Graphic T-Shirt",
             subcategory: "one-piece",
             style: "anime",
@@ -5141,8 +5140,7 @@
             availability: "in_stock",
             sourceUrl: "https://thrwbcks.com/products/mugiwara-skull-anime-shirt",
             sourceId: "throwbacks-anime-021"
-        },
-        {
+        }, {
             id: 29,
             slug: "80s-akira-motorcycle-poster-tee",
             name: "80s Akira Motorcycle Poster Tee",
@@ -5150,6 +5148,7 @@
             price: 2600,
             discountPrice: null,
             currency: "ETB",
+            gender: "unisex",
             category: "Anime Graphic T-Shirt",
             subcategory: "akira",
             style: "anime",
@@ -5174,8 +5173,7 @@
             availability: "in_stock",
             sourceUrl: "https://thrwbcks.com/products/akira-anime-shirt",
             sourceId: "throwbacks-anime-022"
-        },
-        {
+        }, {
             id: 30,
             slug: "akira-glitch-pill-tee",
             name: "Akira Glitch Pill Tee",
@@ -5183,6 +5181,7 @@
             price: 2600,
             discountPrice: null,
             currency: "ETB",
+            gender: "unisex",
             category: "Anime Graphic T-Shirt",
             subcategory: "akira",
             style: "anime",
@@ -5207,8 +5206,7 @@
             availability: "in_stock",
             sourceUrl: "https://thrwbcks.com/products/akira-pill-fb-shirt",
             sourceId: "throwbacks-anime-023"
-        },
-        {
+        }, {
             id: 31,
             slug: "akira-halftone-tee",
             name: "Akira Halftone Tee",
@@ -5216,6 +5214,7 @@
             price: 2600,
             discountPrice: null,
             currency: "ETB",
+            gender: "unisex",
             category: "Anime Graphic T-Shirt",
             subcategory: "akira",
             style: "anime",
@@ -5240,8 +5239,7 @@
             availability: "in_stock",
             sourceUrl: "https://thrwbcks.com/products/anime-red-boxes-shirt",
             sourceId: "throwbacks-anime-024"
-        },
-        {
+        }, {
             id: 32,
             slug: "Death Note Anime Manga Cosplay ",
             name: "Death Note Anime Manga Cosplay ",
@@ -5249,6 +5247,7 @@
             price: 2600,
             discountPrice: null,
             currency: "ETB",
+            gender: "unisex",
             category: "Anime Graphic T-Shirt",
             subcategory: "deathnote",
             style: "anime",
@@ -5263,7 +5262,7 @@
             sale: false,
             rating: 0,
             reviews: 0,
-            tags: ["anime", "manga", "Berserk", "grunge", "streetwear", "death" , "deathnote" , "death-note"],
+            tags: ["anime", "manga", "Berserk", "grunge", "streetwear", "death", "deathnote", "death-note"],
             thumbnail: "https://i.pinimg.com/736x/04/94/9f/04949fc101f24a28d9308f65ec048424.jpg",
             heroImage: "https://i.pinimg.com/736x/1b/7b/2c/1b7b2c9cbc51f27c5edc6b53e3174909.jpg",
             galleryImages: ["https://i.pinimg.com/736x/1b/7b/2c/1b7b2c9cbc51f27c5edc6b53e3174909.jpg", "https://i.pinimg.com/736x/04/94/9f/04949fc101f24a28d9308f65ec048424.jpg"],
@@ -5273,7 +5272,7 @@
             availability: "in_stock",
             sourceUrl: "https://thrwbcks.com/products/teal-grunge-anime-shirt",
             sourceId: "throwbacks-anime-025"
-        },{
+        }, {
             id: 33,
             slug: "berserk-teal-grunge-tee",
             name: "Berserk Teal Grunge Tee",
@@ -5281,6 +5280,7 @@
             price: 2600,
             discountPrice: null,
             currency: "ETB",
+            gender: "unisex",
             category: "Anime Graphic T-Shirt",
             subcategory: "berserk",
             style: "anime",
@@ -5305,7 +5305,302 @@
             availability: "in_stock",
             sourceUrl: "https://thrwbcks.com/products/teal-grunge-anime-shirt",
             sourceId: "throwbacks-anime-025"
-        },];
+        },
+        // ─── NEW Y2K STREETWEAR PRODUCTS (merged from provided data) ─────
+        {
+            id: 34,
+            slug: "graphic-dvd-video-logo-print-t-shirt",
+            name: "Graphic DVD VIDEO Logo Print T-shirt",
+            description: "Perfect For: Y2K and cyber-inspired outfits, Streetwear and grunge styling, Casual everyday wear with a statement twist, Layering with hoodies, cargos, or oversized jackets, Gifting to lovers of retro tech and early 2000s nostalgia.",
+            price: 2600,
+            discountPrice: null,
+            currency: "ETB",
+            gender: "men",
+            category: "T-shirt",
+            subcategory: "Y2K",
+            style: "y2k",
+            collection: null,
+            color: "",
+            material: ["Cotton"],
+            sizes: ["S", "M", "L", "XL"],
+            stock: 100,
+            featured: false,
+            newArrival: true,
+            bestSeller: false,
+            sale: false,
+            rating: 0,
+            reviews: 0,
+            tags: ["Y2K", "Streetwear", "DVD", "Video"],
+            thumbnail: "https://i.etsystatic.com/51308193/r/il/209d87/7887353268/il_1588xN.7887353268_tjjb.jpg",
+            heroImage: "https://i.etsystatic.com/51308193/r/il/209d87/7887353268/il_1588xN.7887353268_tjjb.jpg",
+            galleryImages: [
+                "https://i.etsystatic.com/51308193/r/il/209d87/7887353268/il_1588xN.7887353268_tjjb.jpg",
+                "https://i.etsystatic.com/51308193/r/il/2282d8/7935312131/il_1588xN.7935312131_5ves.jpg"
+            ],
+            dateAdded: "2026-08-16",
+            supplier: null,
+            colors: null
+        }, {
+            id: 35,
+            slug: "mans-right-to-stfu-snug-fit-crop-top",
+            name: "Man's Right To STFU SNUG FIT Crop Top",
+            description: "Cute Crop Top | Graphic Top | Gift For Her | Y2K Tee | Y2K crop top | Gift for friend | Baby Tee",
+            price: 2600,
+            discountPrice: null,
+            currency: "ETB",
+            gender: "women",
+            category: "T-shirt",
+            subcategory: "Y2K",
+            style: "y2k",
+            collection: null,
+            color: "",
+            material: ["Cotton"],
+            sizes: ["S", "M", "L", "XL"],
+            stock: 100,
+            featured: false,
+            newArrival: true,
+            bestSeller: false,
+            sale: false,
+            rating: 0,
+            reviews: 0,
+            tags: ["Y2K", "Streetwear", "Crop Top", "Baby Tee"],
+            thumbnail: "https://i.etsystatic.com/33683254/r/il/1b2d0c/6071530628/il_1588xN.6071530628_4nsv.jpg",
+            heroImage: "https://i.etsystatic.com/33683254/r/il/1b2d0c/6071530628/il_1588xN.6071530628_4nsv.jpg",
+            galleryImages: [
+                "https://i.etsystatic.com/33683254/r/il/1b2d0c/6071530628/il_1588xN.6071530628_4nsv.jpg"
+            ],
+            dateAdded: "2026-08-16",
+            supplier: null,
+            colors: null
+        }, {
+            id: 36,
+            slug: "y2k-grunge-shirt-anime-graphic-tee",
+            name: "Y2k Grunge Shirt, Anime Graphic Tee",
+            description: "Bold Design: Features a unique anime-inspired graphic with grunge elements. Unisex Fit: Perfect for both men and women.",
+            price: 2600,
+            discountPrice: null,
+            currency: "ETB",
+            gender: "unisex",
+            category: "T-shirt",
+            subcategory: "Y2K",
+            style: "y2k",
+            collection: null,
+            color: "",
+            material: ["Cotton"],
+            sizes: ["S", "M", "L", "XL"],
+            stock: 100,
+            featured: false,
+            newArrival: true,
+            bestSeller: false,
+            sale: false,
+            rating: 0,
+            reviews: 0,
+            tags: ["Y2K", "Streetwear", "Anime", "Grunge", "Gothic"],
+            thumbnail: "https://i.etsystatic.com/58066789/r/il/c8e865/6710381474/il_1588xN.6710381474_o51c.jpg",
+            heroImage: "https://i.etsystatic.com/58066789/r/il/c8e865/6710381474/il_1588xN.6710381474_o51c.jpg",
+            galleryImages: [
+                "https://i.etsystatic.com/58066789/r/il/c8e865/6710381474/il_1588xN.6710381474_o51c.jpg"
+            ],
+            dateAdded: "2026-08-16",
+            supplier: null,
+            colors: null
+        }, {
+            id: 37,
+            slug: "vintage-y2k-affliction-style-skull-t-shirt",
+            name: "Vintage Y2K Affliction Style Skull T-Shirt",
+            description: "Grunge Punk Menswear. Available in Red and Black.",
+            price: 2600,
+            discountPrice: null,
+            currency: "ETB",
+            gender: "men",
+            category: "T-shirt",
+            subcategory: "Y2K",
+            style: "y2k",
+            collection: null,
+            color: "",
+            material: ["Cotton"],
+            sizes: ["S", "M", "L", "XL"],
+            stock: 100,
+            featured: false,
+            newArrival: true,
+            bestSeller: false,
+            sale: false,
+            rating: 0,
+            reviews: 0,
+            tags: ["Y2K", "Streetwear", "Skull", "Affliction", "Punk"],
+            thumbnail: "https://i.etsystatic.com/59293981/r/il/31c3cd/6939392187/il_1588xN.6939392187_tlhv.jpg",
+            heroImage: "https://i.etsystatic.com/59293981/r/il/31c3cd/6939392187/il_1588xN.6939392187_tlhv.jpg",
+            galleryImages: [
+                "https://i.etsystatic.com/59293981/r/il/31c3cd/6939392187/il_1588xN.6939392187_tlhv.jpg",
+                "https://i.etsystatic.com/59293981/r/il/0694a3/6891415544/il_1588xN.6891415544_2qoq.jpg"
+            ],
+            dateAdded: "2026-08-16",
+            supplier: null,
+            colors: ["Red", "Black"]
+        }, {
+            id: 38,
+            slug: "unisex-y2k-tshirt-gothic-streetwear-tee-1",
+            name: "Unisex Y2k Tshirt, Gothic Streetwear Tee",
+            description: "Grunge Clothing For Him, Gift For Her",
+            price: 2600,
+            discountPrice: null,
+            currency: "ETB",
+            gender: "unisex",
+            category: "T-shirt",
+            subcategory: "Y2K",
+            style: "y2k",
+            collection: null,
+            color: "",
+            material: ["Cotton"],
+            sizes: ["S", "M", "L", "XL"],
+            stock: 100,
+            featured: false,
+            newArrival: true,
+            bestSeller: false,
+            sale: false,
+            rating: 0,
+            reviews: 0,
+            tags: ["Y2K", "Streetwear", "Gothic", "Grunge"],
+            thumbnail: "https://i.etsystatic.com/51308193/r/il/95abce/7893512221/il_1588xN.7893512221_nzk4.jpg",
+            heroImage: "https://i.etsystatic.com/51308193/r/il/95abce/7893512221/il_1588xN.7893512221_nzk4.jpg",
+            galleryImages: [
+                "https://i.etsystatic.com/51308193/r/il/95abce/7893512221/il_1588xN.7893512221_nzk4.jpg"
+            ],
+            dateAdded: "2026-08-16",
+            supplier: null,
+            colors: null
+        }, {
+            id: 39,
+            slug: "unisex-y2k-tshirt-gothic-streetwear-tee-2",
+            name: "UNISEX Y2k Tshirt, Gothic Streetwear Tee",
+            description: "Grunge Clothing For Him, Gift For Her",
+            price: 2600,
+            discountPrice: null,
+            currency: "ETB",
+            gender: "unisex",
+            category: "T-shirt",
+            subcategory: "Y2K",
+            style: "y2k",
+            collection: null,
+            color: "",
+            material: ["Cotton"],
+            sizes: ["S", "M", "L", "XL"],
+            stock: 100,
+            featured: false,
+            newArrival: true,
+            bestSeller: false,
+            sale: false,
+            rating: 0,
+            reviews: 0,
+            tags: ["Y2K", "Streetwear", "Gothic", "Grunge"],
+            thumbnail: "https://i.etsystatic.com/51308193/r/il/c33337/7893512237/il_1588xN.7893512237_tu6q.jpg",
+            heroImage: "https://i.etsystatic.com/51308193/r/il/c33337/7893512237/il_1588xN.7893512237_tu6q.jpg",
+            galleryImages: [
+                "https://i.etsystatic.com/51308193/r/il/c33337/7893512237/il_1588xN.7893512237_tu6q.jpg"
+            ],
+            dateAdded: "2026-08-16",
+            supplier: null,
+            colors: null
+        }, {
+            id: 40,
+            slug: "tapout-x-vovex-grunge-cyber-y2k-style-t-shirt",
+            name: "Tapout X VOVEX Grunge Cyber Y2K Style T-Shirt",
+            description: "Grunge Cyber Y2K Style T-Shirt",
+            price: 2600,
+            discountPrice: null,
+            currency: "ETB",
+            gender: "unisex",
+            category: "T-shirt",
+            subcategory: "Y2K",
+            style: "y2k",
+            collection: null,
+            color: "",
+            material: ["Cotton"],
+            sizes: ["S", "M", "L", "XL"],
+            stock: 100,
+            featured: false,
+            newArrival: true,
+            bestSeller: false,
+            sale: false,
+            rating: 0,
+            reviews: 0,
+            tags: ["Y2K", "Streetwear", "Cyber", "Tapout", "VOVEX"],
+            thumbnail: "https://i.etsystatic.com/48917726/r/il/05056d/8009422123/il_1588xN.8009422123_gicn.jpg",
+            heroImage: "https://i.etsystatic.com/48917726/r/il/05056d/8009422123/il_1588xN.8009422123_gicn.jpg",
+            galleryImages: [
+                "https://i.etsystatic.com/48917726/r/il/05056d/8009422123/il_1588xN.8009422123_gicn.jpg"
+            ],
+            dateAdded: "2026-08-16",
+            supplier: null,
+            colors: null
+        }, {
+            id: 41,
+            slug: "tapout-grunge-cyber-y2k-style-t-shirt",
+            name: "Tapout Grunge Cyber Y2K Style T-Shirt",
+            description: "Grunge Cyber Y2K Style T-Shirt",
+            price: 2600,
+            discountPrice: null,
+            currency: "ETB",
+            gender: "unisex",
+            category: "T-shirt",
+            subcategory: "Y2K",
+            style: "y2k",
+            collection: null,
+            color: "",
+            material: ["Cotton"],
+            sizes: ["S", "M", "L", "XL"],
+            stock: 100,
+            featured: false,
+            newArrival: true,
+            bestSeller: false,
+            sale: false,
+            rating: 0,
+            reviews: 0,
+            tags: ["Y2K", "Streetwear", "Cyber", "Tapout", "Grunge"],
+            thumbnail: "https://i.etsystatic.com/48917726/r/il/3d4d62/6087159327/il_1588xN.6087159327_nxzw.jpg",
+            heroImage: "https://i.etsystatic.com/48917726/r/il/3d4d62/6087159327/il_1588xN.6087159327_nxzw.jpg",
+            galleryImages: [
+                "https://i.etsystatic.com/48917726/r/il/3d4d62/6087159327/il_1588xN.6087159327_nxzw.jpg",
+                "https://i.etsystatic.com/48917726/r/il/84ab41/6087159433/il_1588xN.6087159433_5xce.jpg",
+                "https://i.etsystatic.com/48917726/r/il/2d6395/6087159521/il_1588xN.6087159521_rkai.jpg"
+            ],
+            dateAdded: "2026-08-16",
+            supplier: null,
+            colors: null
+        }, {
+            id: 42,
+            slug: "urban-heritage-cross-grunge-cyber-y2k-style-t-shirt",
+            name: "Urban Heritage Cross Grunge Cyber Y2K Style T-Shirt",
+            description: "Grunge Cyber Y2K Style T-Shirt",
+            price: 2600,
+            discountPrice: null,
+            currency: "ETB",
+            gender: "unisex",
+            category: "T-shirt",
+            subcategory: "Y2K",
+            style: "y2k",
+            collection: null,
+            color: "",
+            material: ["Cotton"],
+            sizes: ["S", "M", "L", "XL"],
+            stock: 100,
+            featured: false,
+            newArrival: true,
+            bestSeller: false,
+            sale: false,
+            rating: 0,
+            reviews: 0,
+            tags: ["Y2K", "Streetwear", "Cyber", "Urban Heritage", "Grunge"],
+            thumbnail: "https://i.etsystatic.com/48917726/r/il/d6c02a/7445623062/il_1588xN.7445623062_p8jt.jpg",
+            heroImage: "https://i.etsystatic.com/48917726/r/il/d6c02a/7445623062/il_1588xN.7445623062_p8jt.jpg",
+            galleryImages: [
+                "https://i.etsystatic.com/48917726/r/il/d6c02a/7445623062/il_1588xN.7445623062_p8jt.jpg",
+                "https://i.etsystatic.com/48917726/r/il/97ec50/7445623182/il_1588xN.7445623182_fuvv.jpg"
+            ],
+            dateAdded: "2026-08-16",
+            supplier: null,
+            colors: null
+        }];
 
         if (typeof window !== "undefined") {
             window.PRODUCTS = PRODUCTS;
@@ -5330,283 +5625,7 @@
     </script>
 
     <!-- ==========================================================================
-         utils.js
-         ========================================================================== -->
-    <script>
-        const VVXUtils = (function() {
-
-            function formatPrice(amount, currency) {
-                if (amount === null || amount === undefined) return "";
-                const formatted = Number(amount).toLocaleString("en-US");
-                return currency ? `${formatted} ${currency}` : formatted;
-            }
-
-            function slugify(text) {
-                return String(text)
-                    .toLowerCase()
-                    .trim()
-                    .replace(/[^a-z0-9]+/g, "-")
-                    .replace(/(^-|-$)/g, "");
-            }
-
-            function titleCase(text) {
-                if (!text) return "";
-                return String(text)
-                    .split(/[-_\s]+/)
-                    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                    .join(" ");
-            }
-
-            function escapeHtml(str) {
-                if (str === null || str === undefined) return "";
-                return String(str)
-                    .replace(/&/g, "&amp;")
-                    .replace(/</g, "&lt;")
-                    .replace(/>/g, "&gt;")
-                    .replace(/"/g, "&quot;")
-                    .replace(/'/g, "&#039;");
-            }
-
-            function starRating(rating) {
-                const rounded = Math.round(rating || 0);
-                const full = "★".repeat(Math.max(0, Math.min(5, rounded)));
-                const empty = "☆".repeat(5 - Math.max(0, Math.min(5, rounded)));
-                return full + empty;
-            }
-
-            function qs(selector, scope) {
-                return (scope || document).querySelector(selector);
-            }
-
-            function qsa(selector, scope) {
-                return Array.from((scope || document).querySelectorAll(selector));
-            }
-
-            function normalizeSearchText(text) {
-                return String(text || "")
-                    .normalize("NFD")
-                    .replace(/[\u0300-\u036f]/g, "")
-                    .toLowerCase()
-                    .replace(/\s+/g, " ")
-                    .trim();
-            }
-
-            function debounce(fn, wait) {
-                let timer = null;
-                return function debounced(...args) {
-                    clearTimeout(timer);
-                    timer = setTimeout(() => fn.apply(this, args), wait);
-                };
-            }
-
-            function fuzzyMatch(text, query) {
-                const normalized = normalizeSearchText(text);
-                const q = normalizeSearchText(query);
-                if (!q) return true;
-
-                // Exact substring match
-                if (normalized.includes(q)) return true;
-
-                // Character-based fuzzy: check if query chars appear in order
-                let qi = 0;
-                for (let i = 0; i < normalized.length && qi < q.length; i++) {
-                    if (normalized[i] === q[qi]) qi++;
-                }
-                return qi === q.length;
-            }
-
-            return {
-                formatPrice,
-                slugify,
-                titleCase,
-                escapeHtml,
-                starRating,
-                qs,
-                qsa,
-                normalizeSearchText,
-                debounce,
-                fuzzyMatch
-            };
-        })();
-
-        if (typeof window !== "undefined") {
-            window.VVXUtils = VVXUtils;
-        }
-    </script>
-
-    <!-- ==========================================================================
-         url.js — rewritten to drive a hash-based router (#/route?filters)
-         instead of separate .html files, so the whole site lives in one file.
-         ========================================================================== -->
-    <script>
-        const VVXUrl = (function() {
-
-            const FILTER_KEYS = [
-                "gender",
-                "category",
-                "subcategory",
-                "style",
-                "collection",
-                "color",
-                "sale",
-                "search",
-                "supplier"
-            ];
-
-            /** Parse the current location.hash into { path, params }. */
-            function parseHash() {
-                let hash = window.location.hash || "";
-                hash = hash.replace(/^#\/?/, "");
-                const qIndex = hash.indexOf("?");
-                const path = qIndex === -1 ? hash : hash.slice(0, qIndex);
-                const queryString = qIndex === -1 ? "" : hash.slice(qIndex + 1);
-                return { path: path || "home", params: new URLSearchParams(queryString) };
-            }
-
-            function getFiltersFromUrl() {
-                const { params } = parseHash();
-                const filters = {};
-
-                FILTER_KEYS.forEach(function(key) {
-                    const value = params.get(key);
-                    if (value !== null && value.trim() !== "") {
-                        filters[key] = key === "sale" ? value === "true" : value.trim().toLowerCase();
-                    }
-                });
-
-                return filters;
-            }
-
-            function buildCollectionUrl(filters) {
-                const params = new URLSearchParams();
-
-                Object.keys(filters || {}).forEach(function(key) {
-                    const value = filters[key];
-                    if (value !== undefined && value !== null && value !== "") {
-                        params.set(key, value);
-                    }
-                });
-
-                const query = params.toString();
-                return query ? `#/collection?${query}` : `#/collection`;
-            }
-
-            function buildProductUrl(slug) {
-                return `#/product?slug=${encodeURIComponent(slug)}`;
-            }
-
-            /** Navigate to a hash route programmatically (used instead of location.href = "*.html"). */
-            function navigate(path) {
-                window.location.hash = path;
-            }
-
-            return {
-                FILTER_KEYS,
-                parseHash,
-                getFiltersFromUrl,
-                buildCollectionUrl,
-                buildProductUrl,
-                navigate
-            };
-        })();
-
-        if (typeof window !== "undefined") {
-            window.VVXUrl = VVXUrl;
-        }
-    </script>
-
-    <!-- ==========================================================================
-         toast.js — notification system
-         ========================================================================== -->
-    <script>
-        const VVXToast = (function() {
-            "use strict";
-
-            const containerId = "toastContainer";
-            let container = null;
-
-            function getContainer() {
-                if (!container) {
-                    container = document.getElementById(containerId);
-                    if (!container) {
-                        container = document.createElement("div");
-                        container.id = containerId;
-                        container.className = "toast-container";
-                        container.setAttribute("role", "alert");
-                        container.setAttribute("aria-live", "polite");
-                        document.body.appendChild(container);
-                    }
-                }
-                return container;
-            }
-
-            function show(message, type, duration) {
-                const c = getContainer();
-                const toast = document.createElement("div");
-                toast.className = `toast ${type || "info"}`;
-
-                const icons = {
-                    success: "✓",
-                    error: "✕",
-                    info: "ℹ"
-                };
-
-                toast.innerHTML = `
-                            <span class="toast-icon">${icons[type] || "ℹ"}</span>
-                            <span class="toast-msg">${window.VVXUtils.escapeHtml(message)}</span>
-                            <button type="button" class="toast-close" aria-label="Close notification">&times;</button>
-                        `;
-
-                c.appendChild(toast);
-
-                // Trigger reflow for animation
-                requestAnimationFrame(() => {
-                    toast.classList.add("show");
-                });
-
-                const close = () => {
-                    toast.classList.remove("show");
-                    setTimeout(() => {
-                        if (toast.parentNode) toast.parentNode.removeChild(toast);
-                    }, 400);
-                };
-
-                toast.querySelector(".toast-close").addEventListener("click", close);
-
-                const timeout = duration || 3500;
-                let timer = setTimeout(close, timeout);
-
-                // Pause timer on hover
-                toast.addEventListener("mouseenter", () => clearTimeout(timer));
-                toast.addEventListener("mouseleave", () => {
-                    timer = setTimeout(close, 1000);
-                });
-
-                return { close };
-            }
-
-            function success(message, duration) {
-                return show(message, "success", duration);
-            }
-
-            function error(message, duration) {
-                return show(message, "error", duration);
-            }
-
-            function info(message, duration) {
-                return show(message, "info", duration);
-            }
-
-            return { show, success, error, info };
-        })();
-
-        if (typeof window !== "undefined") {
-            window.VVXToast = VVXToast;
-        }
-    </script>
-
-    <!-- ==========================================================================
-         filters.js — now includes supplier in search & filter
+         filters.js — UPDATED to treat "unisex" as matching both "men" and "women"
          ========================================================================== -->
     <script>
         const VVXFilters = (function() {
@@ -5620,7 +5639,16 @@
 
                 return products.filter(function(product) {
                     for (const key of DIRECT_MATCH_KEYS) {
-                        if (filters[key] && String(product[key] || "").toLowerCase() !== filters[key]) {
+                        const filterValue = filters[key];
+                        if (!filterValue) continue;
+
+                        const productValue = String(product[key] || "").toLowerCase();
+                        // Special case: if product is "unisex" and filter is "men" or "women", it matches
+                        if (key === "gender" && productValue === "unisex" && (filterValue === "men" || filterValue === "women")) {
+                            continue; // unisex matches both men and women
+                        }
+                        // Otherwise, do normal comparison
+                        if (productValue !== filterValue) {
                             return false;
                         }
                     }
@@ -5712,6 +5740,276 @@
 
         if (typeof window !== "undefined") {
             window.VVXFilters = VVXFilters;
+        }
+    </script>
+
+    <!-- All other scripts remain unchanged (utils, url, toast, cart, wishlist, render, etc.) -->
+    <!-- ==========================================================================
+         utils.js
+         ========================================================================== -->
+    <script>
+        const VVXUtils = (function() {
+
+            function formatPrice(amount, currency) {
+                if (amount === null || amount === undefined) return "";
+                const formatted = Number(amount).toLocaleString("en-US");
+                return currency ? `${formatted} ${currency}` : formatted;
+            }
+
+            function slugify(text) {
+                return String(text)
+                    .toLowerCase()
+                    .trim()
+                    .replace(/[^a-z0-9]+/g, "-")
+                    .replace(/(^-|-$)/g, "");
+            }
+
+            function titleCase(text) {
+                if (!text) return "";
+                return String(text)
+                    .split(/[-_\s]+/)
+                    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                    .join(" ");
+            }
+
+            function escapeHtml(str) {
+                if (str === null || str === undefined) return "";
+                return String(str)
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#039;");
+            }
+
+            function starRating(rating) {
+                const rounded = Math.round(rating || 0);
+                const full = "★".repeat(Math.max(0, Math.min(5, rounded)));
+                const empty = "☆".repeat(5 - Math.max(0, Math.min(5, rounded)));
+                return full + empty;
+            }
+
+            function qs(selector, scope) {
+                return (scope || document).querySelector(selector);
+            }
+
+            function qsa(selector, scope) {
+                return Array.from((scope || document).querySelectorAll(selector));
+            }
+
+            function normalizeSearchText(text) {
+                return String(text || "")
+                    .normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "")
+                    .toLowerCase()
+                    .replace(/\s+/g, " ")
+                    .trim();
+            }
+
+            function debounce(fn, wait) {
+                let timer = null;
+                return function debounced(...args) {
+                    clearTimeout(timer);
+                    timer = setTimeout(() => fn.apply(this, args), wait);
+                };
+            }
+
+            function fuzzyMatch(text, query) {
+                const normalized = normalizeSearchText(text);
+                const q = normalizeSearchText(query);
+                if (!q) return true;
+
+                if (normalized.includes(q)) return true;
+
+                let qi = 0;
+                for (let i = 0; i < normalized.length && qi < q.length; i++) {
+                    if (normalized[i] === q[qi]) qi++;
+                }
+                return qi === q.length;
+            }
+
+            return {
+                formatPrice,
+                slugify,
+                titleCase,
+                escapeHtml,
+                starRating,
+                qs,
+                qsa,
+                normalizeSearchText,
+                debounce,
+                fuzzyMatch
+            };
+        })();
+
+        if (typeof window !== "undefined") {
+            window.VVXUtils = VVXUtils;
+        }
+    </script>
+
+    <!-- ==========================================================================
+         url.js
+         ========================================================================== -->
+    <script>
+        const VVXUrl = (function() {
+
+            const FILTER_KEYS = [
+                "gender",
+                "category",
+                "subcategory",
+                "style",
+                "collection",
+                "color",
+                "sale",
+                "search",
+                "supplier"
+            ];
+
+            function parseHash() {
+                let hash = window.location.hash || "";
+                hash = hash.replace(/^#\/?/, "");
+                const qIndex = hash.indexOf("?");
+                const path = qIndex === -1 ? hash : hash.slice(0, qIndex);
+                const queryString = qIndex === -1 ? "" : hash.slice(qIndex + 1);
+                return { path: path || "home", params: new URLSearchParams(queryString) };
+            }
+
+            function getFiltersFromUrl() {
+                const { params } = parseHash();
+                const filters = {};
+
+                FILTER_KEYS.forEach(function(key) {
+                    const value = params.get(key);
+                    if (value !== null && value.trim() !== "") {
+                        filters[key] = key === "sale" ? value === "true" : value.trim().toLowerCase();
+                    }
+                });
+
+                return filters;
+            }
+
+            function buildCollectionUrl(filters) {
+                const params = new URLSearchParams();
+
+                Object.keys(filters || {}).forEach(function(key) {
+                    const value = filters[key];
+                    if (value !== undefined && value !== null && value !== "") {
+                        params.set(key, value);
+                    }
+                });
+
+                const query = params.toString();
+                return query ? `#/collection?${query}` : `#/collection`;
+            }
+
+            function buildProductUrl(slug) {
+                return `#/product?slug=${encodeURIComponent(slug)}`;
+            }
+
+            function navigate(path) {
+                window.location.hash = path;
+            }
+
+            return {
+                FILTER_KEYS,
+                parseHash,
+                getFiltersFromUrl,
+                buildCollectionUrl,
+                buildProductUrl,
+                navigate
+            };
+        })();
+
+        if (typeof window !== "undefined") {
+            window.VVXUrl = VVXUrl;
+        }
+    </script>
+
+    <!-- ==========================================================================
+         toast.js
+         ========================================================================== -->
+    <script>
+        const VVXToast = (function() {
+            "use strict";
+
+            const containerId = "toastContainer";
+            let container = null;
+
+            function getContainer() {
+                if (!container) {
+                    container = document.getElementById(containerId);
+                    if (!container) {
+                        container = document.createElement("div");
+                        container.id = containerId;
+                        container.className = "toast-container";
+                        container.setAttribute("role", "alert");
+                        container.setAttribute("aria-live", "polite");
+                        document.body.appendChild(container);
+                    }
+                }
+                return container;
+            }
+
+            function show(message, type, duration) {
+                const c = getContainer();
+                const toast = document.createElement("div");
+                toast.className = `toast ${type || "info"}`;
+
+                const icons = {
+                    success: "✓",
+                    error: "✕",
+                    info: "ℹ"
+                };
+
+                toast.innerHTML = `
+                            <span class="toast-icon">${icons[type] || "ℹ"}</span>
+                            <span class="toast-msg">${window.VVXUtils.escapeHtml(message)}</span>
+                            <button type="button" class="toast-close" aria-label="Close notification">&times;</button>
+                        `;
+
+                c.appendChild(toast);
+
+                requestAnimationFrame(() => {
+                    toast.classList.add("show");
+                });
+
+                const close = () => {
+                    toast.classList.remove("show");
+                    setTimeout(() => {
+                        if (toast.parentNode) toast.parentNode.removeChild(toast);
+                    }, 400);
+                };
+
+                toast.querySelector(".toast-close").addEventListener("click", close);
+
+                const timeout = duration || 3500;
+                let timer = setTimeout(close, timeout);
+
+                toast.addEventListener("mouseenter", () => clearTimeout(timer));
+                toast.addEventListener("mouseleave", () => {
+                    timer = setTimeout(close, 1000);
+                });
+
+                return { close };
+            }
+
+            function success(message, duration) {
+                return show(message, "success", duration);
+            }
+
+            function error(message, duration) {
+                return show(message, "error", duration);
+            }
+
+            function info(message, duration) {
+                return show(message, "info", duration);
+            }
+
+            return { show, success, error, info };
+        })();
+
+        if (typeof window !== "undefined") {
+            window.VVXToast = VVXToast;
         }
     </script>
 
@@ -5901,7 +6199,7 @@
     </script>
 
     <!-- ==========================================================================
-         render.js — updated to display supplier name on every product card
+         render.js
          ========================================================================== -->
     <script>
         const VVXRender = (function() {
@@ -6030,7 +6328,6 @@
                         );
                     }
 
-                    // Update wishlist count badge
                     updateWishlistBadge();
                 });
             }
@@ -6043,7 +6340,6 @@
                 badge.style.display = count > 0 ? "inline-block" : "none";
             }
 
-            // Initial wishlist badge update
             if (typeof document !== "undefined") {
                 document.addEventListener("vvx:wishlist-updated", updateWishlistBadge);
                 document.addEventListener("DOMContentLoaded", updateWishlistBadge);
@@ -6243,7 +6539,7 @@
     </script>
 
     <!-- ==========================================================================
-         home.js — controller for the Home "page" (#/home)
+         home.js
          ========================================================================== -->
     <script>
         const VVXHome = (function() {
@@ -6259,10 +6555,8 @@
                 const container = document.getElementById("bestSellerGrid");
                 if (!container) return;
 
-                // Show skeletons briefly
                 window.VVXRender.renderSkeletons(container, 4);
 
-                // Simulate loading delay for smoothness
                 setTimeout(() => {
                     const bestSellers = window.PRODUCTS.filter(p => p.bestSeller);
                     window.VVXRender.renderProductGrid(container, bestSellers, null, true);
@@ -6309,8 +6603,7 @@
     </script>
 
     <!-- ==========================================================================
-         collection.js — controller for the Collection "page" (#/collection?...)
-         with filtering, sorting, and sidebar
+         collection.js
          ========================================================================== -->
     <script>
         const VVXCollection = (function() {
@@ -6411,7 +6704,6 @@
                 const grid = document.getElementById("collectionGrid");
                 const countLabel = document.getElementById("collectionResultCount");
 
-                // Show skeletons while filtering
                 window.VVXRender.renderSkeletons(grid, 6);
 
                 setTimeout(() => {
@@ -6455,25 +6747,19 @@
                             const key = cb.getAttribute("data-filter");
                             const val = cb.value;
                             if (!newFilters[key]) newFilters[key] = val;
-                            // For multiple values, we only support single selection for simplicity
-                            // (we could extend to multi-select with arrays)
                         });
-                        // Merge with existing filters, override
                         Object.keys(newFilters).forEach(k => {
                             currentFilters[k] = newFilters[k];
                         });
-                        // Remove filters that have no checkboxes checked
                         document.querySelectorAll(".filter-check").forEach(cb => {
                             const key = cb.getAttribute("data-filter");
                             if (!document.querySelector(`.filter-check[data-filter="${key}"]:checked`)) {
                                 delete currentFilters[key];
                             }
                         });
-                        // Update URL
                         const url = window.VVXUrl.buildCollectionUrl(currentFilters);
                         window.history.replaceState(null, "", url);
                         renderGrid(currentFilters, currentSort);
-                        // Close sidebar on mobile
                         if (window.innerWidth <= 768) {
                             document.getElementById("filterSidebar").classList.remove("open");
                             document.getElementById("filterToggleBtn").classList.remove("active");
@@ -6489,20 +6775,12 @@
                         const url = window.VVXUrl.buildCollectionUrl({});
                         window.history.replaceState(null, "", url);
                         renderGrid({}, currentSort);
-                        // Close sidebar on mobile
                         if (window.innerWidth <= 768) {
                             document.getElementById("filterSidebar").classList.remove("open");
                             document.getElementById("filterToggleBtn").classList.remove("active");
                         }
                     });
                 }
-
-                // Auto-apply filters when checkboxes change
-                document.addEventListener("change", function(e) {
-                    if (e.target.classList && e.target.classList.contains("filter-check")) {
-                        // We'll let the Apply button handle it
-                    }
-                });
             }
 
             return { init };
@@ -6514,8 +6792,7 @@
     </script>
 
     <!-- ==========================================================================
-         product.js — controller for the Product "page" (#/product?slug=...)
-         Now shows supplier and color selector on the detail page.
+         product.js
          ========================================================================== -->
     <script>
         const VVXProduct = (function() {
@@ -6693,7 +6970,6 @@
                         state.selectedColor = btn.getAttribute("data-color");
                         window.VVXUtils.qsa(".color-option", container).forEach(b => b.classList.remove("selected"));
                         btn.classList.add("selected");
-                        // Optionally change main image to the first gallery image (if any) – not needed.
                     });
                 });
 
@@ -6747,7 +7023,7 @@
     </script>
 
     <!-- ==========================================================================
-         cartPage.js — controller for the Cart "page" (#/cart)
+         cartPage.js
          ========================================================================== -->
     <script>
         const VVXCartPage = (function() {
@@ -6850,7 +7126,7 @@
     </script>
 
     <!-- ==========================================================================
-         wishlistPage.js — controller for the Wishlist "page" (#/wishlist)
+         wishlistPage.js
          ========================================================================== -->
     <script>
         const VVXWishlistPage = (function() {
@@ -6893,23 +7169,15 @@
     </script>
 
     <!-- ==========================================================================
-         checkout.js — controller for the Checkout "page" (#/checkout)
+         checkout.js
          ========================================================================== -->
     <script>
         const VVXCheckout = (function() {
             "use strict";
 
-            // ==========================================================================
-            // IMPORTANT — one-time setup required:
-            // 1. Go to https://formspree.io, create a free account and a new form.
-            // 2. Copy the endpoint it gives you (looks like https://formspree.io/f/abcd1234)
-            //    and paste it below, replacing YOUR_FORMSPREE_ID.
-            // 3. Formspree's FREE plan emails you text fields. We no longer send screenshots.
-            // ==========================================================================
             const FORMSPREE_ENDPOINT = "https://formspree.io/f/xjybbkjl";
-            const EXCHANGE_RATE_ETB_TO_EUR = 120; // 1 EUR = 120 ETB (approximate)
+            const EXCHANGE_RATE_ETB_TO_EUR = 120;
 
-            // ---- COUNTRY & CITY DATA ----
             const COUNTRY_DATA = {
                 "Ethiopia": {
                     cities: ["Addis Ababa", "Adama", "Bahir Dar", "Dire Dawa", "Gondar", "Hawassa", "Jimma", "Mekelle", "Dessie", "Harar"]
@@ -7012,7 +7280,6 @@
                 }
             };
 
-            // ---- SHIPPING RATES (ETB per product) ----
             const SHIPPING_RATES = {
                 "Ethiopia": 0,
                 "Germany": 500,
@@ -7063,7 +7330,6 @@
 
                 populateCountryDropdown();
                 renderSummary(details);
-                // Update totals based on default country (Ethiopia)
                 const subtotal = window.VVXCart.getCartSubtotal();
                 updatePaymentBox(subtotal, details[0].product.currency, "Ethiopia");
 
@@ -7071,7 +7337,6 @@
                     const form = document.getElementById("checkoutForm");
                     form.addEventListener("submit", handleSubmit);
 
-                    // Real-time validation on blur
                     form.querySelectorAll("input, select").forEach(input => {
                         input.addEventListener("blur", function() {
                             validateField(this);
@@ -7126,7 +7391,6 @@
                 if (details.length > 0) {
                     const subtotal = window.VVXCart.getCartSubtotal();
                     const currency = details[0].product.currency;
-                    // Always show the COD notice – no more TeleBirr/PayPal sections
                     updatePaymentBox(subtotal, "ETB", country);
                     renderSummary(details, "ETB", country);
                 }
@@ -7161,7 +7425,7 @@
                 const u = window.VVXUtils;
                 const shippingTotal = calcShippingTotal(country);
                 const totalWithShipping = subtotal + shippingTotal;
-                const targetCurrency = "ETB"; // always display in ETB on the checkout page
+                const targetCurrency = "ETB";
                 const totalConverted = convertToCurrency(totalWithShipping, "ETB", targetCurrency);
                 const shippingConverted = convertToCurrency(shippingTotal, "ETB", targetCurrency);
 
@@ -7182,7 +7446,7 @@
                 const container = document.getElementById("checkoutSummary");
                 const u = window.VVXUtils;
 
-                const targetCurrency = "ETB"; // always ETB
+                const targetCurrency = "ETB";
 
                 const itemsHtml = details.map(function(line) {
                     const priceInTarget = convertToCurrency(line.unitPrice, "ETB", targetCurrency);
@@ -7356,11 +7620,6 @@
                 fd.append("paymentMethod", "Cash on Delivery");
                 fd.append("paymentStatus", "Pending delivery");
 
-                if (FORMSPREE_ENDPOINT.indexOf("YOUR_FORMSPREE_ID") !== -1) {
-                    console.warn("VVXCheckout: FORMSPREE_ENDPOINT is not configured yet — order was NOT emailed. See the comment above FORMSPREE_ENDPOINT in this file.");
-                    return true;
-                }
-
                 const res = await fetch(FORMSPREE_ENDPOINT, {
                     method: "POST",
                     body: fd,
@@ -7374,9 +7633,7 @@
                         if (data && data.errors && data.errors.length) {
                             msg = data.errors.map(err => err.message).join(", ");
                         }
-                    } catch (parseErr) {
-                        /* keep default message */
-                    }
+                    } catch (parseErr) { /* keep default */ }
                     throw new Error(msg);
                 }
 
@@ -7435,32 +7692,18 @@
          PROMO CODE MODULE – VVXPromo
          ========================================================================== -->
     <script>
-        /**
-         * VVXPromo — complete promo code system
-         * Centralised configuration for easy future management.
-         * Edit the PROMO_CODES object to add, remove, or change codes.
-         */
         const VVXPromo = (function() {
             "use strict";
 
-            // ─── CONFIGURATION ──────────────────────────────────────────
-            // Edit this object to add, remove, or change promo codes.
-            // Each key is the normalized (lowercase) version of the code.
             const PROMO_CODES = {
                 'smacks12': { display: 'Smacks12', discount: 0.10 },
                 'nattyrocks': { display: 'NATTYROCKS', discount: 0.10 },
                 'asta10': { display: 'ASTA10', discount: 0.10 },
                 'sketch': { display: 'Sketch', discount: 0.10 },
-                // ─── Add future codes here ────────────────────────────
-                // 'newcode':   { display: 'NEWCODE',   discount: 0.20 },
-                // 'summer':    { display: 'SUMMER',    discount: 0.15 },
-                // 'welcome':   { display: 'WELCOME',   discount: 0.10 },
             };
 
-            // ─── STATE ────────────────────────────────────────────────
-            let applied = null; // { normalized, display, discount }
+            let applied = null;
 
-            // ─── HELPERS ──────────────────────────────────────────────
             function normalize(code) {
                 return String(code || '').toLowerCase().trim();
             }
@@ -7473,9 +7716,6 @@
                 return !!PROMO_CODES[normalized];
             }
 
-            // ─── PUBLIC API ───────────────────────────────────────────
-
-            /** Apply a promo code. Returns { success, message, discount? } */
             function apply(code) {
                 const norm = normalize(code);
                 if (!norm) {
@@ -7513,7 +7753,6 @@
                 };
             }
 
-            /** Remove the currently applied promo code. */
             function remove() {
                 if (!applied) return false;
                 const removed = { ...applied };
@@ -7526,46 +7765,37 @@
                 return true;
             }
 
-            /** Get the currently applied promo code info, or null. */
             function getApplied() {
                 return applied ? { ...applied } : null;
             }
 
-            /** Check if a promo code is currently active. */
             function isActive() {
                 return applied !== null;
             }
 
-            /** Calculate the discount amount for a given subtotal. Returns 0 if no promo. */
             function calculateDiscount(subtotal) {
                 if (!applied || subtotal <= 0) return 0;
                 const discount = subtotal * applied.discount;
                 return Math.min(discount, subtotal);
             }
 
-            /** Get the discount rate (0.0 – 1.0) of the active promo, or 0. */
             function getDiscountRate() {
                 return applied ? applied.discount : 0;
             }
 
-            /** Get the display name of the active promo, or null. */
             function getDisplayCode() {
                 return applied ? applied.display : null;
             }
 
-            /** Check if a given code is valid (without applying it). */
             function checkValidity(code) {
                 const norm = normalize(code);
                 return isValid(norm) ? { valid: true, data: PROMO_CODES[norm] } : { valid: false };
             }
 
-            /** Get the full promo codes configuration (read-only). */
             function getConfig() {
                 return { ...PROMO_CODES };
             }
 
-            // ─── INIT ──────────────────────────────────────────────────
-            // Recalculate totals whenever the cart changes
             if (typeof document !== 'undefined') {
                 document.addEventListener('vvx:cart-updated', function() {
                     if (applied) {
@@ -7602,7 +7832,6 @@
         (function() {
             "use strict";
 
-            // DOM refs
             const promoInput = document.getElementById('promoCodeInput');
             const applyBtn = document.getElementById('applyPromoBtn');
             const removeBtn = document.getElementById('removePromoBtn');
@@ -7695,9 +7924,6 @@
             document.addEventListener('vvx:promo-applied', updateActiveDisplay);
             document.addEventListener('vvx:promo-removed', updateActiveDisplay);
 
-            // ─── Extend VVXCheckout ──────────────────────────────────
-
-            // Wait for VVXCheckout to be defined
             const checkInterval = setInterval(function() {
                 if (typeof VVXCheckout !== 'undefined' && VVXCheckout) {
                     clearInterval(checkInterval);
@@ -7706,13 +7932,11 @@
             }, 100);
 
             function extendCheckout() {
-                // Store original functions
                 const originalRenderSummary = VVXCheckout.renderSummary;
                 const originalUpdatePaymentBox = VVXCheckout.updatePaymentBox;
                 const originalHandleSubmit = VVXCheckout.handleSubmit;
                 const originalPlaceOrder = VVXCheckout.placeOrder;
 
-                // Override renderSummary
                 VVXCheckout.renderSummary = function(details, currencyOverride, country) {
                     const u = window.VVXUtils;
                     const targetCurrency = currencyOverride || 'ETB';
@@ -7767,7 +7991,6 @@
                             `;
                 };
 
-                // Override updatePaymentBox
                 VVXCheckout.updatePaymentBox = function(subtotal, currency, country) {
                     const u = window.VVXUtils;
                     const countryName = country || 'Ethiopia';
@@ -7795,7 +8018,6 @@
                     }
                 };
 
-                // Override handleSubmit
                 VVXCheckout.handleSubmit = async function(e) {
                     e.preventDefault();
                     const form = e.target;
@@ -7849,7 +8071,6 @@
                     }
                 };
 
-                // Override placeOrder to include promo
                 if (originalPlaceOrder) {
                     VVXCheckout.placeOrder = function(shipping) {
                         const details = window.VVXCart.getCartDetails();
@@ -7902,7 +8123,6 @@
                     };
                 }
 
-                // Override submitOrderToFormspree to include promo
                 if (VVXCheckout.submitOrderToFormspree) {
                     const originalSubmitOrder = VVXCheckout.submitOrderToFormspree;
                     VVXCheckout.submitOrderToFormspree = async function(order) {
@@ -7956,7 +8176,6 @@
                     };
                 }
 
-                // ─── Refresh function ─────────────────────────────────
                 VVXCheckout.refreshSummary = function() {
                     const details = window.VVXCart.getCartDetails();
                     const country = document.getElementById('countrySelect')?.value || 'Ethiopia';
@@ -7970,7 +8189,6 @@
                     }
                 };
 
-                // Listen for promo changes to refresh summary
                 document.addEventListener('vvx:promo-changed', function() {
                     if (VVXCheckout.refreshSummary) {
                         VVXCheckout.refreshSummary();
@@ -7984,8 +8202,7 @@
     </script>
 
     <!-- ==========================================================================
-         orderConfirmation.js — controller for the Order Confirmation "page"
-         with an always-visible DOWNLOAD RECEIPT NOW button
+         orderConfirmation.js
          ========================================================================== -->
     <script>
         const VVXOrderConfirmation = (function() {
@@ -8057,7 +8274,6 @@
                                 ` : `
                                     <div class="receipt-row total"><span>Total</span><span>${u.formatPrice(order.subtotal, order.currency)}</span></div>
                                 `}
-                                <!-- RECEIPT ACTIONS: always visible -->
                                 <div class="receipt-actions">
                                     <button type="button" class="print-receipt-btn" id="printReceiptBtn">Print / Save Receipt</button>
                                     <button type="button" class="download-receipt-btn" id="downloadReceiptBtn">⬇ Download Receipt Now</button>
@@ -8068,7 +8284,6 @@
                             <p style="margin-top:30px;"><a href="#/collection" class="shop-now-button" style="color:#000;background:#fff;border-color:#000;">Continue Shopping</a></p>
                         `;
 
-                // Print button
                 const printBtn = document.getElementById("printReceiptBtn");
                 if (printBtn) {
                     printBtn.addEventListener("click", function() {
@@ -8076,7 +8291,6 @@
                     });
                 }
 
-                // DOWNLOAD RECEIPT NOW button — uses html2canvas to capture the receipt as an image
                 const downloadBtn = document.getElementById("downloadReceiptBtn");
                 if (downloadBtn) {
                     downloadBtn.addEventListener("click", function() {
@@ -8086,12 +8300,10 @@
                             return;
                         }
 
-                        // Show a loading state
                         const originalText = downloadBtn.textContent;
                         downloadBtn.textContent = "Generating…";
                         downloadBtn.disabled = true;
 
-                        // Use html2canvas (loaded from CDN in the head)
                         if (typeof html2canvas === "undefined") {
                             window.VVXToast.error("html2canvas library not loaded. Please check your internet connection.");
                             downloadBtn.textContent = originalText;
@@ -8099,18 +8311,14 @@
                             return;
                         }
 
-                        // Clone the receipt to avoid affecting the live DOM during capture
                         const clone = receiptBox.cloneNode(true);
-                        // Remove any existing actions from the clone to avoid duplication
                         const actionsClone = clone.querySelector(".receipt-actions");
                         if (actionsClone) actionsClone.remove();
-                        // Also remove any nested download buttons
                         const cloneBtn = clone.querySelector(".download-receipt-btn");
                         if (cloneBtn) cloneBtn.remove();
                         const clonePrint = clone.querySelector(".print-receipt-btn");
                         if (clonePrint) clonePrint.remove();
 
-                        // Temporarily append clone to body for capture
                         clone.style.position = "fixed";
                         clone.style.left = "-9999px";
                         clone.style.top = "0";
@@ -8124,7 +8332,6 @@
                         clone.style.boxSizing = "border-box";
                         document.body.appendChild(clone);
 
-                        // Ensure images in the clone are loaded
                         const imgs = clone.querySelectorAll("img");
                         let imagesLoaded = 0;
                         const totalImages = imgs.length;
@@ -8139,9 +8346,7 @@
                                 width: clone.scrollWidth || 480,
                                 height: clone.scrollHeight || 600
                             }).then(function(canvas) {
-                                // Remove the clone
                                 document.body.removeChild(clone);
-                                // Download the image
                                 const link = document.createElement("a");
                                 link.download = `VVX_Receipt_${order.receiptNumber || order.id}.png`;
                                 link.href = canvas.toDataURL("image/png");
@@ -8176,7 +8381,6 @@
                                     };
                                 }
                             });
-                            // Fallback: if images don't load within 3s, try anyway
                             setTimeout(function() {
                                 if (imagesLoaded < totalImages) {
                                     imagesLoaded = totalImages;
@@ -8197,7 +8401,7 @@
     </script>
 
     <!-- ==========================================================================
-         search.js — live nav search box with fuzzy matching
+         search.js
          ========================================================================== -->
     <script>
         (function() {
@@ -8593,7 +8797,7 @@
     </script>
 
     <!-- ==========================================================================
-         cartBadge.js — keeps the header cart icon count in sync everywhere
+         cartBadge.js
          ========================================================================== -->
     <script>
         (function() {
@@ -8618,7 +8822,7 @@
     </script>
 
     <!-- ==========================================================================
-         admin.js — powers the #/admin "Add Product" page.
+         admin.js
          ========================================================================== -->
     <script>
         const VVXAdmin = (function() {
@@ -8915,7 +9119,7 @@
     </script>
 
     <!-- ==========================================================================
-         router.js — the piece that ties everything into ONE file.
+         router.js
          ========================================================================== -->
     <script>
         (function() {
@@ -8953,7 +9157,6 @@
                 routes[path].run();
                 window.scrollTo(0, 0);
 
-                // Close mobile menu on navigation
                 const toggle = document.getElementById("hamburgerToggle");
                 const primary = document.getElementById("navPrimary");
                 if (toggle && primary) {
