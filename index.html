@@ -4308,34 +4308,6 @@
             galleryImages: ["https://i.pinimg.com/736x/2f/c4/a3/2fc4a379313c69b6da8f3b87e281574c.jpg", "https://i.pinimg.com/736x/05/fb/cb/05fbcb035d2525647e13be0bb5109cca.jpg"],
             dateAdded: "2026-03-01"
         }, {
-            id: 3,
-            slug: "Y2K Summer New Retro Green Fashion Skull",
-            name: "Y2K Summer New Retro Green Fashion Skull ",
-            description: "Y2K Summer New Retro Green Fashion Skull Extra Large Pattern Printed T-shirt Men's Harajuku Gothic",
-            price: 2600,
-            discountPrice: null,
-            currency: "ETB",
-            gender: "men",
-            category: "T-shirt",
-            subcategory: "Alt-y2k",
-            style: "y2k alt",
-            collection: null,
-            color: "Green",
-            material: ["Cotton", "Polyester"],
-            sizes: ["S", "M", "L", "XL"],
-            stock: 400,
-            featured: false,
-            newArrival: false,
-            bestSeller: false,
-            sale: false,
-            rating: 0,
-            reviews: 0,
-            tags: ["T-shirt", "Alt", "men", "y2k", "rock and roll"],
-            thumbnail: "https://i.pinimg.com/1200x/14/ca/2c/14ca2c11d6cb0b73b0f2f1b69c1c7281.jpg",
-            heroImage: "https://i.pinimg.com/736x/23/b5/a1/23b5a1a1d02f99cd383cd04521b05d9b.jpg",
-            galleryImages: ["https://i.pinimg.com/1200x/14/ca/2c/14ca2c11d6cb0b73b0f2f1b69c1c7281.jpg", "https://i.pinimg.com/736x/23/b5/a1/23b5a1a1d02f99cd383cd04521b05d9b.jpg"],
-            dateAdded: "2026-03-01"
-        }, {
             id: 4,
             slug: "Call of Duty Modern Warfare 2 Promo Large Graphic Tee Infinity Ward Mens",
             name: "Call of Duty Modern Warfare 2 Promo Large Graphic Tee Infinity Ward Mens",
@@ -5606,7 +5578,7 @@
             id: 43,
             slug: "maison-margiela-numeric-logo-embroidered-t-shirt-white",
             name: "Maison Margiela Numeric logo-embroidered T-shirt | White",
-            description: "Maison Margiela Numeric logo-embroidered T-shirt in white. Features the iconic numeric logo embroidery at the chest, a signature of the French fashion house.  A minimalist statement piece for the modern wardrobe.",
+            description: "Maison Margiela Numeric logo-embroidered T-shirt in white. Features the iconic numeric logo embroidery at the chest, a signature of the French fashion house. Made from premium cotton for a comfortable, classic fit. A minimalist statement piece for the modern wardrobe.",
             price: 2600,
             discountPrice: null,
             currency: "ETB",
@@ -5630,6 +5602,7 @@
             heroImage: "https://cdn-images.farfetch-contents.com/19/02/75/22/19027522_41554015_600.jpg",
             galleryImages: ["https://cdn-images.farfetch-contents.com/19/02/75/22/19027522_41554015_600.jpg"],
             dateAdded: "2026-08-17",
+            supplier: "Maison Margiela",
             colors: null
         }
     ];
@@ -7858,7 +7831,7 @@
     </script>
 
     <!-- ==========================================================================
-         PROMO CODE INTEGRATION – hooks into VVXCheckout
+         PROMO CODE INTEGRATION – hooks into VVXCheckout (FIXED)
          ========================================================================== -->
     <script>
         (function() {
@@ -7903,6 +7876,17 @@
                 }
             }
 
+            function refreshCheckout() {
+                if (typeof VVXCheckout !== 'undefined' && VVXCheckout.refreshSummary) {
+                    VVXCheckout.refreshSummary();
+                } else {
+                    // fallback: trigger cart update to refresh summary
+                    document.dispatchEvent(new CustomEvent('vvx:cart-updated', {
+                        detail: { cart: VVXCart ? VVXCart.getCart() : [] }
+                    }));
+                }
+            }
+
             function handleApply() {
                 const code = promoInput ? promoInput.value.trim() : '';
                 const result = VVXPromo.apply(code);
@@ -7911,7 +7895,7 @@
                     setStatus(result.message, 'success');
                     if (promoInput) promoInput.value = '';
                     updateActiveDisplay();
-                    triggerCheckoutRefresh();
+                    refreshCheckout();
                 } else {
                     setStatus(result.message, 'error');
                     if (result.alreadyActive) {
@@ -7925,18 +7909,9 @@
                 if (removed) {
                     setStatus('Promo code removed. You can now apply a new code.', 'info');
                     updateActiveDisplay();
-                    const inputRow = document.getElementById('promoInputRow');
-                    if (inputRow) inputRow.style.display = 'flex';
-                    triggerCheckoutRefresh();
+                    refreshCheckout();
                     setTimeout(clearStatus, 3000);
                 }
-            }
-
-            function triggerCheckoutRefresh() {
-                document.dispatchEvent(new CustomEvent('vvx:promo-changed'));
-                document.dispatchEvent(new CustomEvent('vvx:cart-updated', {
-                    detail: { cart: VVXCart ? VVXCart.getCart() : [] }
-                }));
             }
 
             if (promoInput) {
@@ -7964,11 +7939,8 @@
             }, 100);
 
             function extendCheckout() {
+                // Override renderSummary to include promo discount
                 const originalRenderSummary = VVXCheckout.renderSummary;
-                const originalUpdatePaymentBox = VVXCheckout.updatePaymentBox;
-                const originalHandleSubmit = VVXCheckout.handleSubmit;
-                const originalPlaceOrder = VVXCheckout.placeOrder;
-
                 VVXCheckout.renderSummary = function(details, currencyOverride, country) {
                     const u = window.VVXUtils;
                     const targetCurrency = currencyOverride || 'ETB';
@@ -8023,6 +7995,7 @@
                             `;
                 };
 
+                // Override updatePaymentBox to include promo
                 VVXCheckout.updatePaymentBox = function(subtotal, currency, country) {
                     const u = window.VVXUtils;
                     const countryName = country || 'Ethiopia';
@@ -8050,6 +8023,8 @@
                     }
                 };
 
+                // Override handleSubmit to include promo in order
+                const originalHandleSubmit = VVXCheckout.handleSubmit;
                 VVXCheckout.handleSubmit = async function(e) {
                     e.preventDefault();
                     const form = e.target;
@@ -8103,111 +8078,111 @@
                     }
                 };
 
-                if (originalPlaceOrder) {
-                    VVXCheckout.placeOrder = function(shipping) {
-                        const details = window.VVXCart.getCartDetails();
-                        const subtotal = window.VVXCart.getCartSubtotal();
-                        const country = shipping.country || '';
-                        const shippingCost = VVXCheckout.calcShippingTotal ? VVXCheckout.calcShippingTotal(country) : 0;
+                // Override placeOrder to include promo
+                const originalPlaceOrder = VVXCheckout.placeOrder;
+                VVXCheckout.placeOrder = function(shipping) {
+                    const details = window.VVXCart.getCartDetails();
+                    const subtotal = window.VVXCart.getCartSubtotal();
+                    const country = shipping.country || '';
+                    const shippingCost = VVXCheckout.calcShippingTotal ? VVXCheckout.calcShippingTotal(country) : 0;
 
-                        const discountAmount = VVXPromo.calculateDiscount(subtotal);
-                        const discountedSubtotal = Math.max(0, subtotal - discountAmount);
-                        const totalWithShipping = discountedSubtotal + shippingCost;
+                    const discountAmount = VVXPromo.calculateDiscount(subtotal);
+                    const discountedSubtotal = Math.max(0, subtotal - discountAmount);
+                    const totalWithShipping = discountedSubtotal + shippingCost;
 
-                        const targetCurrency = 'ETB';
-                        const totalConverted = VVXCheckout.convertToCurrency ? VVXCheckout.convertToCurrency(totalWithShipping, 'ETB', targetCurrency) : totalWithShipping;
-                        const shippingConverted = VVXCheckout.convertToCurrency ? VVXCheckout.convertToCurrency(shippingCost, 'ETB', targetCurrency) : shippingCost;
-                        const discountConverted = VVXCheckout.convertToCurrency ? VVXCheckout.convertToCurrency(discountAmount, 'ETB', targetCurrency) : discountAmount;
+                    const targetCurrency = 'ETB';
+                    const totalConverted = VVXCheckout.convertToCurrency ? VVXCheckout.convertToCurrency(totalWithShipping, 'ETB', targetCurrency) : totalWithShipping;
+                    const shippingConverted = VVXCheckout.convertToCurrency ? VVXCheckout.convertToCurrency(shippingCost, 'ETB', targetCurrency) : shippingCost;
+                    const discountConverted = VVXCheckout.convertToCurrency ? VVXCheckout.convertToCurrency(discountAmount, 'ETB', targetCurrency) : discountAmount;
 
-                        const applied = VVXPromo.getApplied();
+                    const applied = VVXPromo.getApplied();
 
-                        const order = {
-                            id: 'VVX-' + Date.now().toString().slice(-8),
-                            receiptNumber: 'VVX-RCPT-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).slice(2, 6).toUpperCase(),
-                            date: new Date().toISOString(),
-                            shipping,
-                            items: details.map(l => ({
-                                name: l.product.name,
-                                slug: l.product.slug,
-                                size: l.size,
-                                qty: l.qty,
-                                unitPrice: l.unitPrice,
-                                lineTotal: l.lineTotal,
-                                thumbnail: l.product.thumbnail
-                            })),
-                            subtotal: totalConverted,
-                            shippingCost: shippingConverted,
-                            currency: targetCurrency,
-                            paymentMethod: 'Cash on Delivery',
-                            promoCode: applied ? applied.display : null,
-                            promoDiscountRate: applied ? applied.discount : 0,
-                            promoDiscountAmount: discountConverted
-                        };
+                    const order = {
+                        id: 'VVX-' + Date.now().toString().slice(-8),
+                        receiptNumber: 'VVX-RCPT-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).slice(2, 6).toUpperCase(),
+                        date: new Date().toISOString(),
+                        shipping,
+                        items: details.map(l => ({
+                            name: l.product.name,
+                            slug: l.product.slug,
+                            size: l.size,
+                            qty: l.qty,
+                            unitPrice: l.unitPrice,
+                            lineTotal: l.lineTotal,
+                            thumbnail: l.product.thumbnail
+                        })),
+                        subtotal: totalConverted,
+                        shippingCost: shippingConverted,
+                        currency: targetCurrency,
+                        paymentMethod: 'Cash on Delivery',
+                        promoCode: applied ? applied.display : null,
+                        promoDiscountRate: applied ? applied.discount : 0,
+                        promoDiscountAmount: discountConverted
+                    };
 
+                    try {
+                        localStorage.setItem('vvx_last_order', JSON.stringify(order));
+                    } catch (err) {
+                        console.error('checkout: failed to store order', err);
+                    }
+
+                    window.VVXCart.clearCart();
+                    return order;
+                };
+
+                // Override submitOrderToFormspree to include promo fields
+                const originalSubmitOrder = VVXCheckout.submitOrderToFormspree;
+                VVXCheckout.submitOrderToFormspree = async function(order) {
+                    const u = window.VVXUtils;
+                    const itemsText = order.items.map(function(item) {
+                        return `${item.name}${item.size ? " (" + item.size + ")" : ""} × ${item.qty} — ${u.formatPrice(item.lineTotal, order.currency)}`;
+                    }).join('\n');
+
+                    const fd = new FormData();
+                    fd.append('_subject', `New Vovex Noir Order — Receipt ${order.receiptNumber}`);
+                    fd.append('receiptNumber', order.receiptNumber);
+                    fd.append('orderId', order.id);
+                    fd.append('fullName', order.shipping.fullName || '');
+                    fd.append('email', order.shipping.email || '');
+                    fd.append('_replyto', order.shipping.email || '');
+                    fd.append('phone', order.shipping.phone || '');
+                    fd.append('address', order.shipping.address || '');
+                    fd.append('city', order.shipping.city || '');
+                    fd.append('country', order.shipping.country || '');
+                    fd.append('items', itemsText);
+                    fd.append('orderTotal', u.formatPrice(order.subtotal, order.currency));
+                    fd.append('shippingCost', u.formatPrice(order.shippingCost, order.currency));
+                    fd.append('paymentMethod', 'Cash on Delivery');
+                    fd.append('paymentStatus', 'Pending delivery');
+
+                    if (order.promoCode) {
+                        fd.append('promoCode', order.promoCode);
+                        fd.append('promoDiscountRate', String(Math.round(order.promoDiscountRate * 100)) + '%');
+                        fd.append('promoDiscountAmount', u.formatPrice(order.promoDiscountAmount, order.currency));
+                    }
+
+                    const endpoint = 'https://formspree.io/f/xjybbkjl';
+                    const res = await fetch(endpoint, {
+                        method: 'POST',
+                        body: fd,
+                        headers: { 'Accept': 'application/json' }
+                    });
+
+                    if (!res.ok) {
+                        let msg = 'We couldn\'t submit your order right now. Please try again in a moment.';
                         try {
-                            localStorage.setItem('vvx_last_order', JSON.stringify(order));
-                        } catch (err) {
-                            console.error('checkout: failed to store order', err);
-                        }
+                            const data = await res.json();
+                            if (data && data.errors && data.errors.length) {
+                                msg = data.errors.map(err => err.message).join(', ');
+                            }
+                        } catch (parseErr) { /* keep default */ }
+                        throw new Error(msg);
+                    }
 
-                        window.VVXCart.clearCart();
-                        return order;
-                    };
-                }
+                    return true;
+                };
 
-                if (VVXCheckout.submitOrderToFormspree) {
-                    const originalSubmitOrder = VVXCheckout.submitOrderToFormspree;
-                    VVXCheckout.submitOrderToFormspree = async function(order) {
-                        const u = window.VVXUtils;
-                        const itemsText = order.items.map(function(item) {
-                            return `${item.name}${item.size ? " (" + item.size + ")" : ""} × ${item.qty} — ${u.formatPrice(item.lineTotal, order.currency)}`;
-                        }).join('\n');
-
-                        const fd = new FormData();
-                        fd.append('_subject', `New Vovex Noir Order — Receipt ${order.receiptNumber}`);
-                        fd.append('receiptNumber', order.receiptNumber);
-                        fd.append('orderId', order.id);
-                        fd.append('fullName', order.shipping.fullName || '');
-                        fd.append('email', order.shipping.email || '');
-                        fd.append('_replyto', order.shipping.email || '');
-                        fd.append('phone', order.shipping.phone || '');
-                        fd.append('address', order.shipping.address || '');
-                        fd.append('city', order.shipping.city || '');
-                        fd.append('country', order.shipping.country || '');
-                        fd.append('items', itemsText);
-                        fd.append('orderTotal', u.formatPrice(order.subtotal, order.currency));
-                        fd.append('shippingCost', u.formatPrice(order.shippingCost, order.currency));
-                        fd.append('paymentMethod', 'Cash on Delivery');
-                        fd.append('paymentStatus', 'Pending delivery');
-
-                        if (order.promoCode) {
-                            fd.append('promoCode', order.promoCode);
-                            fd.append('promoDiscountRate', String(Math.round(order.promoDiscountRate * 100)) + '%');
-                            fd.append('promoDiscountAmount', u.formatPrice(order.promoDiscountAmount, order.currency));
-                        }
-
-                        const endpoint = 'https://formspree.io/f/xjybbkjl';
-                        const res = await fetch(endpoint, {
-                            method: 'POST',
-                            body: fd,
-                            headers: { 'Accept': 'application/json' }
-                        });
-
-                        if (!res.ok) {
-                            let msg = 'We couldn\'t submit your order right now. Please try again in a moment.';
-                            try {
-                                const data = await res.json();
-                                if (data && data.errors && data.errors.length) {
-                                    msg = data.errors.map(err => err.message).join(', ');
-                                }
-                            } catch (parseErr) { /* keep default */ }
-                            throw new Error(msg);
-                        }
-
-                        return true;
-                    };
-                }
-
+                // Define refreshSummary
                 VVXCheckout.refreshSummary = function() {
                     const details = window.VVXCart.getCartDetails();
                     const country = document.getElementById('countrySelect')?.value || 'Ethiopia';
@@ -8221,13 +8196,14 @@
                     }
                 };
 
+                // Listen for promo changes
                 document.addEventListener('vvx:promo-changed', function() {
                     if (VVXCheckout.refreshSummary) {
                         VVXCheckout.refreshSummary();
                     }
                 });
 
-                console.log('[VVXPromo] Successfully integrated with VVXCheckout');
+                console.log('[VVXPromo] Successfully integrated with VVXCheckout (fixed)');
             }
 
         })();
