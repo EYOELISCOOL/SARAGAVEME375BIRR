@@ -7336,10 +7336,18 @@
                 renderSummary(details);
                 const subtotal = window.VVXCart.getCartSubtotal();
                 updatePaymentBox(subtotal, details[0].product.currency, "Ethiopia");
+                if (VVXCheckout.refreshSummary) {
+                    VVXCheckout.refreshSummary();
+                }
 
                 if (!listenerBound) {
                     const form = document.getElementById("checkoutForm");
-                    form.addEventListener("submit", handleSubmit);
+                    form.addEventListener("submit", function(e) {
+                        // Call through VVXCheckout.handleSubmit dynamically (not a captured
+                        // reference) so that any later overrides (e.g. the promo-code
+                        // integration) are actually used when the order is placed.
+                        return VVXCheckout.handleSubmit(e);
+                    });
 
                     form.querySelectorAll("input, select").forEach(input => {
                         input.addEventListener("blur", function() {
@@ -7397,6 +7405,11 @@
                     const currency = details[0].product.currency;
                     updatePaymentBox(subtotal, "ETB", country);
                     renderSummary(details, "ETB", country);
+                    // Also let the promo integration (if loaded) refresh the summary,
+                    // so an already-applied promo code stays reflected after changing country.
+                    if (VVXCheckout.refreshSummary) {
+                        VVXCheckout.refreshSummary();
+                    }
                 }
             }
 
@@ -7581,8 +7594,8 @@
                     const formData = new FormData(form);
                     const shipping = Object.fromEntries(formData.entries());
 
-                    const order = placeOrder(shipping);
-                    await submitOrderToFormspree(order);
+                    const order = VVXCheckout.placeOrder(shipping);
+                    await VVXCheckout.submitOrderToFormspree(order);
 
                     form.reset();
                     document.getElementById("countrySelect").value = "";
@@ -8096,6 +8109,8 @@
 
                     const applied = VVXPromo.getApplied();
 
+                    const rawSubtotalConverted = VVXCheckout.convertToCurrency ? VVXCheckout.convertToCurrency(subtotal, 'ETB', targetCurrency) : subtotal;
+
                     const order = {
                         id: 'VVX-' + Date.now().toString().slice(-8),
                         receiptNumber: 'VVX-RCPT-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).slice(2, 6).toUpperCase(),
@@ -8110,8 +8125,9 @@
                             lineTotal: l.lineTotal,
                             thumbnail: l.product.thumbnail
                         })),
-                        subtotal: totalConverted,
+                        subtotal: rawSubtotalConverted,
                         shippingCost: shippingConverted,
+                        total: totalConverted,
                         currency: targetCurrency,
                         paymentMethod: 'Cash on Delivery',
                         promoCode: applied ? applied.display : null,
@@ -8149,8 +8165,9 @@
                     fd.append('city', order.shipping.city || '');
                     fd.append('country', order.shipping.country || '');
                     fd.append('items', itemsText);
-                    fd.append('orderTotal', u.formatPrice(order.subtotal, order.currency));
+                    fd.append('orderSubtotal', u.formatPrice(order.subtotal, order.currency));
                     fd.append('shippingCost', u.formatPrice(order.shippingCost, order.currency));
+                    fd.append('orderTotal', u.formatPrice(order.total != null ? order.total : order.subtotal, order.currency));
                     fd.append('paymentMethod', 'Cash on Delivery');
                     fd.append('paymentStatus', 'Pending delivery');
 
@@ -8251,11 +8268,22 @@
 
                 const receiptNumber = order.receiptNumber || order.id;
                 const orderDate = order.date ? new Date(order.date).toLocaleString() : "";
-                const shippingCostDisplay = (order.shippingCost && order.shippingCost > 0) ?
-                    `<div class="receipt-row"><span>Shipping</span><span>${u.formatPrice(order.shippingCost, order.currency)}</span></div>` :
+
+                // order.subtotal is the pre-discount, pre-shipping merchandise total.
+                // order.total (falls back to subtotal+shipping for older stored orders) is the final amount due.
+                const preDiscountSubtotal = order.subtotal || 0;
+                const shippingAmount = order.shippingCost || 0;
+                const finalTotal = (order.total != null) ? order.total : (preDiscountSubtotal - (order.promoDiscountAmount || 0) + shippingAmount);
+
+                const shippingCostDisplay = (shippingAmount && shippingAmount > 0) ?
+                    `<div class="receipt-row"><span>Shipping</span><span>${u.formatPrice(shippingAmount, order.currency)}</span></div>` :
                     `<div class="receipt-row"><span>Shipping</span><span>Free</span></div>`;
 
                 const paymentMethodLabel = "Cash on Delivery";
+
+                const customerName = order.shipping.fullName || "";
+                const customerPhone = order.shipping.phone || "";
+                const customerAddress = [order.shipping.address, order.shipping.city, order.shipping.country].filter(Boolean).join(", ");
 
                 container.innerHTML = `
                             <h1>Thank you, ${u.escapeHtml(order.shipping.fullName || "")}!</h1>
@@ -8269,18 +8297,19 @@
                                 <div class="receipt-row"><span>Receipt No.</span><span>${u.escapeHtml(receiptNumber)}</span></div>
                                 <div class="receipt-row"><span>Order No.</span><span>${u.escapeHtml(order.id)}</span></div>
                                 <div class="receipt-row"><span>Date</span><span>${u.escapeHtml(orderDate)}</span></div>
+                                <div class="receipt-row"><span>Customer Name</span><span>${u.escapeHtml(customerName)}</span></div>
+                                <div class="receipt-row"><span>Phone Number</span><span>${u.escapeHtml(customerPhone)}</span></div>
+                                <div class="receipt-row"><span>Shipping Address</span><span>${u.escapeHtml(customerAddress)}</span></div>
                                 <div class="receipt-row"><span>Payment Method</span><span>${u.escapeHtml(paymentMethodLabel)}</span></div>
-                                <div class="receipt-row"><span>Order Total</span><span>${u.formatPrice(order.subtotal, order.currency)}</span></div>
+                                <div class="receipt-row"><span>Subtotal</span><span>${u.formatPrice(preDiscountSubtotal, order.currency)}</span></div>
                                 ${shippingCostDisplay}
                                 ${order.promoCode ? `
                                     <div class="receipt-row" style="color:var(--vvx-olive);">
-                                        <span>Promo (${Math.round(order.promoDiscountRate * 100)}%)</span>
+                                        <span>Promo Code: ${u.escapeHtml(order.promoCode)} (${Math.round(order.promoDiscountRate * 100)}%)</span>
                                         <span>-${u.formatPrice(order.promoDiscountAmount, order.currency)}</span>
                                     </div>
-                                    <div class="receipt-row total"><span>Final Total</span><span>${u.formatPrice(order.subtotal, order.currency)}</span></div>
-                                ` : `
-                                    <div class="receipt-row total"><span>Total</span><span>${u.formatPrice(order.subtotal, order.currency)}</span></div>
-                                `}
+                                ` : ``}
+                                <div class="receipt-row total"><span>Final Total</span><span>${u.formatPrice(finalTotal, order.currency)}</span></div>
                                 <div class="receipt-actions">
                                     <button type="button" class="print-receipt-btn" id="printReceiptBtn">Print / Save Receipt</button>
                                     <button type="button" class="download-receipt-btn" id="downloadReceiptBtn">⬇ Download Receipt Now</button>
