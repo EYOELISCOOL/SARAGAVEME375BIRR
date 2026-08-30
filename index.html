@@ -1893,6 +1893,160 @@
             border-color: var(--vvx-military);
         }
 
+        /* ── Quality / Material selector ─────────────────────────────── */
+        .quality-selector {
+            margin-bottom: 1.5rem;
+        }
+        .quality-selector h4 {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--vvx-text-muted);
+            margin: 0 0 0.6rem 0;
+        }
+        .quality-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+        .quality-option {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            width: 100%;
+            text-align: left;
+            border: var(--border-medium);
+            background: rgba(255, 255, 255, 0.02);
+            color: var(--vvx-text-secondary);
+            padding: 0.75rem 1rem;
+            border-radius: 2px;
+            cursor: pointer;
+            font-family: var(--font-body);
+            transition: all 0.3s var(--ease-soft);
+        }
+        .quality-option:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.045);
+        }
+        .quality-radio {
+            flex: 0 0 auto;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 1.5px solid var(--vvx-text-muted);
+            position: relative;
+            transition: all 0.25s var(--ease-soft);
+        }
+        .quality-radio::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--vvx-text-highlight);
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.2s var(--ease-soft);
+        }
+        .quality-option.selected .quality-radio {
+            border-color: var(--vvx-text-highlight);
+        }
+        .quality-option.selected .quality-radio::after {
+            transform: translate(-50%, -50%) scale(1);
+        }
+        .quality-info {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.15rem;
+            min-width: 0;
+        }
+        .quality-name {
+            font-family: var(--font-heading);
+            font-size: 0.92rem;
+            font-weight: 500;
+            color: var(--vvx-text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .quality-tagline {
+            font-size: 0.75rem;
+            color: var(--vvx-text-dim);
+        }
+        .quality-price {
+            flex: 0 0 auto;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--vvx-text-primary);
+            white-space: nowrap;
+        }
+        .quality-badge {
+            font-family: var(--font-mono);
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 0.15rem 0.45rem;
+            border-radius: 20px;
+            line-height: 1.6;
+        }
+        .quality-option[data-quality="cottex"] {
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+        .quality-option[data-quality="cottex"].selected {
+            border-color: var(--vvx-gunmetal);
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .quality-option[data-quality="high"] {
+            border-color: rgba(90, 106, 74, 0.35);
+        }
+        .quality-option[data-quality="high"] .quality-badge {
+            background: rgba(90, 106, 74, 0.35);
+            color: #d8e0c8;
+        }
+        .quality-option[data-quality="high"].selected {
+            border-color: var(--vvx-olive);
+            background: rgba(90, 106, 74, 0.14);
+            box-shadow: 0 0 0 1px var(--vvx-olive);
+        }
+        .quality-option[data-quality="high"].selected .quality-radio {
+            border-color: var(--vvx-olive);
+        }
+        .quality-option[data-quality="high"].selected .quality-radio::after {
+            background: var(--vvx-olive);
+        }
+        .quality-option[data-quality="extreme"] {
+            border-color: rgba(138, 122, 74, 0.4);
+        }
+        .quality-option[data-quality="extreme"] .quality-badge {
+            background: rgba(138, 122, 74, 0.35);
+            color: #f0e6c8;
+        }
+        .quality-option[data-quality="extreme"].selected {
+            border-color: var(--vvx-gold);
+            background: rgba(138, 122, 74, 0.14);
+            box-shadow: 0 0 0 1px var(--vvx-gold);
+        }
+        .quality-option[data-quality="extreme"].selected .quality-radio {
+            border-color: var(--vvx-gold);
+        }
+        .quality-option[data-quality="extreme"].selected .quality-radio::after {
+            background: var(--vvx-gold);
+        }
+        .price-from-note {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--vvx-text-dim);
+            margin-right: 0.3rem;
+        }
+
         .color-options {
             display: flex;
             flex-wrap: wrap;
@@ -6748,6 +6902,107 @@
 </script>
 
 <!-- ==========================================================================
+     quality.js — T-shirt quality/material tier system (Cottex / High Quality / Extreme Ultra Good)
+     ========================================================================== -->
+<script>
+    const VVXQuality = (function() {
+
+        // The three quality tiers every T-shirt must offer.
+        const QUALITY_OPTIONS = [{
+                id: "cottex",
+                label: "Cottex Level",
+                price: 2600,
+                tier: "entry",
+                tagline: "Affordable everyday material"
+            },
+            {
+                id: "high",
+                label: "High Quality",
+                price: 3600,
+                tier: "recommended",
+                tagline: "Best balance of price & quality",
+                badge: "Recommended"
+            },
+            {
+                id: "extreme",
+                label: "Premium Quality",
+                price: 4600,
+                tier: "premium",
+                tagline: "Our ultimate premium material",
+                badge: "Premium"
+            }
+        ];
+
+        const DEFAULT_QUALITY_ID = "high";
+
+        // Product categories that exist on the site but are NOT T-shirts
+        // (pants and hand-painted items use their own pricing, never quality tiers).
+        const NON_TSHIRT_CATEGORIES = ["pants", "anime-painting"];
+
+        // Sizes that indicate a garment uses standard clothing sizing (vs. pants-only
+        // sizing or a physical dimension like "11cm in diameter").
+        const CLOTHING_SIZE_TOKENS = ["XS", "S", "M", "L", "XL", "XXL", "XXXL"];
+
+        function isTshirtProduct(product) {
+            if (!product) return false;
+            const category = String(product.category || "").trim().toLowerCase();
+            if (NON_TSHIRT_CATEGORIES.indexOf(category) !== -1) return false;
+
+            const sizes = Array.isArray(product.sizes) ? product.sizes : [];
+            const hasClothingSize = sizes.some(function(s) {
+                return CLOTHING_SIZE_TOKENS.indexOf(String(s).trim().toUpperCase()) !== -1;
+            });
+
+            // Pants (e.g. "M", "L" only, category "pants") are already excluded above.
+            // Everything else on this site that uses standard clothing sizing is a T-shirt.
+            return hasClothingSize;
+        }
+
+        function getQualityOptions() {
+            return QUALITY_OPTIONS.slice();
+        }
+
+        function getQualityById(id) {
+            return QUALITY_OPTIONS.find(function(q) { return q.id === id; }) || null;
+        }
+
+        function getDefaultQualityId() {
+            return DEFAULT_QUALITY_ID;
+        }
+
+        // The price to charge for a given product + quality selection.
+        // Non-T-shirt products keep using their normal price/discountPrice.
+        function getEffectivePrice(product, qualityId) {
+            if (!product) return 0;
+            if (isTshirtProduct(product)) {
+                const quality = getQualityById(qualityId) || getQualityById(DEFAULT_QUALITY_ID);
+                return quality.price;
+            }
+            return (product.sale && product.discountPrice) ? product.discountPrice : product.price;
+        }
+
+        // Lowest tier price — used for "From ..." display on product cards.
+        function getStartingPrice() {
+            return QUALITY_OPTIONS[0].price;
+        }
+
+        return {
+            QUALITY_OPTIONS,
+            isTshirtProduct,
+            getQualityOptions,
+            getQualityById,
+            getDefaultQualityId,
+            getEffectivePrice,
+            getStartingPrice
+        };
+    })();
+
+    if (typeof window !== "undefined") {
+        window.VVXQuality = VVXQuality;
+    }
+</script>
+
+<!-- ==========================================================================
      filters.js — treats "unisex" as matching both "men" and "women"
      ========================================================================== -->
 <script>
@@ -7141,8 +7396,8 @@
 
         const CART_KEY = "vvx_cart";
 
-        function lineKey(productId, size) {
-            return `${productId}::${size || "-"}`;
+        function lineKey(productId, size, quality) {
+            return `${productId}::${size || "-"}::${quality || "-"}`;
         }
 
         function getCart() {
@@ -7164,15 +7419,23 @@
             }
         }
 
-        function addToCart(productId, qty, size) {
+        // `quality` should be one of the VVXQuality tier ids ("cottex" | "high" | "extreme")
+        // for T-shirt products. It's ignored (stored as null) for non-T-shirt products.
+        function addToCart(productId, qty, size, quality) {
             const cart = getCart();
-            const key = lineKey(productId, size);
+            const product = (window.PRODUCTS || []).find(p => p.id === productId);
+            const isTshirt = window.VVXQuality && window.VVXQuality.isTshirtProduct(product);
+            const resolvedQuality = isTshirt ?
+                (quality || (window.VVXQuality && window.VVXQuality.getDefaultQualityId())) :
+                null;
+
+            const key = lineKey(productId, size, resolvedQuality);
             const existing = cart.find(line => line.key === key);
 
             if (existing) {
                 existing.qty += qty || 1;
             } else {
-                cart.push({ key, productId, size: size || null, qty: qty || 1 });
+                cart.push({ key, productId, size: size || null, quality: resolvedQuality, qty: qty || 1 });
             }
 
             saveCart(cart);
@@ -7208,11 +7471,18 @@
                 .map(line => {
                     const product = window.PRODUCTS.find(p => p.id === line.productId);
                     if (!product) return null;
-                    const unitPrice = product.sale && product.discountPrice ? product.discountPrice : product.price;
+                    const unitPrice = window.VVXQuality ?
+                        window.VVXQuality.getEffectivePrice(product, line.quality) :
+                        (product.sale && product.discountPrice ? product.discountPrice : product.price);
+                    const qualityInfo = (line.quality && window.VVXQuality) ?
+                        window.VVXQuality.getQualityById(line.quality) :
+                        null;
                     return {
                         key: line.key,
                         product,
                         size: line.size,
+                        quality: line.quality || null,
+                        qualityLabel: qualityInfo ? qualityInfo.label : null,
                         qty: line.qty,
                         unitPrice,
                         lineTotal: unitPrice * line.qty
@@ -7328,13 +7598,18 @@
             const u = window.VVXUtils;
             const productUrl = window.VVXUrl.buildProductUrl(product.slug);
 
-            const priceHtml = product.sale && product.discountPrice ?
-                `<span class="price-original">${u.formatPrice(product.price, product.currency)}</span>` +
-                `<span class="price-discounted">${u.formatPrice(product.discountPrice, product.currency)}</span>` :
-                `${u.formatPrice(product.price, product.currency)}`;
+            const isTshirt = window.VVXQuality && window.VVXQuality.isTshirtProduct(product);
+
+            const priceHtml = isTshirt ?
+                `<span class="price-from-note">From</span>${u.formatPrice(window.VVXQuality.getStartingPrice(), product.currency)}` :
+                (product.sale && product.discountPrice ?
+                    `<span class="price-original">${u.formatPrice(product.price, product.currency)}</span>` +
+                    `<span class="price-discounted">${u.formatPrice(product.discountPrice, product.currency)}</span>` :
+                    `${u.formatPrice(product.price, product.currency)}`);
 
             const saleBadge = product.sale ? `<div class="sale-badge">Sale</div>` : "";
             const defaultSize = (product.sizes && product.sizes[0]) || null;
+            const defaultQuality = isTshirt ? window.VVXQuality.getDefaultQualityId() : "";
 
             const supplierHtml = product.supplier ?
                 `<div class="supplier-line"><strong>Provider:</strong> ${u.escapeHtml(product.supplier)}</div>` :
@@ -7361,7 +7636,7 @@
                                 <div class="star-rating">${u.starRating(product.rating)}</div>
                                 <div class="product-price">${priceHtml}</div>
                                 ${supplierHtml}
-                                <button type="button" class="quick-add-btn" data-product-id="${product.id}" data-size="${defaultSize ? u.escapeHtml(defaultSize) : ""}">Add to Cart</button>
+                                <button type="button" class="quick-add-btn" data-product-id="${product.id}" data-size="${defaultSize ? u.escapeHtml(defaultSize) : ""}" data-quality="${u.escapeHtml(defaultQuality)}">Add to Cart</button>
                             </div>
                         `;
         }
@@ -7399,7 +7674,8 @@
 
                 const productId = Number(btn.getAttribute("data-product-id"));
                 const size = btn.getAttribute("data-size") || null;
-                window.VVXCart.addToCart(productId, 1, size);
+                const quality = btn.getAttribute("data-quality") || null;
+                window.VVXCart.addToCart(productId, 1, size, quality);
 
                 const product = window.PRODUCTS.find(p => p.id === productId);
                 if (product) {
@@ -7919,6 +8195,7 @@
             activeImage: null,
             selectedSize: null,
             selectedColor: null,
+            selectedQuality: null,
             qty: 1
         };
 
@@ -7955,6 +8232,9 @@
             state.activeImage = product.heroImage || product.thumbnail;
             state.selectedSize = (product.sizes && product.sizes[0]) || null;
             state.selectedColor = (product.colors && product.colors[0]) || null;
+            state.selectedQuality = window.VVXQuality && window.VVXQuality.isTshirtProduct(product) ?
+                window.VVXQuality.getDefaultQualityId() :
+                null;
             state.qty = 1;
 
             document.title = `VVX | ${product.name}`;
@@ -7977,10 +8257,36 @@
                 .filter(Boolean)
                 .filter((src, idx, arr) => arr.indexOf(src) === idx);
 
-            const priceHtml = product.sale && product.discountPrice ?
-                `<span class="price-original">${u.formatPrice(product.price, product.currency)}</span>` +
-                `<span class="price-discounted">${u.formatPrice(product.discountPrice, product.currency)}</span>` :
-                u.formatPrice(product.price, product.currency);
+            const isTshirt = window.VVXQuality && window.VVXQuality.isTshirtProduct(product);
+
+            const priceHtml = isTshirt ?
+                u.formatPrice(window.VVXQuality.getEffectivePrice(product, state.selectedQuality), product.currency) :
+                (product.sale && product.discountPrice ?
+                    `<span class="price-original">${u.formatPrice(product.price, product.currency)}</span>` +
+                    `<span class="price-discounted">${u.formatPrice(product.discountPrice, product.currency)}</span>` :
+                    u.formatPrice(product.price, product.currency));
+
+            const qualityHtml = isTshirt ?
+                `
+                                <div class="quality-selector">
+                                    <h4>Choose Your Quality</h4>
+                                    <div class="quality-options">
+                                        ${window.VVXQuality.getQualityOptions().map(q => `
+                                            <button type="button"
+                                                    class="quality-option ${q.id === state.selectedQuality ? "selected" : ""}"
+                                                    data-quality="${u.escapeHtml(q.id)}">
+                                                <span class="quality-radio"></span>
+                                                <span class="quality-info">
+                                                    <span class="quality-name">${u.escapeHtml(q.label)}${q.badge ? `<span class="quality-badge">${u.escapeHtml(q.badge)}</span>` : ""}</span>
+                                                    <span class="quality-tagline">${u.escapeHtml(q.tagline)}</span>
+                                                </span>
+                                                <span class="quality-price">${u.formatPrice(q.price, product.currency)}</span>
+                                            </button>
+                                        `).join("")}
+                                    </div>
+                                </div>
+                              ` :
+                "";
 
             const sizesHtml = (product.sizes && product.sizes.length) ?
                 `
@@ -8036,6 +8342,7 @@
                                     ${supplierHtml}
                                     <p class="product-detail-meta">${u.titleCase(product.color || "")} · ${u.titleCase(product.material || "")} · ${u.titleCase(product.gender || "")}</p>
                                     ${colorsHtml}
+                                    ${qualityHtml}
                                     ${sizesHtml}
                                     <div class="qty-selector">
                                         <h4>Quantity</h4>
@@ -8082,6 +8389,23 @@
                 });
             });
 
+            window.VVXUtils.qsa(".quality-option", container).forEach(function(btn) {
+                btn.addEventListener("click", function() {
+                    state.selectedQuality = btn.getAttribute("data-quality");
+                    window.VVXUtils.qsa(".quality-option", container).forEach(b => b.classList.remove("selected"));
+                    btn.classList.add("selected");
+
+                    const priceEl = container.querySelector(".product-detail-price");
+                    if (priceEl) {
+                        const u = window.VVXUtils;
+                        priceEl.innerHTML = u.formatPrice(
+                            window.VVXQuality.getEffectivePrice(product, state.selectedQuality),
+                            product.currency
+                        );
+                    }
+                });
+            });
+
             window.VVXUtils.qsa(".color-option", container).forEach(function(btn) {
                 btn.addEventListener("click", function() {
                     state.selectedColor = btn.getAttribute("data-color");
@@ -8101,7 +8425,7 @@
             });
 
             document.getElementById("addToCartBtn").addEventListener("click", function() {
-                window.VVXCart.addToCart(product.id, state.qty, state.selectedSize);
+                window.VVXCart.addToCart(product.id, state.qty, state.selectedSize, state.selectedQuality);
                 const btn = document.getElementById("addToCartBtn");
                 btn.textContent = "Added ✓";
                 btn.classList.add("added");
@@ -8113,7 +8437,7 @@
             });
 
             document.getElementById("buyNowBtn").addEventListener("click", function() {
-                window.VVXCart.addToCart(product.id, state.qty, state.selectedSize);
+                window.VVXCart.addToCart(product.id, state.qty, state.selectedSize, state.selectedQuality);
                 window.VVXUrl.navigate("/checkout");
             });
 
@@ -8182,7 +8506,7 @@
                                     <img src="${u.escapeHtml(line.product.thumbnail)}" alt="${u.escapeHtml(line.product.name)}" />
                                     <div class="cart-line-info">
                                         <h4>${u.escapeHtml(line.product.name)}</h4>
-                                        <div class="cart-line-meta">${line.size ? `Size: ${u.escapeHtml(line.size)} · ` : ""}${u.formatPrice(line.unitPrice, line.product.currency)} each</div>
+                                        <div class="cart-line-meta">${line.qualityLabel ? `Quality: ${u.escapeHtml(line.qualityLabel)} · ` : ""}${line.size ? `Size: ${u.escapeHtml(line.size)} · ` : ""}${u.formatPrice(line.unitPrice, line.product.currency)} each</div>
                                         <div class="qty-stepper" style="margin-top:10px;">
                                             <button type="button" class="cart-qty-minus" data-key="${line.key}">−</button>
                                             <span>${line.qty}</span>
@@ -8578,7 +8902,7 @@
                 const lineTotalInTarget = priceInTarget * line.qty;
                 return `
                                 <div class="cart-summary-row">
-                                    <span>${u.escapeHtml(line.product.name)} ${line.size ? `(${u.escapeHtml(line.size)})` : ""} × ${line.qty}</span>
+                                    <span>${u.escapeHtml(line.product.name)} ${line.qualityLabel ? `(${u.escapeHtml(line.qualityLabel)}${line.size ? ", " + u.escapeHtml(line.size) : ""})` : (line.size ? `(${u.escapeHtml(line.size)})` : "")} × ${line.qty}</span>
                                     <span>${u.formatPrice(lineTotalInTarget, targetCurrency)}</span>
                                 </div>
                             `;
@@ -8725,7 +9049,7 @@
         async function submitOrderToFormspree(order) {
             const u = window.VVXUtils;
             const itemsText = order.items.map(function(item) {
-                return `${item.name}${item.size ? " (" + item.size + ")" : ""} × ${item.qty} — ${u.formatPrice(item.lineTotal, order.currency)}`;
+                return `${item.name}${item.qualityLabel ? " (" + item.qualityLabel + (item.size ? ", " + item.size : "") + ")" : (item.size ? " (" + item.size + ")" : "")} × ${item.qty} — ${u.formatPrice(item.lineTotal, order.currency)}`;
             }).join("\n");
 
             const fd = new FormData();
@@ -8784,6 +9108,8 @@
                     name: l.product.name,
                     slug: l.product.slug,
                     size: l.size,
+                    quality: l.quality,
+                    qualityLabel: l.qualityLabel,
                     qty: l.qty,
                     unitPrice: l.unitPrice,
                     lineTotal: l.lineTotal,
@@ -9085,7 +9411,7 @@
                     const lineTotalInTarget = priceInTarget * line.qty;
                     return `
                                     <div class="cart-summary-row">
-                                        <span>${u.escapeHtml(line.product.name)} ${line.size ? `(${u.escapeHtml(line.size)})` : ""} × ${line.qty}</span>
+                                        <span>${u.escapeHtml(line.product.name)} ${line.qualityLabel ? `(${u.escapeHtml(line.qualityLabel)}${line.size ? ", " + u.escapeHtml(line.size) : ""})` : (line.size ? `(${u.escapeHtml(line.size)})` : "")} × ${line.qty}</span>
                                         <span>${u.formatPrice(lineTotalInTarget, targetCurrency)}</span>
                                     </div>
                                 `;
@@ -9225,6 +9551,8 @@
                         name: l.product.name,
                         slug: l.product.slug,
                         size: l.size,
+                        quality: l.quality,
+                        qualityLabel: l.qualityLabel,
                         qty: l.qty,
                         unitPrice: l.unitPrice,
                         lineTotal: l.lineTotal,
@@ -9254,7 +9582,7 @@
             VVXCheckout.submitOrderToFormspree = async function(order) {
                 const u = window.VVXUtils;
                 const itemsText = order.items.map(function(item) {
-                    return `${item.name}${item.size ? " (" + item.size + ")" : ""} × ${item.qty} — ${u.formatPrice(item.lineTotal, order.currency)}`;
+                    return `${item.name}${item.qualityLabel ? " (" + item.qualityLabel + (item.size ? ", " + item.size : "") + ")" : (item.size ? " (" + item.size + ")" : "")} × ${item.qty} — ${u.formatPrice(item.lineTotal, order.currency)}`;
                 }).join('\n');
 
                 const fd = new FormData();
@@ -9361,7 +9689,7 @@
                                     <img src="${u.escapeHtml(item.thumbnail)}" alt="${u.escapeHtml(item.name)}" />
                                     <div class="cart-line-info">
                                         <h4>${u.escapeHtml(item.name)}</h4>
-                                        <div class="cart-line-meta">${item.size ? `Size: ${u.escapeHtml(item.size)} · ` : ""}Qty ${item.qty}</div>
+                                        <div class="cart-line-meta">${item.qualityLabel ? `Quality: ${u.escapeHtml(item.qualityLabel)} · ` : ""}${item.size ? `Size: ${u.escapeHtml(item.size)} · ` : ""}Qty ${item.qty}</div>
                                     </div>
                                     <div style="font-weight:600;">${u.formatPrice(item.lineTotal, order.currency)}</div>
                                 </div>
