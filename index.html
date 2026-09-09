@@ -3217,28 +3217,121 @@
         }
 
         /* ============================================================
-           SPIDER-MAN LIMITED DROP — promotional section
+           WALL OF COOL PEOPLE — homepage teaser link
            ============================================================ */
-        .spidey-drop {
+        .wall-teaser {
             position: relative;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            min-height: 560px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 3.5rem 5vw;
             background: var(--vvx-black);
             border-bottom: var(--border-thin);
             overflow: hidden;
         }
-        .spidey-drop-content {
+        .wall-teaser::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 15% 0%, rgba(106, 26, 26, 0.14) 0%, transparent 50%),
+                radial-gradient(ellipse at 85% 100%, rgba(74, 90, 58, 0.12) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .wall-teaser-link {
+            position: relative;
+            z-index: 1;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.6rem;
+            text-decoration: none;
+            padding: 1.5rem 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            transition: border-color 0.4s var(--ease-out-expo), transform 0.4s var(--ease-out-expo);
+        }
+        .wall-teaser-link:hover {
+            border-color: var(--vvx-rust);
+            transform: translateY(-2px);
+        }
+        .wall-teaser-eyebrow {
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            font-weight: 500;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--vvx-rust);
+        }
+        .wall-teaser-text {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+            letter-spacing: -0.01em;
+            text-transform: uppercase;
+            color: var(--vvx-text-highlight);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5em;
+        }
+        .wall-teaser-arrow {
+            font-family: var(--font-heading);
+            font-weight: 400;
+            font-size: 1.2em;
+            color: var(--vvx-text-muted);
+            transition: transform 0.4s var(--ease-out-expo), color 0.4s var(--ease-soft);
+        }
+        .wall-teaser-link:hover .wall-teaser-arrow {
+            transform: translateX(6px);
+            color: var(--vvx-text-highlight);
+        }
+        .wall-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5em;
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--vvx-text-muted);
+            text-decoration: none;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 1.5rem;
+            transition: color 0.3s var(--ease-soft);
+        }
+        .wall-back:hover {
+            color: var(--vvx-text-highlight);
+        }
+
+        /* ============================================================
+           WALL OF COOL PEOPLE — community showcase section
+           ============================================================ */
+        .wall-section {
+            position: relative;
+            background: var(--vvx-black);
+            border-bottom: var(--border-thin);
+            padding: 5.5rem 5vw 6rem;
+            overflow: hidden;
+        }
+        .wall-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 15% 0%, rgba(106, 26, 26, 0.14) 0%, transparent 50%),
+                radial-gradient(ellipse at 85% 100%, rgba(74, 90, 58, 0.12) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .wall-header {
             position: relative;
             z-index: 1;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: flex-start;
-            padding: 4rem 5vw;
             gap: 0.9rem;
+            margin-bottom: 3rem;
         }
-        .spidey-drop-label {
+        .wall-label {
             font-family: var(--font-mono);
             font-size: 0.72rem;
             font-weight: 500;
@@ -3249,173 +3342,321 @@
             align-items: center;
             gap: 0.6em;
         }
-        .spidey-drop-label::before {
+        .wall-label::before {
             content: '';
             width: 22px;
             height: 1px;
             background: var(--vvx-rust);
         }
-        .spidey-drop-headline {
+        .wall-headline {
             font-family: var(--font-heading);
             font-weight: 700;
-            font-size: clamp(3rem, 7vw, 6rem);
+            font-size: clamp(2.6rem, 6vw, 5rem);
             letter-spacing: -0.02em;
             line-height: 0.95;
             text-transform: uppercase;
             color: var(--vvx-text-highlight);
-            margin: 0.1em 0 0.15em 0;
-            text-shadow: 0 6px 40px rgba(106, 26, 26, 0.35);
+            margin: 0;
         }
-        .spidey-drop-desc {
+        .wall-headline span {
             font-family: var(--font-display);
             font-style: italic;
             font-weight: 400;
-            font-size: clamp(1rem, 1.6vw, 1.3rem);
+            text-transform: none;
+            color: var(--vvx-vintage-beige);
+        }
+        .wall-desc {
+            font-family: var(--font-display);
+            font-style: italic;
+            font-weight: 400;
+            font-size: clamp(1rem, 1.6vw, 1.2rem);
             color: var(--vvx-text-secondary);
-            max-width: 34ch;
+            max-width: 46ch;
             line-height: 1.5;
-            margin: 0 0 0.6em 0;
+            margin: 0;
         }
-        .spidey-drop-actions {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 1.1rem;
-            margin-top: 0.4rem;
+        .wall-grid {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            grid-auto-rows: 130px;
+            gap: 0.9rem;
         }
-        .spidey-drop-cta {
-            display: inline-block;
-            font-family: var(--font-alt);
-            font-weight: 500;
-            font-size: 0.75rem;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            padding: 0.9rem 2.6rem;
-            background-color: transparent;
-            color: #f5f0ea;
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            border-radius: 0;
-            text-decoration: none;
+        .wall-card {
+            position: relative;
+            overflow: hidden;
+            background: #0f0f0f;
+            border: var(--border-thin);
             cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            transition: border-color 0.4s var(--ease-out-expo), color 0.4s var(--ease-out-expo);
+            grid-column: span 2;
+            grid-row: span 2;
         }
-        .spidey-drop-cta::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: var(--vvx-deep-red);
-            transition: left 0.4s var(--ease-out-expo);
-            z-index: -1;
+        .wall-card.is-tall {
+            grid-row: span 3;
         }
-        .spidey-drop-cta:hover {
-            border-color: var(--vvx-rust);
+        .wall-card.is-wide {
+            grid-column: span 3;
         }
-        .spidey-drop-cta:hover::before {
-            left: 0;
-        }
-        .spidey-drop-explore {
-            font-family: var(--font-alt);
-            font-size: 0.75rem;
-            font-weight: 500;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--vvx-text-muted);
-            text-decoration: none;
-            border-bottom: 1px solid transparent;
-            padding-bottom: 2px;
-            transition: color 0.3s var(--ease-soft), border-color 0.3s var(--ease-soft);
-        }
-        .spidey-drop-explore:hover {
-            color: var(--vvx-text-highlight);
-            border-color: var(--vvx-rust);
-        }
-        .spidey-drop-media {
-            position: relative;
-            overflow: hidden;
-            background: #050505;
-        }
-        .spidey-drop-media img {
+        .wall-card img {
             position: absolute;
             inset: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
-            object-position: center 20%;
-            filter: contrast(1.08) saturate(0.9) brightness(0.92);
-            transition: transform 0.8s var(--ease-out-expo);
+            filter: grayscale(0) contrast(1.05) brightness(0.95);
+            transition: transform 0.7s var(--ease-out-expo), filter 0.5s var(--ease-soft);
         }
-        .spidey-drop:hover .spidey-drop-media img {
-            transform: scale(1.04);
+        .wall-card:hover img {
+            transform: scale(1.06);
+            filter: grayscale(0) contrast(1.05) brightness(0.95);
         }
-        .spidey-drop-media::after {
+        .wall-card::after {
             content: '';
             position: absolute;
             inset: 0;
-            background:
-                linear-gradient(90deg, rgba(10, 10, 10, 0.92) 0%, rgba(10, 10, 10, 0) 16%),
-                radial-gradient(ellipse at 75% 30%, rgba(106, 26, 26, 0.22) 0%, transparent 55%),
-                linear-gradient(180deg, rgba(10, 10, 10, 0) 55%, rgba(0, 0, 0, 0.75) 100%);
+            background: linear-gradient(180deg, rgba(10, 10, 10, 0) 45%, rgba(10, 10, 10, 0.92) 100%);
             pointer-events: none;
+            transition: opacity 0.4s var(--ease-soft);
         }
-        .spidey-drop-media-web {
+        .wall-card-info {
             position: absolute;
-            top: -40px;
-            right: -40px;
-            width: 220px;
-            height: 220px;
-            opacity: 0.18;
-            pointer-events: none;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 2;
+            padding: 0.9rem 1rem;
+            transform: translateY(6px);
+            opacity: 0.92;
+            transition: transform 0.4s var(--ease-out-expo);
         }
-        .spidey-drop-placeholder-tag {
+        .wall-card:hover .wall-card-info {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .wall-card-name {
+            display: block;
+            font-family: var(--font-heading);
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.01em;
+            color: var(--vvx-text-highlight);
+            text-transform: uppercase;
+            line-height: 1.2;
+        }
+        .wall-card-tag {
+            display: block;
+            font-family: var(--font-mono);
+            font-size: 0.66rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--vvx-rust);
+            margin-top: 0.25rem;
+        }
+        .wall-card-placeholder-tag {
             display: none;
             position: absolute;
-            bottom: 1.2rem;
-            right: 1.2rem;
-            z-index: 2;
+            top: 0.7rem;
+            right: 0.7rem;
+            z-index: 3;
             font-family: var(--font-mono);
-            font-size: 0.65rem;
-            letter-spacing: 0.1em;
+            font-size: 0.58rem;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
             color: var(--vvx-text-dim);
-            background: rgba(10, 10, 10, 0.65);
+            background: rgba(10, 10, 10, 0.7);
             border: var(--border-thin);
-            padding: 0.4em 0.8em;
+            padding: 0.35em 0.6em;
             pointer-events: none;
         }
-        .spidey-drop-media.is-placeholder {
+        .wall-card.is-placeholder {
             background:
-                radial-gradient(ellipse at 72% 22%, rgba(122, 42, 26, 0.35) 0%, transparent 60%),
-                linear-gradient(155deg, #0a0a0a 0%, #161616 55%, #0a0a0a 100%);
+                radial-gradient(ellipse at 30% 20%, rgba(122, 42, 26, 0.28) 0%, transparent 60%),
+                linear-gradient(155deg, #0a0a0a 0%, #171717 55%, #0a0a0a 100%);
         }
-        .spidey-drop-media.is-placeholder .spidey-drop-placeholder-tag {
+        .wall-card.is-placeholder .wall-card-placeholder-tag {
             display: block;
+        }
+        .wall-card.is-placeholder .wall-card-info {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .wall-card-initial {
+            display: none;
+            position: absolute;
+            inset: 0;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-style: italic;
+            font-weight: 700;
+            font-size: 2.4rem;
+            color: rgba(245, 240, 234, 0.14);
+        }
+        .wall-card.is-placeholder .wall-card-initial {
+            display: flex;
+        }
+
+        .wall-card {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+        }
+        .wall-card-readmore {
+            display: inline-block;
+            margin-top: 0.4rem;
+            font-family: var(--font-mono);
+            font-size: 0.62rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--vvx-vintage-beige);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(245, 240, 234, 0.35);
+            transition: color 0.3s var(--ease-soft), border-color 0.3s var(--ease-soft);
+            position: relative;
+            z-index: 3;
+        }
+        .wall-card-readmore:hover {
+            color: var(--vvx-rust);
+            border-color: var(--vvx-rust);
         }
 
         @media (max-width: 900px) {
-            .spidey-drop {
-                grid-template-columns: 1fr;
-                min-height: 0;
+            .wall-section {
+                padding: 4rem 6vw 4.5rem;
             }
-            .spidey-drop-media {
-                height: 52vh;
-                min-height: 320px;
-                order: 1;
+            .wall-grid {
+                grid-template-columns: repeat(2, 1fr);
+                grid-auto-rows: 190px;
             }
-            .spidey-drop-content {
-                order: 2;
-                padding: 3rem 6vw 3.5rem;
-                align-items: flex-start;
-                text-align: left;
+            .wall-card {
+                grid-column: span 1 !important;
+                grid-row: span 1 !important;
             }
-            .spidey-drop-headline {
-                font-size: clamp(2.6rem, 12vw, 4rem);
+            .wall-headline {
+                font-size: clamp(2.4rem, 10vw, 3.2rem);
             }
         }
+
+        /* ============================================================
+           PERSON GALLERY PAGE — individual wall-of-cool-people profile
+           ============================================================ */
+        .person-page {
+            position: relative;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 4.5rem 5vw 6rem;
+        }
+        .person-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5em;
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--vvx-text-muted);
+            text-decoration: none;
+            margin-bottom: 2.2rem;
+            transition: color 0.3s var(--ease-soft);
+        }
+        .person-back:hover {
+            color: var(--vvx-text-highlight);
+        }
+        .person-header {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin-bottom: 2.5rem;
+            border-bottom: var(--border-thin);
+            padding-bottom: 2rem;
+        }
+        .person-label {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--vvx-rust);
+        }
+        .person-name {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: clamp(2.2rem, 5vw, 3.6rem);
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+            color: var(--vvx-text-highlight);
+            margin: 0;
+        }
+        .person-handle {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+            color: var(--vvx-text-muted);
+        }
+        .person-bio {
+            font-family: var(--font-body, inherit);
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--vvx-text-secondary, var(--vvx-text-muted));
+            max-width: 60ch;
+            margin-top: 0.6rem;
+        }
+        .person-gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.9rem;
+        }
+        .person-gallery-item {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 3 / 4;
+            background: #0f0f0f;
+            border: var(--border-thin);
+        }
+        .person-gallery-item img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: contrast(1.05) saturate(0.95);
+            transition: transform 0.6s var(--ease-out-expo);
+        }
+        .person-gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        .person-gallery-item.is-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background:
+                radial-gradient(ellipse at 30% 20%, rgba(122, 42, 26, 0.28) 0%, transparent 60%),
+                linear-gradient(155deg, #0a0a0a 0%, #171717 55%, #0a0a0a 100%);
+        }
+        .person-gallery-item.is-placeholder::after {
+            content: attr(data-placeholder-label);
+            font-family: var(--font-mono);
+            font-size: 0.62rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--vvx-text-dim);
+            text-align: center;
+            padding: 0 1rem;
+        }
+        .person-not-found {
+            text-align: center;
+            padding: 4rem 1rem;
+            color: var(--vvx-text-muted);
+            font-family: var(--font-body);
+        }
+
+        @media (max-width: 700px) {
+            .person-gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
 
         .static-page {
             max-width: 900px;
@@ -3839,34 +4080,12 @@
         </div>
     </section>
 
-    <section class="spidey-drop" id="spideyDropSection" aria-label="Spider-Man limited drop">
-        <div class="spidey-drop-content">
-            <span class="spidey-drop-label">Limited Drop</span>
-            <h2 class="spidey-drop-headline">Spider-Man</h2>
-            <p class="spidey-drop-desc">The city is calling. Step into the web.</p>
-            <div class="spidey-drop-actions">
-                <a href="#/collection?collection=spider-man" class="spidey-drop-cta">Shop The Drop →</a>
-                <a href="#/collection?collection=spider-man" class="spidey-drop-explore">Explore The Collection</a>
-            </div>
-        </div>
-        <div class="spidey-drop-media" id="spideyDropMedia">
-            <img
-            src="./spider.jpg"
-            alt="Spider-Man limited drop campaign artwork"
-            onerror="this.style.display='none'; this.closest('.spidey-drop-media').classList.add('is-placeholder');" />
-            <svg class="spidey-drop-media-web" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <g fill="none" stroke="#f5f0ea" stroke-width="0.6">
-                    <circle cx="200" cy="0" r="40" />
-                    <circle cx="200" cy="0" r="90" />
-                    <circle cx="200" cy="0" r="140" />
-                    <line x1="200" y1="0" x2="60" y2="140" />
-                    <line x1="200" y1="0" x2="110" y2="200" />
-                    <line x1="200" y1="0" x2="170" y2="200" />
-                    <line x1="200" y1="0" x2="200" y2="200" />
-                </g>
-            </svg>
-            <span class="spidey-drop-placeholder-tag">Replace image: spiderman-drop.jpg</span>
-        </div>
+    <section class="wall-teaser" aria-label="Wall of cool people teaser">
+        <a href="#/wall" class="wall-teaser-link">
+            <span class="wall-teaser-eyebrow">The Community</span>
+            <span class="wall-teaser-text">Wall of Cool People</span>
+            <span class="wall-teaser-arrow">→</span>
+        </a>
     </section>
 
     <section class="featured-product">
@@ -4243,9 +4462,9 @@
         </div>
         <div class="team-grid">
             <div class="team-card">
-                <img src="https://www.vovex.tech/Resources/Emb.jfif" alt="Eyoel Mulugeta Bazie" />
+                <img src="https://media.licdn.com/dms/image/v2/D4E03AQESzLc8TQssng/profile-displayphoto-crop_800_800/B4EaBslxynIUAQ-/0/1788528238736?e=1790812800&v=beta&t=BkiSvg1Xxsd3nZJ7opMWdCCXP8R_juxYAQvP3VAutqk" alt="Eyoel Mulugeta Bazie" />
                 <h3>Eyoel Mulugeta Bazie</h3>
-                <div class="role">Founder &amp; CEO, Vovex</div>
+                <div class="role">Founder &amp; CEO, Owner of Vovex</div>
                 <p class="bio">Leading the vision and strategy behind Vovex Rocks.</p>
             </div>
             <div class="team-card">
@@ -4314,6 +4533,58 @@
                 <p style="color:var(--vvx-text-secondary);">Delivery times vary by destination. Typically 5-10 business days for international orders.</p>
             </div>
         </div>
+    </section>
+</div>
+
+<!-- WALL OF COOL PEOPLE — FULL SECTION -->
+<div id="page-wall" style="display:none;">
+    <section class="wall-section" id="wallOfCoolPeople" aria-label="Wall of cool people">
+        <a href="#/" class="wall-back">← Back to Home</a>
+        <div class="wall-header">
+            <span class="wall-label">The Community</span>
+            <h2 class="wall-headline">Wall of <span>Cool People</span></h2>
+            <p class="wall-desc">The wall of cool people that are spotted by Vovex Rocks!!! We might spot you the next day!!!</p>
+        </div>
+        <div class="wall-grid" id="wallGrid">
+            <div class="wall-card is-wide is-tall">
+                <img src="./cool/1.jpg" alt="Community member" onerror="this.style.display='none'; this.closest('.wall-card').classList.add('is-placeholder');" />
+                <span class="wall-card-initial">01</span>
+                <span class="wall-card-placeholder-tag">Anonymous Cosplaying Ghost from Call of duty Modern Warfare</span>
+                <div class="wall-card-info">
+                    <span class="wall-card-name">Ghost</span>
+                    <span class="wall-card-tag">@Ghost</span>
+          
+                </div>
+            </div>
+            <div class="wall-card">
+                <img src="./cool/2.jpg" alt="Community member" onerror="this.style.display='none'; this.closest('.wall-card').classList.add('is-placeholder');" />
+                <span class="wall-card-initial">02</span>
+                <span class="wall-card-placeholder-tag">Add photo: cool-person-2.jpg</span>
+                <div class="wall-card-info">
+                    <span class="wall-card-name">Moony</span>
+                    <span class="wall-card-tag">@mrscoffeejelly</span>
+                  
+                </div>
+            </div>
+            <div class="wall-card is-tall">
+                <img src="./cool/3.jpg" alt="Community member" onerror="this.style.display='none'; this.closest('.wall-card').classList.add('is-placeholder');" />
+                <span class="wall-card-initial">03</span>
+                <span class="wall-card-placeholder-tag">Add photo: cool-person-3.jpg</span>
+                <div class="wall-card-info">
+                    <span class="wall-card-name">Emanuel</span>
+                    <span class="wall-card-tag">@with_emanuel</span>
+              
+                </div>
+            </div>
+           
+    </section>
+</div>
+
+<!-- WALL OF COOL PEOPLE — PROFILE GALLERY -->
+<div id="page-person" style="display:none;">
+    <section class="person-page">
+        <a href="#/" class="person-back">← Back to Home</a>
+        <div id="personContent"></div>
     </section>
 </div>
 
@@ -8001,6 +8272,94 @@
 </script>
 
 <!-- ==========================================================================
+     wall-of-cool-people.js
+     ========================================================================== -->
+<script>
+    const VVXPerson = (function() {
+        "use strict";
+
+        // Edit this list to add, remove, or update people on the Wall.
+        // "photos" can hold as many images as you want for that person's gallery page.
+        // "bio" is the paragraph shown on their "Read more" page — type whatever you want in the quotes.
+        const PEOPLE = [
+            { id: "1", name: "Ghost", handle: "@Ghost", photos: ["./cool-person-1.jpg", "./cool-person-1-2.jpg", "./cool-person-1-3.jpg"], bio: "Write a paragraph about Ghost here." },
+            { id: "2", name: "Moony", handle: "@mrscoffeejelly", photos: ["./cool-person-2.jpg", "./cool-person-2-2.jpg", "./cool-person-2-3.jpg"], bio: "Write a paragraph about Moony here." },
+            { id: "3", name: "Emanuel", handle: "@with_emanuel", photos: ["./cool-person-3.jpg", "./cool-person-3-2.jpg", "./cool-person-3-3.jpg"], bio: "Write a paragraph about Emanuel here." },
+            { id: "4", name: "Name Here", handle: "@handle", photos: ["./cool-person-4.jpg", "./cool-person-4-2.jpg", "./cool-person-4-3.jpg"], bio: "Write a paragraph about this person here." },
+            { id: "5", name: "Name Here", handle: "@handle", photos: ["./cool-person-5.jpg", "./cool-person-5-2.jpg", "./cool-person-5-3.jpg"], bio: "Write a paragraph about this person here." },
+            { id: "6", name: "Name Here", handle: "@handle", photos: ["./cool-person-6.jpg", "./cool-person-6-2.jpg", "./cool-person-6-3.jpg"], bio: "Write a paragraph about this person here." },
+            { id: "7", name: "Name Here", handle: "@handle", photos: ["./cool-person-7.jpg", "./cool-person-7-2.jpg", "./cool-person-7-3.jpg"], bio: "Write a paragraph about this person here." },
+            { id: "8", name: "Name Here", handle: "@handle", photos: ["./cool-person-8.jpg", "./cool-person-8-2.jpg", "./cool-person-8-3.jpg"], bio: "Write a paragraph about this person here." }
+        ];
+
+        function escapeHtml(str) {
+            return String(str || "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;");
+        }
+
+        function renderGalleryItem(src, index) {
+            const safeSrc = escapeHtml(src);
+            const label = `Add photo: ${src.replace(/^\.\//, "")}`;
+            return `
+                <div class="person-gallery-item" data-placeholder-label="${escapeHtml(label)}">
+                    <img src="${safeSrc}" alt="Gallery photo ${index + 1}"
+                         onerror="this.style.display='none'; this.closest('.person-gallery-item').classList.add('is-placeholder');" />
+                </div>
+            `;
+        }
+
+        function init() {
+            const container = document.getElementById("personContent");
+            if (!container) return;
+
+            const { params } = window.VVXUrl.parseHash();
+            const id = params.get("id");
+            const person = PEOPLE.find(function(p) { return p.id === id; });
+
+            if (!person) {
+                document.title = "VVX | Wall of Cool People";
+                container.innerHTML = `
+                    <div class="person-not-found">
+                        <p>We couldn't find that person on the Wall.</p>
+                        <p><a href="#/" style="color:var(--vvx-vintage-beige);">Back to the Wall of Cool People</a></p>
+                    </div>
+                `;
+                return;
+            }
+
+            document.title = `VVX | ${person.name}`;
+
+            const galleryHtml = person.photos.map(renderGalleryItem).join("");
+
+            const bioHtml = person.bio
+                ? `<p class="person-bio">${escapeHtml(person.bio)}</p>`
+                : "";
+
+            container.innerHTML = `
+                <div class="person-header">
+                    <span class="person-label">Wall Of Cool People</span>
+                    <h1 class="person-name">${escapeHtml(person.name)}</h1>
+                    <span class="person-handle">${escapeHtml(person.handle)}</span>
+                    ${bioHtml}
+                </div>
+                <div class="person-gallery">
+                    ${galleryHtml}
+                </div>
+            `;
+        }
+
+        return { init };
+    })();
+
+    if (typeof window !== "undefined") {
+        window.VVXPerson = VVXPerson;
+    }
+</script>
+
+<!-- ==========================================================================
      toast.js
      ========================================================================== -->
 <script>
@@ -11304,7 +11663,9 @@
             "careers": { id: "page-careers", run: () => { document.title = "VVX | Careers"; } },
             "contact": { id: "page-contact", run: () => { document.title = "VVX | Contact"; } },
             "press": { id: "page-press", run: () => { document.title = "VVX | Press"; } },
-            "faq": { id: "page-faq", run: () => { document.title = "VVX | FAQ"; } }
+            "faq": { id: "page-faq", run: () => { document.title = "VVX | FAQ"; } },
+            "person": { id: "page-person", run: () => window.VVXPerson.init() },
+            "wall": { id: "page-wall", run: () => { document.title = "VVX | Wall of Cool People"; } }
         };
 
         function currentPath() {
