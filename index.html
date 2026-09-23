@@ -3756,6 +3756,18 @@
             text-decoration: none;
             border-bottom: 1px dotted;
         }
+        .vendor-form-status {
+            margin-top: 1rem;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            min-height: 1.2rem;
+        }
+        .vendor-form-status.is-success {
+            color: var(--vvx-olive);
+        }
+        .vendor-form-status.is-error {
+            color: var(--vvx-rust);
+        }
 
         #promoCodeInput:focus {
             border-color: var(--vvx-military) !important;
@@ -4444,7 +4456,7 @@
 </div>
 
 <!-- ============================================================
-     PAGES: About, Careers, Contact, Press, FAQ
+     PAGES: About, Vendors, Contact, Press, FAQ
      ============================================================ -->
 <!-- ABOUT -->
 <div id="page-about" style="display:none;">
@@ -4480,16 +4492,192 @@
     </section>
 </div>
 
-<!-- CAREERS -->
-<div id="page-careers" style="display:none;">
-    <section class="static-page">
-        <h1>Careers</h1>
-        <div class="subhead">Join the team</div>
-        <div class="placeholder-msg">
-            There are no job openings at this time.
-        </div>
+<!-- VENDORS -->
+<div id="page-vendors" style="display:none;">
+    <section class="static-page vendor-page">
+        <h1>Vendor Applications</h1>
+        <div class="subhead">Apply to be a Vendor at our Halloween Event</div>
+        <p>
+            We're looking for vendors to join us for our upcoming Halloween event! Fill out the form below and our team will
+            get back to you within a few days.
+        </p>
+
+        <form class="checkout-form vendor-form" id="vendorApplicationForm" novalidate>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="vendorBusinessName">Business / Brand Name *</label>
+                    <input type="text" id="vendorBusinessName" name="businessName" placeholder="e.g. Spooky Snacks Co." required />
+                    <div class="error-msg" data-error-for="vendorBusinessName">Please enter your business name.</div>
+                </div>
+                <div class="form-group">
+                    <label for="vendorContactName">Contact Person *</label>
+                    <input type="text" id="vendorContactName" name="contactName" placeholder="Full name" required />
+                    <div class="error-msg" data-error-for="vendorContactName">Please enter a contact name.</div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="vendorEmail">Email *</label>
+                    <input type="email" id="vendorEmail" name="email" placeholder="you@gmail.com" required />
+                    <div class="error-msg" data-error-for="vendorEmail">Please enter a valid email.</div>
+                </div>
+                <div class="form-group">
+                    <label for="vendorPhone">Phone *</label>
+                    <input type="tel" id="vendorPhone" name="phone" placeholder="+251 ..." required />
+                    <div class="error-msg" data-error-for="vendorPhone">Please enter a phone number.</div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="vendorInstagram">TikTok /Instagram / Website / Social Media</label>
+                    <input type="text" id="vendorInstagram" name="instagram" placeholder="@yourbrand or link" />
+                </div>
+                <div class="form-group">
+                    <label for="vendorCategory">Vendor Category *</label>
+                    <select id="vendorCategory" name="category" required>
+                        <option value="" disabled selected>Select one</option>
+                        <option value="Food & Drinks">Food &amp; Drinks</option>
+                        <option value="Costumes & Accessories">Costumes &amp; Accessories</option>
+                        <option value="Face Painting / Makeup">Face Painting / Makeup</option>
+                        <option value="Props & Decor">Props &amp; Decor</option>
+                        <option value="Art & Crafts">Art &amp; Crafts</option>
+                        <option value="Games & Entertainment">Games &amp; Entertainment</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <div class="error-msg" data-error-for="vendorCategory">Please select a category.</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="vendorDetails">Tell us about what you'll be offering *</label>
+                <textarea id="vendorDetails" name="details" rows="4" placeholder="Products and pricing range of your products." required></textarea>
+                <div class="error-msg" data-error-for="vendorDetails">Please tell us a bit about your offering.</div>
+            </div>
+
+            <div class="form-group">
+                <label class="admin-checkbox" style="cursor:pointer;">
+                    <input type="checkbox" id="vendorAgree" name="agree" required style="width:auto;" />
+                    I confirm I can attend on the event date and agree to be contacted about this application. *
+                </label>
+                <div class="error-msg" data-error-for="vendorAgree">Please confirm before submitting.</div>
+            </div>
+
+            <button type="submit" class="place-order-btn" id="vendorSubmitBtn">Submit Application</button>
+        </form>
+        <div id="vendorFormStatus" class="vendor-form-status" role="status" aria-live="polite"></div>
     </section>
 </div>
+
+<script>
+(function() {
+    "use strict";
+
+    // Replace YOUR_FORM_ID with your own Formspree form ID (formspree.io → New Form → copy the endpoint URL).
+    const VENDOR_FORMSPREE_ENDPOINT = "https://formspree.io/f/mvkgrqdv";
+
+    function init() {
+        const form = document.getElementById("vendorApplicationForm");
+        if (!form || form.dataset.bound) return;
+        form.dataset.bound = "true";
+
+        const statusEl = document.getElementById("vendorFormStatus");
+        const submitBtn = document.getElementById("vendorSubmitBtn");
+
+        function clearErrors() {
+            form.querySelectorAll(".error-msg").forEach(function(el) { el.classList.remove("visible"); });
+            form.querySelectorAll("input.error, select.error, textarea.error").forEach(function(el) { el.classList.remove("error"); });
+        }
+
+        function showError(id) {
+            const field = document.getElementById(id);
+            const msg = form.querySelector('[data-error-for="' + id + '"]');
+            if (field) field.classList.add("error");
+            if (msg) msg.classList.add("visible");
+        }
+
+        function validate() {
+            clearErrors();
+            let valid = true;
+            const required = ["vendorBusinessName", "vendorContactName", "vendorEmail", "vendorPhone", "vendorCategory", "vendorDetails"];
+            required.forEach(function(id) {
+                const field = document.getElementById(id);
+                if (!field || !field.value.trim()) {
+                    showError(id);
+                    valid = false;
+                }
+            });
+            const email = document.getElementById("vendorEmail");
+            if (email && email.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) {
+                showError("vendorEmail");
+                valid = false;
+            }
+            const agree = document.getElementById("vendorAgree");
+            if (agree && !agree.checked) {
+                showError("vendorAgree");
+                valid = false;
+            }
+            return valid;
+        }
+
+        form.addEventListener("submit", async function(e) {
+            e.preventDefault();
+            if (VENDOR_FORMSPREE_ENDPOINT.indexOf("YOUR_FORM_ID") !== -1) {
+                statusEl.textContent = "Form isn't connected yet — add your Formspree endpoint in the code (search for YOUR_FORM_ID).";
+                statusEl.className = "vendor-form-status is-error";
+                return;
+            }
+            if (!validate()) return;
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = "Submitting…";
+            statusEl.textContent = "";
+            statusEl.className = "vendor-form-status";
+
+            const fd = new FormData(form);
+            fd.append("_subject", "New Halloween Event Vendor Application");
+
+            try {
+                const res = await fetch(VENDOR_FORMSPREE_ENDPOINT, {
+                    method: "POST",
+                    body: fd,
+                    headers: { "Accept": "application/json" }
+                });
+
+                if (!res.ok) {
+                    let msg = "We couldn't submit your application right now. Please try again in a moment.";
+                    try {
+                        const data = await res.json();
+                        if (data && data.errors && data.errors.length) {
+                            msg = data.errors.map(function(err) { return err.message; }).join(", ");
+                        }
+                    } catch (parseErr) { /* keep default */ }
+                    throw new Error(msg);
+                }
+
+                form.reset();
+                form.style.display = "none";
+                statusEl.textContent = "Form submitted successfully! We will get back to you soon!";
+                statusEl.className = "vendor-form-status is-success";
+            } catch (err) {
+                statusEl.textContent = err.message || "Something went wrong. Please try again.";
+                statusEl.className = "vendor-form-status is-error";
+                submitBtn.disabled = false;
+                submitBtn.textContent = "Submit Application";
+            }
+        });
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", init);
+    } else {
+        init();
+    }
+
+    window.VVXVendorForm = { init: init };
+})();
+</script>
 
 <!-- CONTACT -->
 <div id="page-contact" style="display:none;">
@@ -4607,7 +4795,7 @@
                 <h4>About Us</h4>
                 <ul>
                     <li><a href="#/about">About VVX</a></li>
-                    <li><a href="#/careers">Careers</a></li>
+                    <li><a href="#/vendors">Apply for Vendors</a></li>
                     <li><a href="#">Affiliates</a></li>
                 </ul>
             </div>
@@ -11890,7 +12078,7 @@
             "order-confirmation": { id: "page-confirmation", run: () => window.VVXOrderConfirmation.init() },
             "admin": { id: "page-admin", run: () => window.VVXAdmin.init() },
             "about": { id: "page-about", run: () => { document.title = "VVX | About"; } },
-            "careers": { id: "page-careers", run: () => { document.title = "VVX | Careers"; } },
+            "vendors": { id: "page-vendors", run: () => { document.title = "VVX | Vendors"; if (window.VVXVendorForm) window.VVXVendorForm.init(); } },
             "contact": { id: "page-contact", run: () => { document.title = "VVX | Contact"; } },
             "press": { id: "page-press", run: () => { document.title = "VVX | Press"; } },
             "faq": { id: "page-faq", run: () => { document.title = "VVX | FAQ"; } },
