@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>VVX | Get Tickets</title>
+<link rel="stylesheet" href="assets/vvx-tickets.css" />
+<script>
+  // Point this at your deployed backend before going live.
+  window.VVX_API_BASE = "https://api.vovex.rocks/api";
+</script>
+</head>
+<body class="vvx-tix">
+<div class="vvx-tix-wrap">
+  <div class="vvx-tix-eyebrow">VVX Presents</div>
+  <h1>Get Your Tickets</h1>
+  <div class="sub">150 tickets total. Select a type, submit your payment proof, and your ticket is issued once verified.</div>
+
+  <div id="ticketGrid" class="vvx-ticket-grid">
+    <div class="sub">Loading availability…</div>
+  </div>
+
+  <form id="purchaseForm" class="vvx-card" style="display:none;">
+    <label for="quantity">Quantity</label>
+    <input type="number" id="quantity" min="1" max="10" value="1" required />
+
+    <div class="vvx-total">Total: <span class="amt" id="totalDisplay">0 ETB</span></div>
+
+    <label for="customerName">Full name</label>
+    <input type="text" id="customerName" required maxlength="120" />
+
+    <label for="customerPhone">Phone number</label>
+    <input type="tel" id="customerPhone" required maxlength="30" placeholder="+251 9XX XXX XXX" />
+
+    <label for="customerEmail">Email address</label>
+    <input type="email" id="customerEmail" required maxlength="120" />
+
+    <div class="vvx-msg info" style="margin-top:1.5rem;">
+      <strong>Payment instructions:</strong> Send the total amount to <strong>[Bank / Telebirr number — edit this]</strong>
+      under the name <strong>[Account holder name — edit this]</strong>. Then upload your payment screenshot and reference
+      number below.
+    </div>
+
+    <label for="paymentReference">Payment / transaction reference number</label>
+    <input type="text" id="paymentReference" required maxlength="120" />
+
+    <label>Payment screenshot</label>
+    <div class="vvx-file-drop" id="fileDrop">Click to upload JPG, PNG or WEBP (max 8MB)</div>
+    <input type="file" id="paymentScreenshot" accept=".jpg,.jpeg,.png,.webp" style="display:none;" required />
+
+    <div id="formMsg"></div>
+
+    <button type="submit" class="vvx-btn" id="submitBtn" style="margin-top:1.5rem;">Submit Order</button>
+  </form>
+
+  <div id="successPanel" class="vvx-card" style="display:none;">
+    <div class="vvx-msg success" id="successMsg"></div>
+    <p class="sub">Save this link to check your order status and get your ticket once approved:</p>
+    <div class="vvx-card" style="word-break:break-all; font-family: var(--font-mono); font-size:0.8rem;" id="orderLink"></div>
+    <a id="orderLinkBtn" class="vvx-btn" style="margin-top:1rem; text-decoration:none;">View My Order</a>
+  </div>
+</div>
+
+<script>
+(function () {
+  const API = window.VVX_API_BASE;
+  const grid = document.getElementById("ticketGrid");
+  const form = document.getElementById("purchaseForm");
+  const totalDisplay = document.getElementById("totalDisplay");
+  const qtyInput = document.getElementById("quantity");
+  const fileInput = document.getElementById("paymentScreenshot");
+  const fileDrop = document.getElementById("fileDrop");
+  const formMsg = document.getElementById("formMsg");
+  const submitBtn = document.getElementById("submitBtn");
+
+  let ticketTypes = [];
+  let selected = null;
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  }
+
+  async function loadAvailability() {
+    try {
+      const res = await fetch(`${API}/tickets/availability`);
+      const data = await res.json();
+      ticketTypes = data.ticket_types || [];
+      renderGrid();
+    } catch (e) {
+      grid.innerHTML = `<div class="vvx-msg error">Could not load ticket availability. Please refresh.</div>`;
+    }
+  }
+
+  function renderGrid() {
+    grid.innerHTML = ticketTypes
+      .map((t) => {
+        const lowStock = !t.sold_out && t.remaining <= 10;
+        return `
+          <div class="vvx-ticket-card ${t.sold_out ? "sold-out" : ""} ${selected === t.code ? "selected" : ""}" data-code="${t.code}">
+            ${t.sold_out ? `<div class="sold-badge">Sold Out</div>` : ""}
+            <div class="name">${escapeHtml(t.label)}</div>
+            <div class="price">${t.price_etb.toLocaleString()} ETB</div>
+            <div class="avail ${lowStock ? "low" : ""}">${t.sold_out ? "Sold out" : `Only ${t.remaining} remaining`}</div>
+          </div>`;
+      })
+      .join("");
+
+    grid.querySelectorAll(".vvx-ticket-card").forEach((card) => {
+      card.addEventListener("click", () => {
+        const code = card.dataset.code;
+        const type = ticketTypes.find((t) => t.code === code);
+        if (!type || type.sold_out) return;
+        selected = code;
+        renderGrid();
+        form.style.display = "";
+        qtyInput.max = Math.min(10, type.remaining);
+        if (parseInt(qtyInput.value, 10) > type.remaining) qtyInput.value = type.remaining;
+        updateTotal();
+      });
+    });
+  }
+
+  function updateTotal() {
+    const type = ticketTypes.find((t) => t.code === selected);
+    if (!type) return;
+    const qty = Math.max(1, parseInt(qtyInput.value, 10) || 1);
+    totalDisplay.textContent = `${(type.price_etb * qty).toLocaleString()} ETB`;
+  }
+  qtyInput.addEventListener("input", updateTotal);
+
+  fileDrop.addEventListener("click", () => fileInput.click());
+  fileInput.addEventListener("change", () => {
+    if (fileInput.files[0]) {
+      fileDrop.textContent = fileInput.files[0].name;
+      fileDrop.classList.add("has-file");
+    }
+  });
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    formMsg.innerHTML = "";
+    if (!selected) return;
+    if (!fileInput.files[0]) {
+      formMsg.innerHTML = `<div class="vvx-msg error">Please upload your payment screenshot.</div>`;
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = `<span class="vvx-spinner"></span> Submitting…`;
+
+    const fd = new FormData();
+    fd.append("ticket_type_code", selected);
+    fd.append("quantity", qtyInput.value);
+    fd.append("customer_name", document.getElementById("customerName").value.trim());
+    fd.append("customer_phone", document.getElementById("customerPhone").value.trim());
+    fd.append("customer_email", document.getElementById("customerEmail").value.trim());
+    fd.append("payment_reference", document.getElementById("paymentReference").value.trim());
+    fd.append("payment_screenshot", fileInput.files[0]);
+
+    try {
+      const res = await fetch(`${API}/orders`, { method: "POST", body: fd });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Something went wrong.");
+
+      form.style.display = "none";
+      document.getElementById("successPanel").style.display = "";
+      document.getElementById("successMsg").textContent = data.message;
+      const link = `${location.origin}${location.pathname.replace("tickets.html", "")}order.html?id=${data.order.public_id}&token=${data.order.access_token}`;
+      document.getElementById("orderLink").textContent = link;
+      document.getElementById("orderLinkBtn").href = link;
+      loadAvailability();
+    } catch (err) {
+      formMsg.innerHTML = `<div class="vvx-msg error">${escapeHtml(err.message)}</div>`;
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Submit Order";
+    }
+  });
+
+  loadAvailability();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!--
+  HOW TO WIRE THIS INTO YOUR EXISTING Y2K.html SITE
+  ===================================================
+  Your current site is a single-page app using hash routing (#home, #collection,
+  etc. — see router.js at the bottom of Y2K.html). The ticketing system here is
+  deliberately built as SEPARATE pages (tickets.html, order.html, admin.html,
+  checkin.html) rather than folded into that router, so nothing about your
+  existing site's code has to change. You just add a link to it.
+
+  STEP 1 — Add a nav link
+  ------------------------
+  Find your main nav list in Y2K.html (search for where "About", "Vendors",
+  "Contact" etc. links live) and add one more entry pointing at tickets.html,
+  e.g.:
+
+    <li><a href="tickets.html">Tickets</a></li>
+
+  If your nav items use the hash-router's <a href="#..."> pattern instead,
+  just use a normal href — the browser will do a full page navigation to
+  tickets.html, which is what you want since it's a separate page.
+
+  STEP 2 — Deploy tickets.html, order.html, admin.html, checkin.html and the
+  assets/ folder alongside Y2K.html on the same host/domain as your site.
+  Nothing else in your site needs to move or change.
+
+  STEP 3 — Point the frontend at your live backend.
+  Each of the 4 HTML files has a small inline script near the top:
+
+    <script>
+      window.VVX_API_BASE = "http://localhost:4000/api";
+    </script>
+
+  Change "http://localhost:4000/api" to your deployed backend's URL, e.g.
+  "https://api.yourdomain.com/api" — see backend/README section "Deploying"
+  in the main README.
+
+  OPTIONAL — a "Buy Tickets" button that fits your existing button styling.
+  Your site already defines button classes; reuse the closest one you have,
+  e.g. if you have a ".cta-button" or ".btn-primary" class:
+
+    <a href="tickets.html" class="btn-primary">Get Tickets</a>
+
+  If you'd rather have a floating call-to-action instead of/in addition to a
+  nav link, this small fixed-position button (matches the VVX noir palette)
+  can be pasted right before </body> in Y2K.html:
+-->
+<a href="tickets.html"
+   style="position:fixed; bottom:24px; right:24px; z-index:1000;
+          background:#8a7a4a; color:#0a0a0a; font-family:'Space Grotesk',sans-serif;
+          font-weight:600; letter-spacing:0.05em; text-transform:uppercase;
+          font-size:0.8rem; padding:0.9rem 1.4rem; text-decoration:none;
+          border:1px solid #8a7a4a; box-shadow:0 8px 32px rgba(0,0,0,0.6);">
+  Get Tickets
+</a>

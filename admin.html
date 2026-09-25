@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+window.VVX_API_BASE = "https://api.vovex.rocks/api";
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>VVX | Admin</title>
+<link rel="stylesheet" href="assets/vvx-tickets.css" />
+<script>
+  window.VVX_API_BASE = "https://api.vovex.rocks/api";
+</script>
+</head>
+<body class="vvx-tix">
+<div class="vvx-tix-wrap" style="max-width: 1000px;">
+  <div class="vvx-tix-eyebrow">Staff Only</div>
+  <h1>Admin Dashboard</h1>
+
+  <div id="loginPanel" class="vvx-card">
+    <label for="loginUser">Username</label>
+    <input type="text" id="loginUser" autocomplete="username" />
+    <label for="loginPass">Password</label>
+    <input type="password" id="loginPass" autocomplete="current-password" />
+    <div id="loginMsg"></div>
+    <button class="vvx-btn" id="loginBtn" style="margin-top:1.5rem;">Log In</button>
+  </div>
+
+  <div id="dashboard" style="display:none;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+      <span class="sub" id="whoami"></span>
+      <button class="vvx-btn ghost" id="logoutBtn" style="width:auto; padding:0.5rem 1rem;">Log Out</button>
+    </div>
+
+    <div id="statGrid" class="vvx-stat-grid"></div>
+
+    <div class="vvx-tabs">
+      <div class="vvx-tab active" data-status="PENDING_PAYMENT_VERIFICATION">Pending</div>
+      <div class="vvx-tab" data-status="APPROVED">Approved</div>
+      <div class="vvx-tab" data-status="REJECTED">Rejected</div>
+      <div class="vvx-tab" data-status="">All</div>
+    </div>
+
+    <input type="text" id="searchBox" placeholder="Search name, email, reference, order ID…" style="margin-bottom:1rem;" />
+
+    <div class="vvx-card" style="padding:0;">
+      <div style="overflow-x:auto;">
+        <table class="vvx-table" id="ordersTable">
+          <thead>
+            <tr><th>Order</th><th>Customer</th><th>Type</th><th>Qty</th><th>Total</th><th>Date</th><th>Status</th></tr>
+          </thead>
+          <tbody id="ordersBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div id="orderModalRoot"></div>
+</div>
+
+<script>
+(function () {
+  const API = window.VVX_API_BASE;
+  let token = sessionStorage.getItem("vvx_admin_token") || "";
+  let role = sessionStorage.getItem("vvx_admin_role") || "";
+  let username = sessionStorage.getItem("vvx_admin_username") || "";
+  let currentStatus = "PENDING_PAYMENT_VERIFICATION";
+  let currentQuery = "";
+
+  const loginPanel = document.getElementById("loginPanel");
+  const dashboard = document.getElementById("dashboard");
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  }
+
+  function authHeaders() {
+    return { Authorization: `Bearer ${token}` };
+  }
+
+  async function apiGet(path) {
+    const res = await fetch(`${API}${path}`, { headers: authHeaders() });
+    if (res.status === 401 || res.status === 403) { logout(); throw new Error("Session expired."); }
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Request failed.");
+    return data;
+  }
+  async function apiPost(path, body) {
+    const res = await fetch(`${API}${path}`, {
+      method: "POST",
+      headers: { ...authHeaders(), "Content-Type": "application/json" },
+      body: JSON.stringify(body || {})
+    });
+    if (res.status === 401 || res.status === 403) { logout(); throw new Error("Session expired."); }
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Request failed.");
+    return data;
+  }
+
+  function showDashboard() {
+    loginPanel.style.display = "none";
+    dashboard.style.display = "";
+    document.getElementById("whoami").textContent = `Logged in as ${username} (${role})`;
+    refreshAll();
+  }
+
+  document.getElementById("loginBtn").addEventListener("click", async () => {
+    const u = document.getElementById("loginUser").value.trim();
+    const p = document.getElementById("loginPass").value;
+    const msg = document.getElementById("loginMsg");
+    msg.innerHTML = "";
+    try {
+      const res = await fetch(`${API}/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: u, password: p })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Login failed.");
+      if (data.role !== "admin") throw new Error("This account does not have admin dashboard access. Use the staff check-in page instead.");
+      token = data.token; role = data.role; username = data.username;
+      sessionStorage.setItem("vvx_admin_token", token);
+      sessionStorage.setItem("vvx_admin_role", role);
+      sessionStorage.setItem("vvx_admin_username", username);
+      showDashboard();
+    } catch (err) {
+      msg.innerHTML = `<div class="vvx-msg error">${escapeHtml(err.message)}</div>`;
+    }
+  });
+
+  function logout() {
+    token = ""; sessionStorage.clear();
+    loginPanel.style.display = ""; dashboard.style.display = "none";
+  }
+  document.getElementById("logoutBtn").addEventListener("click", logout);
+
+  async function refreshAll() {
+    await Promise.all([loadStats(), loadOrders()]);
+  }
+
+  async function loadStats() {
+    try {
+      const s = await apiGet("/admin/stats");
+      const cells = [
+        ["Total Capacity", s.total_capacity],
+        ["Tickets Sold", s.tickets_sold],
+        ["Tickets Remaining", s.tickets_remaining],
+        ["Pending", s.pending_payments],
+        ["Approved", s.approved_payments],
+        ["Rejected", s.rejected_payments],
+        ["Revenue (ETB)", s.total_approved_revenue_etb.toLocaleString()],
+        ...s.by_type.map((t) => [`${t.label} left`, t.remaining])
+      ];
+      document.getElementById("statGrid").innerHTML = cells
+        .map(([l, n]) => `<div class="vvx-stat"><div class="n">${n}</div><div class="l">${escapeHtml(l)}</div></div>`)
+        .join("");
+    } catch (err) { /* handled by apiGet redirect on auth errors */ }
+  }
+
+  async function loadOrders() {
+    const qs = new URLSearchParams();
+    if (currentStatus) qs.set("status", currentStatus);
+    if (currentQuery) qs.set("q", currentQuery);
+    try {
+      const { orders } = await apiGet(`/admin/orders?${qs.toString()}`);
+      const body = document.getElementById("ordersBody");
+      if (!orders.length) {
+        body.innerHTML = `<tr><td colspan="7" class="sub" style="padding:1.5rem 0.6rem;">No orders here.</td></tr>`;
+        return;
+      }
+      body.innerHTML = orders
+        .map(
+          (o) => `
+        <tr data-id="${o.id}">
+          <td>${escapeHtml(o.public_id)}</td>
+          <td>${escapeHtml(o.customer_name)}</td>
+          <td>${escapeHtml(o.ticket_type_code.replace("_", " "))}</td>
+          <td>${o.quantity}</td>
+          <td>${o.total_amount_etb.toLocaleString()} ETB</td>
+          <td>${escapeHtml(o.created_at)}</td>
+          <td><span class="vvx-status-pill ${o.status === "APPROVED" ? "approved" : o.status === "REJECTED" ? "rejected" : "pending"}">${o.status.replace(/_/g, " ")}</span></td>
+        </tr>`
+        )
+        .join("");
+      body.querySelectorAll("tr[data-id]").forEach((row) => {
+        row.addEventListener("click", () => openOrderModal(row.dataset.id));
+      });
+    } catch (err) { /* ignore */ }
+  }
+
+  document.querySelectorAll(".vvx-tab").forEach((tab) => {
+    tab.addEventListener("click", () => {
+      document.querySelectorAll(".vvx-tab").forEach((t) => t.classList.remove("active"));
+      tab.classList.add("active");
+      currentStatus = tab.dataset.status;
+      loadOrders();
+    });
+  });
+  document.getElementById("searchBox").addEventListener("input", (e) => {
+    currentQuery = e.target.value.trim();
+    clearTimeout(window._vvxSearchTimer);
+    window._vvxSearchTimer = setTimeout(loadOrders, 300);
+  });
+
+  async function openOrderModal(id) {
+    const root = document.getElementById("orderModalRoot");
+    root.innerHTML = `<div class="vvx-modal-backdrop"><div class="vvx-modal">Loading…</div></div>`;
+    try {
+      const { order, tickets } = await apiGet(`/admin/orders/${id}`);
+      const screenshotUrl = `${API}/admin/orders/${id}/screenshot`;
+      const isPending = order.status === "PENDING_PAYMENT_VERIFICATION";
+      root.innerHTML = `
+        <div class="vvx-modal-backdrop" id="modalBackdrop">
+          <div class="vvx-modal">
+            <span class="vvx-close" id="modalClose">Close ✕</span>
+            <h3 style="font-family:var(--font-display); margin-top:0;">${escapeHtml(order.public_id)}</h3>
+            <span class="vvx-status-pill ${order.status === "APPROVED" ? "approved" : order.status === "REJECTED" ? "rejected" : "pending"}">${order.status.replace(/_/g, " ")}</span>
+            <table class="vvx-table" style="margin-top:1rem;">
+              <tr><th>Name</th><td>${escapeHtml(order.customer_name)}</td></tr>
+              <tr><th>Phone</th><td>${escapeHtml(order.customer_phone)}</td></tr>
+              <tr><th>Email</th><td>${escapeHtml(order.customer_email)}</td></tr>
+              <tr><th>Ticket type</th><td>${escapeHtml(order.ticket_type_code.replace("_", " "))}</td></tr>
+              <tr><th>Quantity</th><td>${order.quantity}</td></tr>
+              <tr><th>Total</th><td>${order.total_amount_etb.toLocaleString()} ETB</td></tr>
+              <tr><th>Payment ref.</th><td>${escapeHtml(order.payment_reference)}</td></tr>
+              <tr><th>Submitted</th><td>${escapeHtml(order.created_at)}</td></tr>
+              ${order.reviewed_at ? `<tr><th>Reviewed</th><td>${escapeHtml(order.reviewed_at)} by ${escapeHtml(order.reviewed_by || "")}</td></tr>` : ""}
+              ${order.rejection_reason ? `<tr><th>Reason</th><td>${escapeHtml(order.rejection_reason)}</td></tr>` : ""}
+            </table>
+            <label>Payment Screenshot</label>
+            <img class="screenshot" src="${screenshotUrl}" alt="Payment screenshot" />
+            ${tickets.length ? `<label>Tickets Issued</label><div class="sub">${tickets.map((t) => escapeHtml(t.ticket_id) + " (" + t.status + ")").join(", ")}</div>` : ""}
+            <div id="modalMsg"></div>
+            ${isPending ? `
+              <div style="display:flex; gap:0.75rem; margin-top:1.5rem;">
+                <button class="vvx-btn" id="approveBtn">Approve Payment</button>
+                <button class="vvx-btn ghost" id="rejectBtn">Reject Payment</button>
+              </div>` : ""}
+          </div>
+        </div>`;
+      document.getElementById("modalClose").addEventListener("click", () => (root.innerHTML = ""));
+      document.getElementById("modalBackdrop").addEventListener("click", (e) => {
+        if (e.target.id === "modalBackdrop") root.innerHTML = "";
+      });
+
+      const approveBtn = document.getElementById("approveBtn");
+      const rejectBtn = document.getElementById("rejectBtn");
+      if (approveBtn) {
+        approveBtn.addEventListener("click", async () => {
+          if (!confirm(`Approve payment for ${order.public_id}? This will issue ${order.quantity} ticket(s).`)) return;
+          try {
+            await apiPost(`/admin/orders/${id}/approve`, {});
+            root.innerHTML = "";
+            refreshAll();
+          } catch (err) {
+            document.getElementById("modalMsg").innerHTML = `<div class="vvx-msg error">${escapeHtml(err.message)}</div>`;
+          }
+        });
+      }
+      if (rejectBtn) {
+        rejectBtn.addEventListener("click", async () => {
+          const reason = prompt("Reason for rejection (shown to the customer):", "Payment could not be verified.");
+          if (reason === null) return;
+          if (!confirm(`Reject payment for ${order.public_id}?`)) return;
+          try {
+            await apiPost(`/admin/orders/${id}/reject`, { reason });
+            root.innerHTML = "";
+            refreshAll();
+          } catch (err) {
+            document.getElementById("modalMsg").innerHTML = `<div class="vvx-msg error">${escapeHtml(err.message)}</div>`;
+          }
+        });
+      }
+    } catch (err) {
+      root.innerHTML = `<div class="vvx-modal-backdrop"><div class="vvx-modal">${escapeHtml(err.message)}</div></div>`;
+    }
+  }
+
+  if (token) showDashboard();
+})();
+</script>
+</body>
+</html>

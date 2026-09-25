@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>VVX | Check-In</title>
+<link rel="stylesheet" href="assets/vvx-tickets.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
+<script>
+  window.VVX_API_BASE = "https://api.vovex.rocks/api";
+</script>
+</head>
+<body class="vvx-tix">
+<div class="vvx-tix-wrap" style="max-width: 640px;">
+  <div class="vvx-tix-eyebrow">Staff Only</div>
+  <h1>Check-In</h1>
+
+  <div id="loginPanel" class="vvx-card">
+    <label for="loginUser">Username</label>
+    <input type="text" id="loginUser" autocomplete="username" />
+    <label for="loginPass">Password</label>
+    <input type="password" id="loginPass" autocomplete="current-password" />
+    <div id="loginMsg"></div>
+    <button class="vvx-btn" id="loginBtn" style="margin-top:1.5rem;">Log In</button>
+  </div>
+
+  <div id="checkinPanel" style="display:none;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+      <span class="sub" id="whoami"></span>
+      <button class="vvx-btn ghost" id="logoutBtn" style="width:auto; padding:0.5rem 1rem;">Log Out</button>
+    </div>
+
+    <div class="vvx-card">
+      <label>Scan QR Code</label>
+      <div id="qrReader" style="width:100%;"></div>
+      <button class="vvx-btn ghost" id="toggleScanBtn" style="margin-top:0.75rem;">Start Camera</button>
+    </div>
+
+    <div class="vvx-card">
+      <label for="manualId">Or enter Ticket ID manually</label>
+      <input type="text" id="manualId" placeholder="EVT-0001" style="text-transform:uppercase;" />
+      <button class="vvx-btn" id="lookupBtn" style="margin-top:1rem;">Look Up</button>
+    </div>
+
+    <div id="resultArea"></div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const API = window.VVX_API_BASE;
+  let token = sessionStorage.getItem("vvx_staff_token") || "";
+  let username = sessionStorage.getItem("vvx_staff_username") || "";
+  let scanning = false;
+  let html5QrCode = null;
+  let pendingTicket = null; // { ticket_id, signature }
+
+  const loginPanel = document.getElementById("loginPanel");
+  const checkinPanel = document.getElementById("checkinPanel");
+  const resultArea = document.getElementById("resultArea");
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  }
+
+  document.getElementById("loginBtn").addEventListener("click", async () => {
+    const u = document.getElementById("loginUser").value.trim();
+    const p = document.getElementById("loginPass").value;
+    const msg = document.getElementById("loginMsg");
+    msg.innerHTML = "";
+    try {
+      const res = await fetch(`${API}/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: u, password: p })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Login failed.");
+      token = data.token; username = data.username;
+      sessionStorage.setItem("vvx_staff_token", token);
+      sessionStorage.setItem("vvx_staff_username", username);
+      loginPanel.style.display = "none";
+      checkinPanel.style.display = "";
+      document.getElementById("whoami").textContent = `Logged in as ${username} (${data.role})`;
+    } catch (err) {
+      msg.innerHTML = `<div class="vvx-msg error">${escapeHtml(err.message)}</div>`;
+    }
+  });
+
+  document.getElementById("logoutBtn").addEventListener("click", () => {
+    sessionStorage.clear();
+    token = "";
+    loginPanel.style.display = "";
+    checkinPanel.style.display = "none";
+    stopScanner();
+  });
+
+  async function lookup(ticketId, signature) {
+    resultArea.innerHTML = `<div class="sub">Checking…</div>`;
+    try {
+      const res = await fetch(`${API}/checkin/lookup`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+        body: JSON.stringify({ ticket_id: ticketId, signature })
+      });
+      const data = await res.json();
+      renderResult(data, ticketId, signature);
+    } catch (err) {
+      resultArea.innerHTML = `<div class="vvx-msg error">Network error. Please try again.</div>`;
+    }
+  }
+
+  function renderResult(data, ticketId, signature) {
+    const valid = data.result === "VALID";
+    let html = `<div class="vvx-scan-result ${valid ? "valid" : "invalid"}">
+      <div class="verdict">${escapeHtml(data.message)}</div>`;
+    if (data.ticket) {
+      html += `<div class="sub" style="margin-top:0.75rem;">
+        ${data.ticket.customer_name ? escapeHtml(data.ticket.customer_name) + " · " : ""}
+        ${data.ticket.ticket_type ? escapeHtml(data.ticket.ticket_type.replace("_", " ")) + " · " : ""}
+        ${escapeHtml(data.ticket.ticket_id)}
+      </div>`;
+      if (data.ticket.checked_in_at) {
+        html += `<div class="sub">Originally checked in ${escapeHtml(data.ticket.checked_in_at)} by ${escapeHtml(data.ticket.checked_in_by || "")}</div>`;
+      }
+    }
+    html += `</div>`;
+    resultArea.innerHTML = html;
+
+    if (valid) {
+      const btn = document.createElement("button");
+      btn.className = "vvx-btn";
+      btn.textContent = "Confirm Check-In";
+      btn.addEventListener("click", async () => {
+        btn.disabled = true;
+        btn.innerHTML = `<span class="vvx-spinner"></span> Checking in…`;
+        try {
+          const res = await fetch(`${API}/checkin/confirm`, {
+            method: "POST",
+            headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+            body: JSON.stringify({ ticket_id: ticketId, signature })
+          });
+          const cdata = await res.json();
+          resultArea.innerHTML = `<div class="vvx-scan-result ${res.ok ? "valid" : "invalid"}">
+            <div class="verdict">${escapeHtml(cdata.message)}</div>
+          </div>`;
+        } catch (err) {
+          resultArea.innerHTML = `<div class="vvx-msg error">Network error. Please try again.</div>`;
+        }
+      });
+      resultArea.appendChild(btn);
+    }
+  }
+
+  document.getElementById("lookupBtn").addEventListener("click", () => {
+    const raw = document.getElementById("manualId").value.trim().toUpperCase();
+    if (!raw) return;
+    lookup(raw, null); // manual entry has no QR signature; backend will report NOT_PAID/NOT_FOUND appropriately, or VALID without signature check
+  });
+
+  function stopScanner() {
+    if (html5QrCode && scanning) {
+      html5QrCode.stop().catch(() => {});
+      scanning = false;
+      document.getElementById("toggleScanBtn").textContent = "Start Camera";
+    }
+  }
+
+  document.getElementById("toggleScanBtn").addEventListener("click", async () => {
+    if (typeof Html5Qrcode === "undefined") {
+      resultArea.innerHTML = `<div class="vvx-msg error">Camera scanner library failed to load. Use manual entry instead.</div>`;
+      return;
+    }
+    if (scanning) {
+      stopScanner();
+      return;
+    }
+    html5QrCode = html5QrCode || new Html5Qrcode("qrReader");
+    try {
+      await html5QrCode.start(
+        { facingMode: "environment" },
+        { fps: 10, qrbox: 250 },
+        (decodedText) => {
+          const [ticketId, signature] = decodedText.split(".");
+          if (ticketId) lookup(ticketId, signature);
+        },
+        () => {}
+      );
+      scanning = true;
+      document.getElementById("toggleScanBtn").textContent = "Stop Camera";
+    } catch (err) {
+      resultArea.innerHTML = `<div class="vvx-msg error">Could not access camera. Use manual entry instead.</div>`;
+    }
+  });
+
+  if (token) {
+    loginPanel.style.display = "none";
+    checkinPanel.style.display = "";
+    document.getElementById("whoami").textContent = `Logged in as ${username}`;
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+/* VVX Ticketing — shares the noir design language of the main site. */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Roboto:wght@300;400;500;700&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap');
+
+:root {
+  --vvx-black: #0a0a0a;
+  --vvx-charcoal: #141414;
+  --vvx-dark-gray: #1a1a1a;
+  --vvx-mid-gray: #2a2a2a;
+  --vvx-steel: #3d3d3d;
+  --vvx-gunmetal: #4a4a4a;
+  --vvx-off-white: #f0ebe4;
+  --vvx-warm-white: #f5f0ea;
+  --vvx-vintage-beige: #c4b8a8;
+  --vvx-military: #4a5a3a;
+  --vvx-olive: #5a6a4a;
+  --vvx-deep-red: #6a1a1a;
+  --vvx-rust: #7a2a1a;
+  --vvx-gold: #8a7a4a;
+  --vvx-text-primary: #f5f0ea;
+  --vvx-text-secondary: #d8d0c8;
+  --vvx-text-muted: #b8aea4;
+  --vvx-text-dim: #a09888;
+  --font-display: 'Playfair Display', serif;
+  --font-body: 'Roboto', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-heading: 'Space Grotesk', sans-serif;
+  --border-thin: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+* { box-sizing: border-box; }
+body.vvx-tix {
+  margin: 0;
+  background: var(--vvx-black);
+  color: var(--vvx-text-primary);
+  font-family: var(--font-body);
+  line-height: 1.7;
+  min-height: 100vh;
+  padding: clamp(1rem, 4vw, 3rem) 1rem 4rem;
+}
+.vvx-tix a { color: inherit; }
+.vvx-tix-wrap { max-width: 760px; margin: 0 auto; }
+.vvx-tix-eyebrow {
+  font-family: var(--font-mono);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  color: var(--vvx-gold);
+  margin-bottom: 0.5rem;
+}
+.vvx-tix h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.8rem, 5vw, 2.6rem);
+  margin: 0 0 0.4rem;
+  color: var(--vvx-text-primary);
+}
+.vvx-tix .sub { color: var(--vvx-text-muted); margin-bottom: 2rem; font-size: 0.95rem; }
+
+.vvx-card {
+  background: var(--vvx-charcoal);
+  border: var(--border-thin);
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.vvx-ticket-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin-bottom: 2rem; }
+.vvx-ticket-card {
+  background: var(--vvx-charcoal);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 1.4rem 1.2rem;
+  cursor: pointer;
+  transition: border-color 0.25s, background 0.25s;
+  position: relative;
+}
+.vvx-ticket-card:hover { border-color: var(--vvx-gold); }
+.vvx-ticket-card.selected { border-color: var(--vvx-gold); background: var(--vvx-dark-gray); box-shadow: 0 0 0 1px var(--vvx-gold); }
+.vvx-ticket-card.sold-out { opacity: 0.45; cursor: not-allowed; }
+.vvx-ticket-card .name { font-family: var(--font-heading); font-size: 1rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.6rem; }
+.vvx-ticket-card .price { font-family: var(--font-display); font-size: 1.7rem; color: var(--vvx-warm-white); margin-bottom: 0.4rem; }
+.vvx-ticket-card .avail { font-family: var(--font-mono); font-size: 0.72rem; color: var(--vvx-text-dim); text-transform: uppercase; letter-spacing: 0.06em; }
+.vvx-ticket-card .avail.low { color: var(--vvx-rust); }
+.vvx-ticket-card .sold-badge {
+  position: absolute; top: 0.8rem; right: 0.8rem;
+  font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.1em;
+  color: var(--vvx-rust); border: 1px solid var(--vvx-rust); padding: 0.15rem 0.4rem;
+}
+
+label { display: block; font-family: var(--font-mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--vvx-text-dim); margin: 1.1rem 0 0.4rem; }
+input[type=text], input[type=email], input[type=tel], input[type=number], select {
+  width: 100%; padding: 0.75rem 0.85rem; background: var(--vvx-dark-gray);
+  border: var(--border-thin); color: var(--vvx-text-primary); font-family: var(--font-body); font-size: 0.95rem;
+}
+input:focus, select:focus { outline: none; border-color: var(--vvx-gold); }
+.vvx-file-drop {
+  border: 1px dashed rgba(255,255,255,0.25); padding: 1.4rem; text-align: center;
+  cursor: pointer; margin-top: 0.4rem; font-size: 0.85rem; color: var(--vvx-text-muted);
+}
+.vvx-file-drop.has-file { border-color: var(--vvx-gold); color: var(--vvx-text-primary); }
+.vvx-btn {
+  display: inline-block; font-family: var(--font-heading); font-weight: 600; letter-spacing: 0.05em;
+  text-transform: uppercase; font-size: 0.85rem; padding: 0.9rem 1.6rem; border: 1px solid var(--vvx-gold);
+  background: var(--vvx-gold); color: var(--vvx-black); cursor: pointer; transition: opacity 0.2s; width: 100%; text-align: center;
+}
+.vvx-btn:hover { opacity: 0.88; }
+.vvx-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.vvx-btn.ghost { background: transparent; color: var(--vvx-text-primary); border-color: rgba(255,255,255,0.25); }
+.vvx-total { font-family: var(--font-display); font-size: 1.5rem; margin: 1.5rem 0 0.5rem; }
+.vvx-total .amt { color: var(--vvx-gold); }
+
+.vvx-msg { padding: 0.9rem 1rem; font-size: 0.88rem; margin: 1rem 0; border-left: 3px solid; }
+.vvx-msg.info { border-color: var(--vvx-gold); background: rgba(138,122,74,0.08); }
+.vvx-msg.error { border-color: var(--vvx-rust); background: rgba(122,42,26,0.1); color: #e8b8ac; }
+.vvx-msg.success { border-color: var(--vvx-olive); background: rgba(90,106,74,0.1); }
+
+.vvx-status-pill {
+  display: inline-block; font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.08em;
+  text-transform: uppercase; padding: 0.25rem 0.6rem; border: 1px solid;
+}
+.vvx-status-pill.pending { color: var(--vvx-gold); border-color: var(--vvx-gold); }
+.vvx-status-pill.approved { color: #9fc98a; border-color: var(--vvx-olive); }
+.vvx-status-pill.rejected { color: #e8b8ac; border-color: var(--vvx-rust); }
+
+.vvx-digital-ticket {
+  background: linear-gradient(160deg, var(--vvx-charcoal), var(--vvx-black));
+  border: 1px solid var(--vvx-gold); padding: 1.75rem; margin-bottom: 1.25rem; text-align: center;
+}
+.vvx-digital-ticket .event { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--vvx-text-dim); }
+.vvx-digital-ticket .cust { font-family: var(--font-display); font-size: 1.5rem; margin: 0.5rem 0; }
+.vvx-digital-ticket .type { color: var(--vvx-vintage-beige); font-family: var(--font-heading); text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.85rem; margin-bottom: 1rem; }
+.vvx-digital-ticket img.qr { width: 180px; height: 180px; background: #fff; padding: 8px; margin: 0.75rem 0; }
+.vvx-digital-ticket .tid { font-family: var(--font-mono); font-size: 0.85rem; letter-spacing: 0.08em; color: var(--vvx-text-secondary); }
+
+table.vvx-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+table.vvx-table th, table.vvx-table td { text-align: left; padding: 0.6rem 0.6rem; border-bottom: var(--border-thin); }
+table.vvx-table th { font-family: var(--font-mono); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--vvx-text-dim); }
+table.vvx-table tr:hover td { background: rgba(255,255,255,0.02); cursor: pointer; }
+
+.vvx-stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1px; background: rgba(255,255,255,0.08); margin-bottom: 1.5rem; }
+.vvx-stat { background: var(--vvx-charcoal); padding: 1.1rem; }
+.vvx-stat .n { font-family: var(--font-display); font-size: 1.6rem; color: var(--vvx-warm-white); }
+.vvx-stat .l { font-family: var(--font-mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--vvx-text-dim); margin-top: 0.2rem; }
+
+.vvx-modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.75); display: flex; align-items: flex-start; justify-content: center; padding: 3vh 1rem; overflow-y: auto; z-index: 100; }
+.vvx-modal { background: var(--vvx-charcoal); border: var(--border-thin); max-width: 560px; width: 100%; padding: 1.75rem; }
+.vvx-modal img.screenshot { max-width: 100%; border: var(--border-thin); margin: 0.75rem 0; }
+.vvx-close { float: right; cursor: pointer; color: var(--vvx-text-muted); font-family: var(--font-mono); font-size: 0.85rem; }
+
+.vvx-tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; border-bottom: var(--border-thin); }
+.vvx-tab { font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.7rem 1rem; cursor: pointer; color: var(--vvx-text-dim); border-bottom: 2px solid transparent; }
+.vvx-tab.active { color: var(--vvx-gold); border-color: var(--vvx-gold); }
+
+.vvx-scan-result { text-align: center; padding: 2.5rem 1.5rem; margin-bottom: 1.25rem; }
+.vvx-scan-result.valid { background: rgba(90,106,74,0.12); border: 1px solid var(--vvx-olive); }
+.vvx-scan-result.invalid { background: rgba(122,42,26,0.12); border: 1px solid var(--vvx-rust); }
+.vvx-scan-result .verdict { font-family: var(--font-heading); font-size: 1.4rem; letter-spacing: 0.05em; text-transform: uppercase; }
+
+.vvx-spinner { display:inline-block; width:14px; height:14px; border:2px solid rgba(255,255,255,0.3); border-top-color: var(--vvx-black); border-radius:50%; animation: vvxspin 0.7s linear infinite; vertical-align: middle; margin-right: 0.4rem; }
+@keyframes vvxspin { to { transform: rotate(360deg); } }

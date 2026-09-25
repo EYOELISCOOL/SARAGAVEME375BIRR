@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>VVX | My Order</title>
+<link rel="stylesheet" href="assets/vvx-tickets.css" />
+<script>
+  window.VVX_API_BASE = "https://api.vovex.rocks/api";
+  window.VVX_EVENT_NAME = "VVX Presents"; // edit to your event's name
+  window.VVX_EVENT_DATE = "Edit event date here";
+</script>
+</head>
+<body class="vvx-tix">
+<div class="vvx-tix-wrap">
+  <div class="vvx-tix-eyebrow">Order Status</div>
+  <h1 id="pageTitle">Your Order</h1>
+  <div id="content"><div class="sub">Loading…</div></div>
+</div>
+
+<script>
+(function () {
+  const API = window.VVX_API_BASE;
+  const params = new URLSearchParams(location.search);
+  const id = params.get("id");
+  const token = params.get("token");
+  const content = document.getElementById("content");
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  }
+
+  const STATUS_LABEL = {
+    PENDING_PAYMENT_VERIFICATION: ["pending", "Pending Verification"],
+    APPROVED: ["approved", "Approved"],
+    REJECTED: ["rejected", "Rejected"]
+  };
+
+  async function load() {
+    if (!id || !token) {
+      content.innerHTML = `<div class="vvx-msg error">Missing order link details. Use the link you were given after purchase.</div>`;
+      return;
+    }
+    try {
+      const res = await fetch(`${API}/orders/${encodeURIComponent(id)}?token=${encodeURIComponent(token)}`);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Order not found.");
+      render(data);
+    } catch (err) {
+      content.innerHTML = `<div class="vvx-msg error">${escapeHtml(err.message)}</div>`;
+    }
+  }
+
+  function render(data) {
+    const { order, tickets } = data;
+    const [pillClass, pillLabel] = STATUS_LABEL[order.status] || ["pending", order.status];
+
+    let html = `
+      <div class="vvx-card">
+        <span class="vvx-status-pill ${pillClass}">${pillLabel}</span>
+        <div style="margin-top:1rem;">
+          <div class="sub" style="margin-bottom:0.2rem;">Order ${escapeHtml(order.public_id)} · ${order.quantity} ticket(s) · ${order.total_amount_etb.toLocaleString()} ETB</div>
+        </div>
+    `;
+
+    if (order.status === "PENDING_PAYMENT_VERIFICATION") {
+      html += `<div class="vvx-msg info">Your payment is currently being verified. Refresh this page after a short while — your ticket will appear here once approved.</div>`;
+    } else if (order.status === "REJECTED") {
+      html += `<div class="vvx-msg error">This order was not approved.${order.rejection_reason ? " Reason: " + escapeHtml(order.rejection_reason) : ""} Please contact the organizers if you believe this is a mistake.</div>`;
+    }
+    html += `</div>`;
+
+    if (order.status === "APPROVED" && tickets.length) {
+      tickets.forEach((t) => {
+        const qrUrl = `${API}/orders/${encodeURIComponent(order.public_id)}/tickets/${encodeURIComponent(t.ticket_id)}/qr?token=${encodeURIComponent(token)}`;
+        const usedNote = t.status === "CHECKED_IN" ? `<div class="vvx-msg info" style="margin-top:0.75rem;">Checked in ${t.checked_in_at ? "at " + escapeHtml(t.checked_in_at) : ""}</div>` : "";
+        html += `
+          <div class="vvx-digital-ticket">
+            <div class="event">${escapeHtml(window.VVX_EVENT_NAME)}${window.VVX_EVENT_DATE ? " · " + escapeHtml(window.VVX_EVENT_DATE) : ""}</div>
+            <div class="cust">${escapeHtml(order.customer_name || "")}</div>
+            <div class="type">${escapeHtml(order.ticket_type_code.replace("_", " "))}</div>
+            <img class="qr" src="${qrUrl}" alt="Ticket QR code" />
+            <div class="tid">${escapeHtml(t.ticket_id)}</div>
+            ${usedNote}
+          </div>`;
+      });
+    }
+
+    content.innerHTML = html;
+  }
+
+  load();
+})();
+</script>
+</body>
+</html>
