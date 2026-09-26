@@ -100,8 +100,19 @@
     max-width: 22rem;
   }
   @media print {
-    body.vvx-tix > *:not(#successPanel) { display: none !important; }
-    .vvx-btn, .sub { display: none !important; }
+    body.vvx-tix { background: #fff !important; }
+    .vvx-tix-wrap > *:not(#successPanel) { display: none !important; }
+    #successPanel > *:not(#ticketReceipt) { display: none !important; }
+    #ticketReceipt {
+      border-color: #000 !important;
+      background: #fff !important;
+      color: #000 !important;
+    }
+    #ticketReceipt .vvx-ticket-tear { border-top-color: #000 !important; }
+    #ticketReceipt .vvx-ticket-tear::before,
+    #ticketReceipt .vvx-ticket-tear::after { background: #fff !important; border: 1px solid #000; }
+    #ticketReceipt .vvx-ticket-row { border-bottom-color: #ccc !important; }
+    #ticketReceipt .vvx-ticket-status { color: #000 !important; border-color: #000 !important; background: #fff !important; }
   }
 </style>
 </head>
@@ -169,7 +180,7 @@
     <p class="sub">Or use this link directly:</p>
     <div class="vvx-card" style="word-break:break-all; font-family: var(--font-mono); font-size:0.8rem;" id="orderLink"></div>
     <a id="orderLinkBtn" class="vvx-btn" style="margin-top:1rem; text-decoration:none;">View My Order</a>
-    <button type="button" class="vvx-btn" id="printTicketBtn" style="margin-top:0.75rem; background:transparent; border:1px solid var(--border-color, rgba(255,255,255,0.2));">Print / Save Ticket</button>
+    <button type="button" class="vvx-btn" id="printTicketBtn" style="margin-top:0.75rem; background:transparent; border:1px solid #fff; color:#fff !important;">Print / Save Ticket</button>
   </div>
 </div>
 
