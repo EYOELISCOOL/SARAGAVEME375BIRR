@@ -9,12 +9,107 @@
   // Point this at your deployed backend before going live.
   window.VVX_API_BASE = "https://api.vovex.rocks/api";
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+  /* --- Ticket receipt (scoped) --- */
+  .vvx-ticket {
+    position: relative;
+    margin: 1.5rem 0;
+    border: 1px solid var(--border-color, rgba(255,255,255,0.14));
+    border-radius: 14px;
+    background: var(--card-bg, rgba(255,255,255,0.03));
+    overflow: hidden;
+  }
+  .vvx-ticket-top {
+    padding: 1.25rem 1.5rem 1rem;
+  }
+  .vvx-ticket-event {
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    opacity: 0.65;
+  }
+  .vvx-ticket-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin-top: 0.15rem;
+  }
+  .vvx-ticket-status {
+    display: inline-block;
+    margin-top: 0.6rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    background: rgba(240, 160, 40, 0.16);
+    color: #f0a028;
+    border: 1px solid rgba(240, 160, 40, 0.35);
+  }
+  .vvx-ticket-tear {
+    position: relative;
+    height: 0;
+    border-top: 1px dashed var(--border-color, rgba(255,255,255,0.25));
+    margin: 0 1.5rem;
+  }
+  .vvx-ticket-tear::before,
+  .vvx-ticket-tear::after {
+    content: "";
+    position: absolute;
+    top: -9px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--page-bg, #0d0d10);
+  }
+  .vvx-ticket-tear::before { left: -1.5rem; }
+  .vvx-ticket-tear::after { right: -1.5rem; }
+  .vvx-ticket-body {
+    padding: 1rem 1.5rem 0.25rem;
+  }
+  .vvx-ticket-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border-color, rgba(255,255,255,0.08));
+    font-size: 0.88rem;
+  }
+  .vvx-ticket-row:last-child { border-bottom: none; }
+  .vvx-ticket-row .label { opacity: 0.6; }
+  .vvx-ticket-row .value {
+    font-family: var(--font-mono, ui-monospace, monospace);
+    text-align: right;
+    word-break: break-word;
+  }
+  .vvx-ticket-qr-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 1.25rem 1.5rem 1.5rem;
+    text-align: center;
+  }
+  .vvx-ticket-qr-block canvas,
+  .vvx-ticket-qr-block img {
+    border-radius: 10px;
+    background: #fff;
+    padding: 10px;
+  }
+  .vvx-ticket-qr-caption {
+    font-size: 0.78rem;
+    opacity: 0.6;
+    max-width: 22rem;
+  }
+  @media print {
+    body.vvx-tix > *:not(#successPanel) { display: none !important; }
+    .vvx-btn, .sub { display: none !important; }
+  }
+</style>
 </head>
 <body class="vvx-tix">
 <div class="vvx-tix-wrap">
   <div class="vvx-tix-eyebrow">VVX Presents</div>
   <h1>Get Your Tickets</h1>
-  <div class="sub">150 tickets total. Select a type, submit your payment proof, and your ticket is issued once verified.</div>
+  <div class="sub">Buy the tickets for the Vovex Rocks Halloween Event.Select a type, submit your payment proof, and your ticket is issued once verified.</div>
 
   <div id="ticketGrid" class="vvx-ticket-grid">
     <div class="sub">Loading availability…</div>
@@ -55,9 +150,26 @@
 
   <div id="successPanel" class="vvx-card" style="display:none;">
     <div class="vvx-msg success" id="successMsg"></div>
-    <p class="sub">Save this link to check your order status and get your ticket once approved:</p>
+
+    <div class="vvx-ticket" id="ticketReceipt">
+      <div class="vvx-ticket-top">
+        <div class="vvx-ticket-event">VVX Presents</div>
+        <div class="vvx-ticket-title">Vovex Rocks Halloween Event</div>
+        <div class="vvx-ticket-status" id="ticketStatus">Pending verification</div>
+      </div>
+      <div class="vvx-ticket-tear"></div>
+      <div class="vvx-ticket-body" id="ticketBody"></div>
+      <div class="vvx-ticket-tear"></div>
+      <div class="vvx-ticket-qr-block">
+        <div id="ticketQr"></div>
+        <div class="vvx-ticket-qr-caption">Scan this code any time to check your order status and view your ticket once it's approved.</div>
+      </div>
+    </div>
+
+    <p class="sub">Or use this link directly:</p>
     <div class="vvx-card" style="word-break:break-all; font-family: var(--font-mono); font-size:0.8rem;" id="orderLink"></div>
     <a id="orderLinkBtn" class="vvx-btn" style="margin-top:1rem; text-decoration:none;">View My Order</a>
+    <button type="button" class="vvx-btn" id="printTicketBtn" style="margin-top:0.75rem; background:transparent; border:1px solid var(--border-color, rgba(255,255,255,0.2));">Print / Save Ticket</button>
   </div>
 </div>
 
@@ -128,6 +240,9 @@
   }
   qtyInput.addEventListener("input", updateTotal);
 
+  const printTicketBtn = document.getElementById("printTicketBtn");
+  if (printTicketBtn) printTicketBtn.addEventListener("click", () => window.print());
+
   fileDrop.addEventListener("click", () => fileInput.click());
   fileInput.addEventListener("change", () => {
     if (fileInput.files[0]) {
@@ -162,12 +277,53 @@
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Something went wrong.");
 
+      const type = ticketTypes.find((t) => t.code === selected);
+      const qty = Math.max(1, parseInt(qtyInput.value, 10) || 1);
+      const total = type ? type.price_etb * qty : 0;
+      const name = document.getElementById("customerName").value.trim();
+      const phone = document.getElementById("customerPhone").value.trim();
+      const email = document.getElementById("customerEmail").value.trim();
+      const ref = document.getElementById("paymentReference").value.trim();
+      const orderId = (data.order && (data.order.public_id || data.order.id)) || "—";
+      const status = (data.order && data.order.status) ? data.order.status.replace(/_/g, " ") : "pending verification";
+      const submittedAt = new Date().toLocaleString();
+
       form.style.display = "none";
       document.getElementById("successPanel").style.display = "";
       document.getElementById("successMsg").textContent = data.message;
+
       const link = `${location.origin}${location.pathname.replace("tickets.html", "")}order.html?id=${data.order.public_id}&token=${data.order.access_token}`;
       document.getElementById("orderLink").textContent = link;
       document.getElementById("orderLinkBtn").href = link;
+
+      document.getElementById("ticketStatus").textContent = status;
+
+      const rows = [
+        ["Order ID", orderId],
+        ["Ticket type", type ? type.label : selected],
+        ["Quantity", qty],
+        ["Total paid", `${total.toLocaleString()} ETB`],
+        ["Name", name],
+        ["Phone", phone],
+        ["Email", email],
+        ["Payment reference", ref],
+        ["Submitted", submittedAt],
+      ];
+      document.getElementById("ticketBody").innerHTML = rows
+        .map(
+          ([label, value]) =>
+            `<div class="vvx-ticket-row"><span class="label">${escapeHtml(label)}</span><span class="value">${escapeHtml(String(value))}</span></div>`
+        )
+        .join("");
+
+      const qrHost = document.getElementById("ticketQr");
+      qrHost.innerHTML = "";
+      if (window.QRCode) {
+        new QRCode(qrHost, { text: link, width: 150, height: 150, correctLevel: QRCode.CorrectLevel.M });
+      } else {
+        qrHost.textContent = "QR code unavailable — use the link below.";
+      }
+
       loadAvailability();
     } catch (err) {
       formMsg.innerHTML = `<div class="vvx-msg error">${escapeHtml(err.message)}</div>`;
