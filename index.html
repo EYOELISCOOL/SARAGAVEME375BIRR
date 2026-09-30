@@ -3856,6 +3856,73 @@
         .collection-hero.merch-hero p {
             color: #e8e0d6;
         }
+        /* ===== VVX HALLOWEEN TICKETS ===== */
+        .vt-wrap { max-width: 760px; margin: 2rem auto 4rem; padding: 0 1.1rem; text-align: left; }
+        .vt-wrap h1 { font-family: var(--font-display); font-weight: 400; font-size: clamp(2rem, 6vw, 3rem); color: #fff; margin-bottom: .4rem; }
+        .vt-sub { font-family: var(--font-alt); font-size: .8rem; letter-spacing: .14em; text-transform: uppercase; color: var(--vvx-text-muted); padding-bottom: 1rem; margin-bottom: 1.5rem; border-bottom: var(--border-thin); }
+        .vt-card { background: var(--vvx-charcoal); border: var(--border-medium); padding: 1.3rem 1.2rem; margin-bottom: 1.2rem; }
+        .vt-card h2 { font-family: var(--font-alt); font-size: .85rem; letter-spacing: .16em; text-transform: uppercase; color: var(--vvx-warm-white); margin-bottom: 1rem; }
+        .vt-step { display: inline-block; background: var(--vvx-deep-red); color: #fff; font-size: .7rem; padding: .15rem .5rem; margin-right: .6rem; letter-spacing: .05em; }
+        .vt-type { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .9rem 0; border-bottom: var(--border-thin); }
+        .vt-type:last-of-type { border-bottom: none; }
+        .vt-type-name { font-family: var(--font-heading); font-size: 1.05rem; color: #fff; letter-spacing: .06em; }
+        .vt-type-price { font-family: var(--font-mono); font-size: .9rem; color: var(--vvx-vintage-beige); margin-top: .15rem; }
+        .vt-stepper { display: flex; align-items: center; gap: .3rem; }
+        .vt-stepper button { width: 44px; height: 44px; background: var(--vvx-mid-gray); color: #fff; border: var(--border-medium); font-size: 1.3rem; cursor: pointer; }
+        .vt-stepper button:hover { background: var(--vvx-steel); }
+        .vt-stepper output { min-width: 2.4rem; text-align: center; font-family: var(--font-mono); font-size: 1.15rem; color: #fff; }
+        .vt-total-line { display: flex; justify-content: space-between; margin-top: 1rem; padding-top: 1rem; border-top: var(--border-medium); font-family: var(--font-heading); font-size: 1.15rem; color: #fff; }
+        .vt-att { padding: .8rem 0; }
+        .vt-att label, .vt-f label { display: block; font-family: var(--font-alt); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--vvx-text-muted); margin-bottom: .4rem; }
+        .vt-badge { display: inline-block; margin-left: .5rem; padding: .1rem .45rem; background: var(--vvx-deep-red); color: #fff; font-size: .65rem; letter-spacing: .08em; }
+        .vt-badge.reg { background: var(--vvx-steel); }
+        .vt-wrap input[type=text], .vt-wrap input[type=tel], .vt-wrap input[type=email] { width: 100%; padding: .85rem .9rem; background: var(--vvx-black); color: #fff; border: var(--border-medium); font-family: var(--font-body); font-size: 1rem; border-radius: 0; }
+        .vt-wrap input:focus { outline: none; border-color: var(--vvx-vintage-beige); }
+        .vt-wrap input.bad { border-color: #b03a2e; }
+        .vt-err { display: none; color: #e0705f; font-size: .8rem; margin-top: .35rem; }
+        .vt-err.on { display: block; }
+        .vt-f { margin-bottom: 1rem; }
+        .vt-pay { border: 2px solid var(--vvx-gold); background: linear-gradient(160deg, #1d1a12, #141414); }
+        .vt-pay h2 { font-size: 1.2rem; color: #fff; letter-spacing: .2em; }
+        .vt-pay dl { display: grid; grid-template-columns: auto 1fr; gap: .4rem 1rem; margin-bottom: 1rem; }
+        .vt-pay dt { color: var(--vvx-text-muted); font-size: .8rem; text-transform: uppercase; letter-spacing: .1em; }
+        .vt-pay dd { color: #fff; font-family: var(--font-mono); font-size: 1.1rem; }
+        .vt-pay p { color: var(--vvx-text-secondary); line-height: 1.6; font-size: .95rem; margin: 0; }
+        .vt-file { padding: 1rem; border: 1px dashed var(--vvx-steel); background: var(--vvx-black); }
+        .vt-file input { color: var(--vvx-text-secondary); width: 100%; }
+        .vt-preview { max-width: 100%; max-height: 220px; margin-top: .8rem; display: none; border: var(--border-medium); }
+        .vt-sum h3 { font-family: var(--font-alt); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--vvx-text-muted); margin: 1rem 0 .3rem; }
+        .vt-sum p, .vt-sum li { color: #fff; line-height: 1.7; font-size: 1rem; }
+        .vt-sum ul, .vt-sum ol { padding-left: 1.3rem; margin: 0; }
+        .vt-sum .vt-total-line { margin-top: .8rem; }
+        .vt-submit { width: 100%; padding: 1.05rem; background: #f5f0ea; color: #0a0a0a; border: none; font-family: var(--font-alt); font-weight: 700; font-size: .85rem; letter-spacing: .16em; text-transform: uppercase; cursor: pointer; }
+        .vt-submit:disabled { background: var(--vvx-mid-gray); color: #777; cursor: not-allowed; }
+        .vt-missing { font-size: .82rem; color: #e0a05f; margin-top: .7rem; line-height: 1.5; min-height: 1rem; }
+        .vt-status { margin-top: .8rem; color: #e0705f; font-size: .9rem; }
+        /* receipt */
+        .vr-wrap { max-width: 520px; margin: 1rem auto 3rem; padding: 0 .9rem; }
+        .vr-card { background: #f5f0ea; color: #0a0a0a; padding: 1.6rem 1.3rem; border-top: 6px solid var(--vvx-deep-red); }
+        .vr-brand { text-align: center; font-family: var(--font-heading); font-weight: 700; font-size: 1.35rem; letter-spacing: .14em; }
+        .vr-title { text-align: center; font-family: var(--font-alt); font-size: .85rem; letter-spacing: .3em; margin: .3rem 0 1.2rem; color: #555; }
+        .vr-lbl { font-family: var(--font-alt); font-size: .68rem; letter-spacing: .16em; text-transform: uppercase; color: #777; margin-top: 1rem; }
+        .vr-val { font-size: 1.25rem; font-weight: 600; line-height: 1.35; word-break: break-word; }
+        .vr-id { font-family: var(--font-mono); font-size: 1.5rem; font-weight: 700; letter-spacing: .05em; }
+        .vr-att { list-style: none; padding: 0; margin: .3rem 0 0; }
+        .vr-att li { display: flex; justify-content: space-between; gap: .6rem; padding: .65rem 0; border-bottom: 1px solid #d8d0c4; font-size: 1.1rem; font-weight: 600; }
+        .vr-att li span:last-child { font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; background: #0a0a0a; color: #f5f0ea; padding: .2rem .5rem; align-self: center; white-space: nowrap; }
+        .vr-att li span.r { background: #6a1a1a; }
+        .vr-total { font-size: 1.9rem; font-weight: 700; }
+        .vr-qr { text-align: center; margin-top: 1.4rem; }
+        .vr-qr canvas, .vr-qr img { width: 100%; max-width: 280px; height: auto; image-rendering: pixelated; }
+        .vr-qr small { display: block; color: #666; margin-top: .4rem; font-size: .75rem; }
+        .vr-flag { text-align: center; font-weight: 800; letter-spacing: .14em; padding: .9rem; margin-bottom: 1rem; font-size: 1.3rem; }
+        .vr-flag.ok { background: #1f7a3a; color: #fff; }
+        .vr-flag.no { background: #a11f1f; color: #fff; }
+        .vr-bad { background: #a11f1f; color: #fff; padding: .8rem; font-weight: 700; text-align: center; margin-bottom: 1rem; }
+        .vr-actions { display: flex; flex-direction: column; gap: .7rem; margin-top: 1rem; }
+        .vr-actions button { padding: 1rem; font-family: var(--font-alt); font-weight: 700; letter-spacing: .14em; text-transform: uppercase; font-size: .82rem; border: var(--border-medium); background: #f5f0ea; color: #0a0a0a; cursor: pointer; }
+        .vr-actions button.sec { background: transparent; color: #f5f0ea; }
+        body.vvx-receipt-mode > header, body.vvx-receipt-mode > footer { display: none; }
     </style>
 </head>
 <body>
@@ -3970,7 +4037,7 @@
                             </div>
                         </li>
                         <li>
-                            <a href="./tickets.html">Event Tickets</a>
+                            <a href="#/tickets">Event Tickets</a>
                            
                         </li>
                         <li>
@@ -4768,6 +4835,97 @@
 <!-- ============================================================
      SHARED FOOTER
      ============================================================ -->
+<!-- ============================================================
+     HALLOWEEN EVENT TICKETS + RECEIPT
+     ============================================================ -->
+<div id="page-tickets" style="display:none;">
+    <div class="vt-wrap">
+        <h1>Vovex Rocks Halloween</h1>
+        <div class="vt-sub">Event Tickets</div>
+
+        <form id="vtForm" novalidate autocomplete="off">
+            <div class="vt-card">
+                <h2><span class="vt-step">1</span>Choose tickets</h2>
+                <div class="vt-type">
+                    <div><div class="vt-type-name">EARLY BIRD</div><div class="vt-type-price">650 ETB</div></div>
+                    <div class="vt-stepper">
+                        <button type="button" data-t="early" data-d="-1" aria-label="Remove one Early Bird ticket">&minus;</button>
+                        <output id="vtQtyEarly">0</output>
+                        <button type="button" data-t="early" data-d="1" aria-label="Add one Early Bird ticket">+</button>
+                    </div>
+                </div>
+                <div class="vt-type">
+                    <div><div class="vt-type-name">REGULAR</div><div class="vt-type-price">800 ETB</div></div>
+                    <div class="vt-stepper">
+                        <button type="button" data-t="regular" data-d="-1" aria-label="Remove one Regular ticket">&minus;</button>
+                        <output id="vtQtyRegular">0</output>
+                        <button type="button" data-t="regular" data-d="1" aria-label="Add one Regular ticket">+</button>
+                    </div>
+                </div>
+                <div class="vt-total-line"><span>TOTAL</span><span id="vtTotal">0 ETB</span></div>
+                <div class="vt-err" id="vtQtyErr">Please choose at least one ticket (max 10 per order).</div>
+            </div>
+
+            <div class="vt-card" id="vtAttCard" style="display:none;">
+                <h2><span class="vt-step">2</span>Who is using each ticket?</h2>
+                <div id="vtAttendees"></div>
+            </div>
+
+            <div class="vt-card">
+                <h2><span class="vt-step">3</span>Buyer information</h2>
+                <div class="vt-f">
+                    <label for="vtBuyer">Buyer full name *</label>
+                    <input type="text" id="vtBuyer" placeholder="First and last name" />
+                    <div class="vt-err" data-e="vtBuyer">Enter the buyer's full name (first and last name).</div>
+                </div>
+                <div class="vt-f">
+                    <label for="vtPhone">Phone number *</label>
+                    <input type="tel" id="vtPhone" inputmode="tel" placeholder="09XXXXXXXX or +2519XXXXXXXX" />
+                    <div class="vt-err" data-e="vtPhone">Enter a valid Ethiopian phone number, e.g. 0912345678 or +251912345678.</div>
+                </div>
+                <div class="vt-f" style="margin-bottom:0">
+                    <label for="vtEmail">Email (optional)</label>
+                    <input type="email" id="vtEmail" placeholder="you@gmail.com" />
+                    <div class="vt-err" data-e="vtEmail">That email address doesn't look right.</div>
+                </div>
+            </div>
+
+            <div class="vt-card vt-pay">
+                <h2><span class="vt-step">4</span>PAY WITH TELEBIRR</h2>
+                <dl>
+                    <dt>Account Name</dt><dd>Eyueal</dd>
+                    <dt>Telebirr Number</dt><dd>0934592679</dd>
+                    <dt>Amount</dt><dd id="vtPayAmt">0 ETB</dd>
+                </dl>
+                <p>Send the exact total amount through Telebirr to the account above, then upload your payment receipt/screenshot below.</p>
+                <p style="margin-top:.6rem;color:var(--vvx-text-muted);font-size:.85rem;">Only Telebirr payment receipts are accepted.</p>
+            </div>
+
+            <div class="vt-card">
+                <h2><span class="vt-step">5</span>Upload Telebirr receipt *</h2>
+                <div class="vt-file">
+                    <input type="file" id="vtFile" accept="image/*" />
+                    <img class="vt-preview" id="vtPreview" alt="Receipt preview" />
+                </div>
+                <div class="vt-err" data-e="vtFile">Upload your Telebirr payment receipt screenshot (PNG or JPG image, up to 15 MB).</div>
+            </div>
+
+            <div class="vt-card vt-sum" id="vtSummary">
+                <h2>Order summary</h2>
+                <div id="vtSummaryBody"></div>
+            </div>
+
+            <button type="submit" class="vt-submit" id="vtSubmit" disabled>Submit Order</button>
+            <div class="vt-missing" id="vtMissing" aria-live="polite"></div>
+            <div class="vt-status" id="vtStatus" role="alert"></div>
+        </form>
+    </div>
+</div>
+
+<div id="page-receipt" style="display:none;">
+    <div class="vr-wrap" id="vrRoot"></div>
+</div>
+
 <footer>
     <div class="footer-container">
         <div class="footer-grid">
@@ -4821,9 +4979,9 @@
         </div>
     </div>
     <div class="footer-logo">
-        <span class="payment-badge">PayPal</span>
-        <span class="payment-badge">TeleBirr</span>
-        <span class="payment-badge">Commercial Bank of Ethiopia</span>
+        <span class="payment-badge">Vovex</span>
+        <span class="payment-badge">Vovex Rocks</span>
+        <span class="payment-badge">Vovex Tech</span>
     </div>
 </footer>
 
@@ -12054,6 +12212,454 @@
      router.js
      ========================================================================== -->
 <script>
+/* qrcode-generator 1.4.4 (MIT) */
+var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],f={},c=function(t,r){o=function(t){for(var r=new Array(t),e=0;e<t;e+=1){r[e]=new Array(t);for(var n=0;n<t;n+=1)r[e][n]=null}return r}(i=4*e+17),l(0,0),l(i-7,0),l(0,i-7),s(),h(),d(t,r),e>=7&&v(t),null==a&&(a=p(e,n,u)),w(a,r)},l=function(t,r){for(var e=-1;e<=7;e+=1)if(!(t+e<=-1||i<=t+e))for(var n=-1;n<=7;n+=1)r+n<=-1||i<=r+n||(o[t+e][r+n]=0<=e&&e<=6&&(0==n||6==n)||0<=n&&n<=6&&(0==e||6==e)||2<=e&&e<=4&&2<=n&&n<=4)},h=function(){for(var t=8;t<i-8;t+=1)null==o[t][6]&&(o[t][6]=t%2==0);for(var r=8;r<i-8;r+=1)null==o[6][r]&&(o[6][r]=r%2==0)},s=function(){for(var t=B.getPatternPosition(e),r=0;r<t.length;r+=1)for(var n=0;n<t.length;n+=1){var i=t[r],a=t[n];if(null==o[i][a])for(var u=-2;u<=2;u+=1)for(var f=-2;f<=2;f+=1)o[i+u][a+f]=-2==u||2==u||-2==f||2==f||0==u&&0==f}},v=function(t){for(var r=B.getBCHTypeNumber(e),n=0;n<18;n+=1){var a=!t&&1==(r>>n&1);o[Math.floor(n/3)][n%3+i-8-3]=a}for(n=0;n<18;n+=1){a=!t&&1==(r>>n&1);o[n%3+i-8-3][Math.floor(n/3)]=a}},d=function(t,r){for(var e=n<<3|r,a=B.getBCHTypeInfo(e),u=0;u<15;u+=1){var f=!t&&1==(a>>u&1);u<6?o[u][8]=f:u<8?o[u+1][8]=f:o[i-15+u][8]=f}for(u=0;u<15;u+=1){f=!t&&1==(a>>u&1);u<8?o[8][i-u-1]=f:u<9?o[8][15-u-1+1]=f:o[8][15-u-1]=f}o[i-8][8]=!t},w=function(t,r){for(var e=-1,n=i-1,a=7,u=0,f=B.getMaskFunction(r),c=i-1;c>0;c-=2)for(6==c&&(c-=1);;){for(var g=0;g<2;g+=1)if(null==o[n][c-g]){var l=!1;u<t.length&&(l=1==(t[u]>>>a&1)),f(n,c-g)&&(l=!l),o[n][c-g]=l,-1==(a-=1)&&(u+=1,a=7)}if((n+=e)<0||i<=n){n-=e,e=-e;break}}},p=function(t,r,e){for(var n=A.getRSBlocks(t,r),o=b(),i=0;i<e.length;i+=1){var a=e[i];o.put(a.getMode(),4),o.put(a.getLength(),B.getLengthInBits(a.getMode(),t)),a.write(o)}var u=0;for(i=0;i<n.length;i+=1)u+=n[i].dataCount;if(o.getLengthInBits()>8*u)throw"code length overflow. ("+o.getLengthInBits()+">"+8*u+")";for(o.getLengthInBits()+4<=8*u&&o.put(0,4);o.getLengthInBits()%8!=0;)o.putBit(!1);for(;!(o.getLengthInBits()>=8*u||(o.put(236,8),o.getLengthInBits()>=8*u));)o.put(17,8);return function(t,r){for(var e=0,n=0,o=0,i=new Array(r.length),a=new Array(r.length),u=0;u<r.length;u+=1){var f=r[u].dataCount,c=r[u].totalCount-f;n=Math.max(n,f),o=Math.max(o,c),i[u]=new Array(f);for(var g=0;g<i[u].length;g+=1)i[u][g]=255&t.getBuffer()[g+e];e+=f;var l=B.getErrorCorrectPolynomial(c),h=k(i[u],l.getLength()-1).mod(l);for(a[u]=new Array(l.getLength()-1),g=0;g<a[u].length;g+=1){var s=g+h.getLength()-a[u].length;a[u][g]=s>=0?h.getAt(s):0}}var v=0;for(g=0;g<r.length;g+=1)v+=r[g].totalCount;var d=new Array(v),w=0;for(g=0;g<n;g+=1)for(u=0;u<r.length;u+=1)g<i[u].length&&(d[w]=i[u][g],w+=1);for(g=0;g<o;g+=1)for(u=0;u<r.length;u+=1)g<a[u].length&&(d[w]=a[u][g],w+=1);return d}(o,n)};f.addData=function(t,r){var e=null;switch(r=r||"Byte"){case"Numeric":e=M(t);break;case"Alphanumeric":e=x(t);break;case"Byte":e=m(t);break;case"Kanji":e=L(t);break;default:throw"mode:"+r}u.push(e),a=null},f.isDark=function(t,r){if(t<0||i<=t||r<0||i<=r)throw t+","+r;return o[t][r]},f.getModuleCount=function(){return i},f.make=function(){if(e<1){for(var t=1;t<40;t++){for(var r=A.getRSBlocks(t,n),o=b(),i=0;i<u.length;i++){var a=u[i];o.put(a.getMode(),4),o.put(a.getLength(),B.getLengthInBits(a.getMode(),t)),a.write(o)}var g=0;for(i=0;i<r.length;i++)g+=r[i].dataCount;if(o.getLengthInBits()<=8*g)break}e=t}c(!1,function(){for(var t=0,r=0,e=0;e<8;e+=1){c(!0,e);var n=B.getLostPoint(f);(0==e||t>n)&&(t=n,r=e)}return r}())},f.createTableTag=function(t,r){t=t||2;var e="";e+='<table style="',e+=" border-width: 0px; border-style: none;",e+=" border-collapse: collapse;",e+=" padding: 0px; margin: "+(r=void 0===r?4*t:r)+"px;",e+='">',e+="<tbody>";for(var n=0;n<f.getModuleCount();n+=1){e+="<tr>";for(var o=0;o<f.getModuleCount();o+=1)e+='<td style="',e+=" border-width: 0px; border-style: none;",e+=" border-collapse: collapse;",e+=" padding: 0px; margin: 0px;",e+=" width: "+t+"px;",e+=" height: "+t+"px;",e+=" background-color: ",e+=f.isDark(n,o)?"#000000":"#ffffff",e+=";",e+='"/>';e+="</tr>"}return e+="</tbody>",e+="</table>"},f.createSvgTag=function(t,r,e,n){var o={};"object"==typeof arguments[0]&&(t=(o=arguments[0]).cellSize,r=o.margin,e=o.alt,n=o.title),t=t||2,r=void 0===r?4*t:r,(e="string"==typeof e?{text:e}:e||{}).text=e.text||null,e.id=e.text?e.id||"qrcode-description":null,(n="string"==typeof n?{text:n}:n||{}).text=n.text||null,n.id=n.text?n.id||"qrcode-title":null;var i,a,u,c,g=f.getModuleCount()*t+2*r,l="";for(c="l"+t+",0 0,"+t+" -"+t+",0 0,-"+t+"z ",l+='<svg version="1.1" xmlns="http://www.w3.org/2000/svg"',l+=o.scalable?"":' width="'+g+'px" height="'+g+'px"',l+=' viewBox="0 0 '+g+" "+g+'" ',l+=' preserveAspectRatio="xMinYMin meet"',l+=n.text||e.text?' role="img" aria-labelledby="'+y([n.id,e.id].join(" ").trim())+'"':"",l+=">",l+=n.text?'<title id="'+y(n.id)+'">'+y(n.text)+"</title>":"",l+=e.text?'<description id="'+y(e.id)+'">'+y(e.text)+"</description>":"",l+='<rect width="100%" height="100%" fill="white" cx="0" cy="0"/>',l+='<path d="',a=0;a<f.getModuleCount();a+=1)for(u=a*t+r,i=0;i<f.getModuleCount();i+=1)f.isDark(a,i)&&(l+="M"+(i*t+r)+","+u+c);return l+='" stroke="transparent" fill="black"/>',l+="</svg>"},f.createDataURL=function(t,r){t=t||2,r=void 0===r?4*t:r;var e=f.getModuleCount()*t+2*r,n=r,o=e-r;return I(e,e,function(r,e){if(n<=r&&r<o&&n<=e&&e<o){var i=Math.floor((r-n)/t),a=Math.floor((e-n)/t);return f.isDark(a,i)?0:1}return 1})},f.createImgTag=function(t,r,e){t=t||2,r=void 0===r?4*t:r;var n=f.getModuleCount()*t+2*r,o="";return o+="<img",o+=' src="',o+=f.createDataURL(t,r),o+='"',o+=' width="',o+=n,o+='"',o+=' height="',o+=n,o+='"',e&&(o+=' alt="',o+=y(e),o+='"'),o+="/>"};var y=function(t){for(var r="",e=0;e<t.length;e+=1){var n=t.charAt(e);switch(n){case"<":r+="&lt;";break;case">":r+="&gt;";break;case"&":r+="&amp;";break;case'"':r+="&quot;";break;default:r+=n}}return r};return f.createASCII=function(t,r){if((t=t||1)<2)return function(t){t=void 0===t?2:t;var r,e,n,o,i,a=1*f.getModuleCount()+2*t,u=t,c=a-t,g={"██":"█","█ ":"▀"," █":"▄","  ":" "},l={"██":"▀","█ ":"▀"," █":" ","  ":" "},h="";for(r=0;r<a;r+=2){for(n=Math.floor((r-u)/1),o=Math.floor((r+1-u)/1),e=0;e<a;e+=1)i="█",u<=e&&e<c&&u<=r&&r<c&&f.isDark(n,Math.floor((e-u)/1))&&(i=" "),u<=e&&e<c&&u<=r+1&&r+1<c&&f.isDark(o,Math.floor((e-u)/1))?i+=" ":i+="█",h+=t<1&&r+1>=c?l[i]:g[i];h+="\n"}return a%2&&t>0?h.substring(0,h.length-a-1)+Array(a+1).join("▀"):h.substring(0,h.length-1)}(r);t-=1,r=void 0===r?2*t:r;var e,n,o,i,a=f.getModuleCount()*t+2*r,u=r,c=a-r,g=Array(t+1).join("██"),l=Array(t+1).join("  "),h="",s="";for(e=0;e<a;e+=1){for(o=Math.floor((e-u)/t),s="",n=0;n<a;n+=1)i=1,u<=n&&n<c&&u<=e&&e<c&&f.isDark(o,Math.floor((n-u)/t))&&(i=0),s+=i?g:l;for(o=0;o<t;o+=1)h+=s+"\n"}return h.substring(0,h.length-1)},f.renderTo2dContext=function(t,r){r=r||2;for(var e=f.getModuleCount(),n=0;n<e;n++)for(var o=0;o<e;o++)t.fillStyle=f.isDark(n,o)?"black":"white",t.fillRect(n*r,o*r,r,r)},f};t.stringToBytes=(t.stringToBytesFuncs={default:function(t){for(var r=[],e=0;e<t.length;e+=1){var n=t.charCodeAt(e);r.push(255&n)}return r}}).default,t.createStringToBytes=function(t,r){var e=function(){for(var e=S(t),n=function(){var t=e.read();if(-1==t)throw"eof";return t},o=0,i={};;){var a=e.read();if(-1==a)break;var u=n(),f=n()<<8|n();i[String.fromCharCode(a<<8|u)]=f,o+=1}if(o!=r)throw o+" != "+r;return i}(),n="?".charCodeAt(0);return function(t){for(var r=[],o=0;o<t.length;o+=1){var i=t.charCodeAt(o);if(i<128)r.push(i);else{var a=e[t.charAt(o)];"number"==typeof a?(255&a)==a?r.push(a):(r.push(a>>>8),r.push(255&a)):r.push(n)}}return r}};var r,e,n,o,i,a=1,u=2,f=4,c=8,g={L:1,M:0,Q:3,H:2},l=0,h=1,s=2,v=3,d=4,w=5,p=6,y=7,B=(r=[[],[6,18],[6,22],[6,26],[6,30],[6,34],[6,22,38],[6,24,42],[6,26,46],[6,28,50],[6,30,54],[6,32,58],[6,34,62],[6,26,46,66],[6,26,48,70],[6,26,50,74],[6,30,54,78],[6,30,56,82],[6,30,58,86],[6,34,62,90],[6,28,50,72,94],[6,26,50,74,98],[6,30,54,78,102],[6,28,54,80,106],[6,32,58,84,110],[6,30,58,86,114],[6,34,62,90,118],[6,26,50,74,98,122],[6,30,54,78,102,126],[6,26,52,78,104,130],[6,30,56,82,108,134],[6,34,60,86,112,138],[6,30,58,86,114,142],[6,34,62,90,118,146],[6,30,54,78,102,126,150],[6,24,50,76,102,128,154],[6,28,54,80,106,132,158],[6,32,58,84,110,136,162],[6,26,54,82,110,138,166],[6,30,58,86,114,142,170]],e=1335,n=7973,i=function(t){for(var r=0;0!=t;)r+=1,t>>>=1;return r},(o={}).getBCHTypeInfo=function(t){for(var r=t<<10;i(r)-i(e)>=0;)r^=e<<i(r)-i(e);return 21522^(t<<10|r)},o.getBCHTypeNumber=function(t){for(var r=t<<12;i(r)-i(n)>=0;)r^=n<<i(r)-i(n);return t<<12|r},o.getPatternPosition=function(t){return r[t-1]},o.getMaskFunction=function(t){switch(t){case l:return function(t,r){return(t+r)%2==0};case h:return function(t,r){return t%2==0};case s:return function(t,r){return r%3==0};case v:return function(t,r){return(t+r)%3==0};case d:return function(t,r){return(Math.floor(t/2)+Math.floor(r/3))%2==0};case w:return function(t,r){return t*r%2+t*r%3==0};case p:return function(t,r){return(t*r%2+t*r%3)%2==0};case y:return function(t,r){return(t*r%3+(t+r)%2)%2==0};default:throw"bad maskPattern:"+t}},o.getErrorCorrectPolynomial=function(t){for(var r=k([1],0),e=0;e<t;e+=1)r=r.multiply(k([1,C.gexp(e)],0));return r},o.getLengthInBits=function(t,r){if(1<=r&&r<10)switch(t){case a:return 10;case u:return 9;case f:case c:return 8;default:throw"mode:"+t}else if(r<27)switch(t){case a:return 12;case u:return 11;case f:return 16;case c:return 10;default:throw"mode:"+t}else{if(!(r<41))throw"type:"+r;switch(t){case a:return 14;case u:return 13;case f:return 16;case c:return 12;default:throw"mode:"+t}}},o.getLostPoint=function(t){for(var r=t.getModuleCount(),e=0,n=0;n<r;n+=1)for(var o=0;o<r;o+=1){for(var i=0,a=t.isDark(n,o),u=-1;u<=1;u+=1)if(!(n+u<0||r<=n+u))for(var f=-1;f<=1;f+=1)o+f<0||r<=o+f||0==u&&0==f||a==t.isDark(n+u,o+f)&&(i+=1);i>5&&(e+=3+i-5)}for(n=0;n<r-1;n+=1)for(o=0;o<r-1;o+=1){var c=0;t.isDark(n,o)&&(c+=1),t.isDark(n+1,o)&&(c+=1),t.isDark(n,o+1)&&(c+=1),t.isDark(n+1,o+1)&&(c+=1),0!=c&&4!=c||(e+=3)}for(n=0;n<r;n+=1)for(o=0;o<r-6;o+=1)t.isDark(n,o)&&!t.isDark(n,o+1)&&t.isDark(n,o+2)&&t.isDark(n,o+3)&&t.isDark(n,o+4)&&!t.isDark(n,o+5)&&t.isDark(n,o+6)&&(e+=40);for(o=0;o<r;o+=1)for(n=0;n<r-6;n+=1)t.isDark(n,o)&&!t.isDark(n+1,o)&&t.isDark(n+2,o)&&t.isDark(n+3,o)&&t.isDark(n+4,o)&&!t.isDark(n+5,o)&&t.isDark(n+6,o)&&(e+=40);var g=0;for(o=0;o<r;o+=1)for(n=0;n<r;n+=1)t.isDark(n,o)&&(g+=1);return e+=Math.abs(100*g/r/r-50)/5*10},o),C=function(){for(var t=new Array(256),r=new Array(256),e=0;e<8;e+=1)t[e]=1<<e;for(e=8;e<256;e+=1)t[e]=t[e-4]^t[e-5]^t[e-6]^t[e-8];for(e=0;e<255;e+=1)r[t[e]]=e;var n={glog:function(t){if(t<1)throw"glog("+t+")";return r[t]},gexp:function(r){for(;r<0;)r+=255;for(;r>=256;)r-=255;return t[r]}};return n}();function k(t,r){if(void 0===t.length)throw t.length+"/"+r;var e=function(){for(var e=0;e<t.length&&0==t[e];)e+=1;for(var n=new Array(t.length-e+r),o=0;o<t.length-e;o+=1)n[o]=t[o+e];return n}(),n={getAt:function(t){return e[t]},getLength:function(){return e.length},multiply:function(t){for(var r=new Array(n.getLength()+t.getLength()-1),e=0;e<n.getLength();e+=1)for(var o=0;o<t.getLength();o+=1)r[e+o]^=C.gexp(C.glog(n.getAt(e))+C.glog(t.getAt(o)));return k(r,0)},mod:function(t){if(n.getLength()-t.getLength()<0)return n;for(var r=C.glog(n.getAt(0))-C.glog(t.getAt(0)),e=new Array(n.getLength()),o=0;o<n.getLength();o+=1)e[o]=n.getAt(o);for(o=0;o<t.getLength();o+=1)e[o]^=C.gexp(C.glog(t.getAt(o))+r);return k(e,0).mod(t)}};return n}var A=function(){var t=[[1,26,19],[1,26,16],[1,26,13],[1,26,9],[1,44,34],[1,44,28],[1,44,22],[1,44,16],[1,70,55],[1,70,44],[2,35,17],[2,35,13],[1,100,80],[2,50,32],[2,50,24],[4,25,9],[1,134,108],[2,67,43],[2,33,15,2,34,16],[2,33,11,2,34,12],[2,86,68],[4,43,27],[4,43,19],[4,43,15],[2,98,78],[4,49,31],[2,32,14,4,33,15],[4,39,13,1,40,14],[2,121,97],[2,60,38,2,61,39],[4,40,18,2,41,19],[4,40,14,2,41,15],[2,146,116],[3,58,36,2,59,37],[4,36,16,4,37,17],[4,36,12,4,37,13],[2,86,68,2,87,69],[4,69,43,1,70,44],[6,43,19,2,44,20],[6,43,15,2,44,16],[4,101,81],[1,80,50,4,81,51],[4,50,22,4,51,23],[3,36,12,8,37,13],[2,116,92,2,117,93],[6,58,36,2,59,37],[4,46,20,6,47,21],[7,42,14,4,43,15],[4,133,107],[8,59,37,1,60,38],[8,44,20,4,45,21],[12,33,11,4,34,12],[3,145,115,1,146,116],[4,64,40,5,65,41],[11,36,16,5,37,17],[11,36,12,5,37,13],[5,109,87,1,110,88],[5,65,41,5,66,42],[5,54,24,7,55,25],[11,36,12,7,37,13],[5,122,98,1,123,99],[7,73,45,3,74,46],[15,43,19,2,44,20],[3,45,15,13,46,16],[1,135,107,5,136,108],[10,74,46,1,75,47],[1,50,22,15,51,23],[2,42,14,17,43,15],[5,150,120,1,151,121],[9,69,43,4,70,44],[17,50,22,1,51,23],[2,42,14,19,43,15],[3,141,113,4,142,114],[3,70,44,11,71,45],[17,47,21,4,48,22],[9,39,13,16,40,14],[3,135,107,5,136,108],[3,67,41,13,68,42],[15,54,24,5,55,25],[15,43,15,10,44,16],[4,144,116,4,145,117],[17,68,42],[17,50,22,6,51,23],[19,46,16,6,47,17],[2,139,111,7,140,112],[17,74,46],[7,54,24,16,55,25],[34,37,13],[4,151,121,5,152,122],[4,75,47,14,76,48],[11,54,24,14,55,25],[16,45,15,14,46,16],[6,147,117,4,148,118],[6,73,45,14,74,46],[11,54,24,16,55,25],[30,46,16,2,47,17],[8,132,106,4,133,107],[8,75,47,13,76,48],[7,54,24,22,55,25],[22,45,15,13,46,16],[10,142,114,2,143,115],[19,74,46,4,75,47],[28,50,22,6,51,23],[33,46,16,4,47,17],[8,152,122,4,153,123],[22,73,45,3,74,46],[8,53,23,26,54,24],[12,45,15,28,46,16],[3,147,117,10,148,118],[3,73,45,23,74,46],[4,54,24,31,55,25],[11,45,15,31,46,16],[7,146,116,7,147,117],[21,73,45,7,74,46],[1,53,23,37,54,24],[19,45,15,26,46,16],[5,145,115,10,146,116],[19,75,47,10,76,48],[15,54,24,25,55,25],[23,45,15,25,46,16],[13,145,115,3,146,116],[2,74,46,29,75,47],[42,54,24,1,55,25],[23,45,15,28,46,16],[17,145,115],[10,74,46,23,75,47],[10,54,24,35,55,25],[19,45,15,35,46,16],[17,145,115,1,146,116],[14,74,46,21,75,47],[29,54,24,19,55,25],[11,45,15,46,46,16],[13,145,115,6,146,116],[14,74,46,23,75,47],[44,54,24,7,55,25],[59,46,16,1,47,17],[12,151,121,7,152,122],[12,75,47,26,76,48],[39,54,24,14,55,25],[22,45,15,41,46,16],[6,151,121,14,152,122],[6,75,47,34,76,48],[46,54,24,10,55,25],[2,45,15,64,46,16],[17,152,122,4,153,123],[29,74,46,14,75,47],[49,54,24,10,55,25],[24,45,15,46,46,16],[4,152,122,18,153,123],[13,74,46,32,75,47],[48,54,24,14,55,25],[42,45,15,32,46,16],[20,147,117,4,148,118],[40,75,47,7,76,48],[43,54,24,22,55,25],[10,45,15,67,46,16],[19,148,118,6,149,119],[18,75,47,31,76,48],[34,54,24,34,55,25],[20,45,15,61,46,16]],r=function(t,r){var e={};return e.totalCount=t,e.dataCount=r,e},e={};return e.getRSBlocks=function(e,n){var o=function(r,e){switch(e){case g.L:return t[4*(r-1)+0];case g.M:return t[4*(r-1)+1];case g.Q:return t[4*(r-1)+2];case g.H:return t[4*(r-1)+3];default:return}}(e,n);if(void 0===o)throw"bad rs block @ typeNumber:"+e+"/errorCorrectionLevel:"+n;for(var i=o.length/3,a=[],u=0;u<i;u+=1)for(var f=o[3*u+0],c=o[3*u+1],l=o[3*u+2],h=0;h<f;h+=1)a.push(r(c,l));return a},e}(),b=function(){var t=[],r=0,e={getBuffer:function(){return t},getAt:function(r){var e=Math.floor(r/8);return 1==(t[e]>>>7-r%8&1)},put:function(t,r){for(var n=0;n<r;n+=1)e.putBit(1==(t>>>r-n-1&1))},getLengthInBits:function(){return r},putBit:function(e){var n=Math.floor(r/8);t.length<=n&&t.push(0),e&&(t[n]|=128>>>r%8),r+=1}};return e},M=function(t){var r=a,e=t,n={getMode:function(){return r},getLength:function(t){return e.length},write:function(t){for(var r=e,n=0;n+2<r.length;)t.put(o(r.substring(n,n+3)),10),n+=3;n<r.length&&(r.length-n==1?t.put(o(r.substring(n,n+1)),4):r.length-n==2&&t.put(o(r.substring(n,n+2)),7))}},o=function(t){for(var r=0,e=0;e<t.length;e+=1)r=10*r+i(t.charAt(e));return r},i=function(t){if("0"<=t&&t<="9")return t.charCodeAt(0)-"0".charCodeAt(0);throw"illegal char :"+t};return n},x=function(t){var r=u,e=t,n={getMode:function(){return r},getLength:function(t){return e.length},write:function(t){for(var r=e,n=0;n+1<r.length;)t.put(45*o(r.charAt(n))+o(r.charAt(n+1)),11),n+=2;n<r.length&&t.put(o(r.charAt(n)),6)}},o=function(t){if("0"<=t&&t<="9")return t.charCodeAt(0)-"0".charCodeAt(0);if("A"<=t&&t<="Z")return t.charCodeAt(0)-"A".charCodeAt(0)+10;switch(t){case" ":return 36;case"$":return 37;case"%":return 38;case"*":return 39;case"+":return 40;case"-":return 41;case".":return 42;case"/":return 43;case":":return 44;default:throw"illegal char :"+t}};return n},m=function(r){var e=f,n=t.stringToBytes(r),o={getMode:function(){return e},getLength:function(t){return n.length},write:function(t){for(var r=0;r<n.length;r+=1)t.put(n[r],8)}};return o},L=function(r){var e=c,n=t.stringToBytesFuncs.SJIS;if(!n)throw"sjis not supported.";!function(){var t=n("友");if(2!=t.length||38726!=(t[0]<<8|t[1]))throw"sjis not supported."}();var o=n(r),i={getMode:function(){return e},getLength:function(t){return~~(o.length/2)},write:function(t){for(var r=o,e=0;e+1<r.length;){var n=(255&r[e])<<8|255&r[e+1];if(33088<=n&&n<=40956)n-=33088;else{if(!(57408<=n&&n<=60351))throw"illegal char at "+(e+1)+"/"+n;n-=49472}n=192*(n>>>8&255)+(255&n),t.put(n,13),e+=2}if(e<r.length)throw"illegal char at "+(e+1)}};return i},D=function(){var t=[],r={writeByte:function(r){t.push(255&r)},writeShort:function(t){r.writeByte(t),r.writeByte(t>>>8)},writeBytes:function(t,e,n){e=e||0,n=n||t.length;for(var o=0;o<n;o+=1)r.writeByte(t[o+e])},writeString:function(t){for(var e=0;e<t.length;e+=1)r.writeByte(t.charCodeAt(e))},toByteArray:function(){return t},toString:function(){var r="";r+="[";for(var e=0;e<t.length;e+=1)e>0&&(r+=","),r+=t[e];return r+="]"}};return r},S=function(t){var r=t,e=0,n=0,o=0,i={read:function(){for(;o<8;){if(e>=r.length){if(0==o)return-1;throw"unexpected end of file./"+o}var t=r.charAt(e);if(e+=1,"="==t)return o=0,-1;t.match(/^\s$/)||(n=n<<6|a(t.charCodeAt(0)),o+=6)}var i=n>>>o-8&255;return o-=8,i}},a=function(t){if(65<=t&&t<=90)return t-65;if(97<=t&&t<=122)return t-97+26;if(48<=t&&t<=57)return t-48+52;if(43==t)return 62;if(47==t)return 63;throw"c:"+t};return i},I=function(t,r,e){for(var n=function(t,r){var e=t,n=r,o=new Array(t*r),i={setPixel:function(t,r,n){o[r*e+t]=n},write:function(t){t.writeString("GIF87a"),t.writeShort(e),t.writeShort(n),t.writeByte(128),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(255),t.writeByte(255),t.writeByte(255),t.writeString(","),t.writeShort(0),t.writeShort(0),t.writeShort(e),t.writeShort(n),t.writeByte(0);var r=a(2);t.writeByte(2);for(var o=0;r.length-o>255;)t.writeByte(255),t.writeBytes(r,o,255),o+=255;t.writeByte(r.length-o),t.writeBytes(r,o,r.length-o),t.writeByte(0),t.writeString(";")}},a=function(t){for(var r=1<<t,e=1+(1<<t),n=t+1,i=u(),a=0;a<r;a+=1)i.add(String.fromCharCode(a));i.add(String.fromCharCode(r)),i.add(String.fromCharCode(e));var f,c,g,l=D(),h=(f=l,c=0,g=0,{write:function(t,r){if(t>>>r!=0)throw"length over";for(;c+r>=8;)f.writeByte(255&(t<<c|g)),r-=8-c,t>>>=8-c,g=0,c=0;g|=t<<c,c+=r},flush:function(){c>0&&f.writeByte(g)}});h.write(r,n);var s=0,v=String.fromCharCode(o[s]);for(s+=1;s<o.length;){var d=String.fromCharCode(o[s]);s+=1,i.contains(v+d)?v+=d:(h.write(i.indexOf(v),n),i.size()<4095&&(i.size()==1<<n&&(n+=1),i.add(v+d)),v=d)}return h.write(i.indexOf(v),n),h.write(e,n),h.flush(),l.toByteArray()},u=function(){var t={},r=0,e={add:function(n){if(e.contains(n))throw"dup key:"+n;t[n]=r,r+=1},size:function(){return r},indexOf:function(r){return t[r]},contains:function(r){return void 0!==t[r]}};return e};return i}(t,r),o=0;o<r;o+=1)for(var i=0;i<t;i+=1)n.setPixel(i,o,e(i,o));var a=D();n.write(a);for(var u=function(){var t=0,r=0,e=0,n="",o={},i=function(t){n+=String.fromCharCode(a(63&t))},a=function(t){if(t<0);else{if(t<26)return 65+t;if(t<52)return t-26+97;if(t<62)return t-52+48;if(62==t)return 43;if(63==t)return 47}throw"n:"+t};return o.writeByte=function(n){for(t=t<<8|255&n,r+=8,e+=1;r>=6;)i(t>>>r-6),r-=6},o.flush=function(){if(r>0&&(i(t<<6-r),t=0,r=0),e%3!=0)for(var o=3-e%3,a=0;a<o;a+=1)n+="="},o.toString=function(){return n},o}(),f=a.toByteArray(),c=0;c<f.length;c+=1)u.writeByte(f[c]);return u.flush(),"data:image/gif;base64,"+u};return t}();qrcode.stringToBytesFuncs["UTF-8"]=function(t){return function(t){for(var r=[],e=0;e<t.length;e++){var n=t.charCodeAt(e);n<128?r.push(n):n<2048?r.push(192|n>>6,128|63&n):n<55296||n>=57344?r.push(224|n>>12,128|n>>6&63,128|63&n):(e++,n=65536+((1023&n)<<10|1023&t.charCodeAt(e)),r.push(240|n>>18,128|n>>12&63,128|n>>6&63,128|63&n))}return r}(t)},function(t){"function"==typeof define&&define.amd?define([],t):"object"==typeof exports&&(module.exports=t())}(function(){return qrcode});
+</script>
+<script>
+(function () {
+    "use strict";
+
+    // Existing Formspree endpoint (same one used by the store checkout). One submission = one complete order.
+    var ENDPOINT = "https://formspree.io/f/mgavqnja";
+    var PRICE = { early: 650, regular: 800 };
+    var LABEL = { early: "Early Bird", regular: "Regular" };
+    var MAX_TICKETS = 10;
+    var MAX_FILE = 15 * 1024 * 1024; // raw screenshot limit (it is compressed before sending)
+
+    // ---- Receipt upload workaround -------------------------------------------------
+    // Formspree blocks file attachments on free plans, so the screenshot is compressed in the
+    // browser and sent as TEXT instead. Two modes:
+    //  1) OPTIONAL (recommended): paste a free ImgBB API key (https://api.imgbb.com) below.
+    //     The image is hosted there and you receive a clickable link in the order email.
+    //  2) No key / host unreachable: the compressed image is sent inside the submission as a
+    //     base64 data-URL (field "payment_receipt_base64"). Paste it into a browser address
+    //     bar to view it.
+    var IMGBB_KEY = "";
+    var MAX_B64 = 700000; // max characters of base64 sent as text
+
+    var qty = { early: 0, regular: 0 };
+    var names = { early: [], regular: [] };
+    var touched = {};
+    var bound = false;
+    var $ = function (id) { return document.getElementById(id); };
+
+    function fmt(n) { return Number(n).toLocaleString("en-US") + " ETB"; }
+    function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+    function total() { return qty.early * PRICE.early + qty.regular * PRICE.regular; }
+    function count() { return qty.early + qty.regular; }
+
+    // Ordered ticket list: Early Bird first, then Regular.
+    function tickets() {
+        var out = [], i;
+        for (i = 0; i < qty.early; i++) out.push({ type: "early", idx: i, name: (names.early[i] || "").trim() });
+        for (i = 0; i < qty.regular; i++) out.push({ type: "regular", idx: i, name: (names.regular[i] || "").trim() });
+        return out;
+    }
+
+    /* ---------- validation ---------- */
+    function nameOk(v) { return /^[\p{L}][\p{L}.'\-]*(\s+[\p{L}][\p{L}.'\-]*)+$/u.test((v || "").trim()); }
+    function phoneOk(v) { return /^(\+251|251|0)[79]\d{8}$/.test((v || "").replace(/[\s\-()]/g, "")); }
+    function emailOk(v) { v = (v || "").trim(); return v === "" || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+    function fileState() {
+        var f = $("vtFile").files[0];
+        if (!f) return false;
+        var okType = /^image\//.test(f.type);
+        return okType && f.size > 0 && f.size <= MAX_FILE;
+    }
+
+    function problems() {
+        var p = [];
+        if (count() < 1) p.push("ticket quantity");
+        var bad = tickets().some(function (t) { return !nameOk(t.name); });
+        if (bad) p.push("every attendee's full name");
+        if (!nameOk($("vtBuyer").value)) p.push("buyer full name");
+        if (!phoneOk($("vtPhone").value)) p.push("valid phone number");
+        if (!emailOk($("vtEmail").value)) p.push("valid email (or leave it empty)");
+        if (!fileState()) p.push("Telebirr receipt upload");
+        return p;
+    }
+
+    function showErr(key, bad) {
+        var el = document.querySelector('[data-e="' + key + '"]');
+        var inp = $(key);
+        if (el) el.classList.toggle("on", bad);
+        if (inp && inp.tagName === "INPUT" && inp.type !== "file") inp.classList.toggle("bad", bad);
+    }
+
+    function refreshErrors() {
+        var checks = {
+            vtBuyer: !nameOk($("vtBuyer").value),
+            vtPhone: !phoneOk($("vtPhone").value),
+            vtEmail: !emailOk($("vtEmail").value),
+            vtFile: !fileState()
+        };
+        Object.keys(checks).forEach(function (k) { showErr(k, !!touched[k] && checks[k]); });
+        document.querySelectorAll("[data-att]").forEach(function (inp) {
+            var key = inp.getAttribute("data-att");
+            var bad = !!touched[key] && !nameOk(inp.value);
+            inp.classList.toggle("bad", bad);
+            var e = inp.parentNode.querySelector(".vt-err");
+            if (e) e.classList.toggle("on", bad);
+        });
+        $("vtQtyErr").classList.toggle("on", !!touched.qty && count() < 1);
+    }
+
+    function refreshState() {
+        var p = problems();
+        $("vtSubmit").disabled = p.length > 0;
+        $("vtMissing").textContent = p.length ? "Still needed: " + p.join(", ") + "." : "";
+        refreshErrors();
+    }
+
+    /* ---------- rendering ---------- */
+    function renderAttendees() {
+        var list = tickets(), box = $("vtAttendees");
+        $("vtAttCard").style.display = list.length ? "" : "none";
+        var html = "", n = 0;
+        list.forEach(function (t) {
+            n++;
+            var key = t.type + t.idx;
+            html += '<div class="vt-att"><label for="vtA_' + key + '">Ticket ' + n +
+                '<span class="vt-badge ' + (t.type === "regular" ? "reg" : "") + '">' + LABEL[t.type].toUpperCase() + '</span></label>' +
+                '<input type="text" id="vtA_' + key + '" data-att="' + key + '" data-type="' + t.type + '" data-idx="' + t.idx + '" placeholder="Full name of person using this ticket" value="' + esc(names[t.type][t.idx] || "") + '" />' +
+                '<div class="vt-err">Enter this attendee\'s full name (first and last name).</div></div>';
+        });
+        box.innerHTML = html;
+    }
+
+    function renderSummary() {
+        var body = $("vtSummaryBody");
+        if (count() < 1) { body.innerHTML = '<p style="color:var(--vvx-text-muted)">Choose your tickets to see your order summary.</p>'; return; }
+        var h = "<h3>Buyer</h3><p>" + esc($("vtBuyer").value.trim() || "—") + "</p><h3>Tickets</h3><ul>";
+        ["early", "regular"].forEach(function (k) {
+            if (qty[k]) h += "<li>" + LABEL[k] + " × " + qty[k] + " — " + fmt(qty[k] * PRICE[k]) + "</li>";
+        });
+        h += '</ul><div class="vt-total-line"><span>TOTAL</span><span>' + fmt(total()) + "</span></div><h3>Attendees</h3><ol>";
+        tickets().forEach(function (t) { h += "<li>" + esc(t.name || "—") + " — " + LABEL[t.type] + "</li>"; });
+        h += "</ol><h3>Payment method</h3><p>Telebirr</p>";
+        body.innerHTML = h;
+    }
+
+    function renderAll() {
+        $("vtQtyEarly").textContent = qty.early;
+        $("vtQtyRegular").textContent = qty.regular;
+        $("vtTotal").textContent = fmt(total());
+        $("vtPayAmt").textContent = fmt(total());
+        renderSummary();
+        refreshState();
+    }
+
+    /* ---------- order id + receipt encoding ---------- */
+    function newOrderId() {
+        var chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789", a = new Uint32Array(6), s = "";
+        (window.crypto || window.msCrypto).getRandomValues(a);
+        for (var i = 0; i < 6; i++) s += chars[a[i] % chars.length];
+        return "VVX-HW-" + s;
+    }
+    function b64uEncode(str) {
+        var bytes = new TextEncoder().encode(str), bin = "";
+        bytes.forEach(function (b) { bin += String.fromCharCode(b); });
+        return btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+    }
+    function b64uDecode(s) {
+        s = s.replace(/-/g, "+").replace(/_/g, "/");
+        while (s.length % 4) s += "=";
+        var bin = atob(s), bytes = new Uint8Array(bin.length);
+        for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+        return new TextDecoder().decode(bytes);
+    }
+    function receiptUrl(data, extra) {
+        var base = window.location.href.split("#")[0];
+        return base + "#/receipt?d=" + b64uEncode(JSON.stringify(data)) + (extra || "");
+    }
+    function decodeReceipt() {
+        try {
+            var params = window.VVXUrl.parseHash().params;
+            var raw = params.get("d");
+            if (!raw) return { error: true };
+            var d = JSON.parse(b64uDecode(raw));
+            if (!d || !/^VVX-HW-[A-Z0-9]{6}$/.test(d.id) || !Array.isArray(d.a) || !d.a.length || typeof d.b !== "string") return { error: true };
+            var sum = 0;
+            d.a.forEach(function (x) { sum += x[1] === "R" ? PRICE.regular : PRICE.early; });
+            if (sum !== d.t) return { error: true };
+            return { data: d, st: params.get("st"), staff: params.get("staff") === "1", raw: raw };
+        } catch (e) { return { error: true }; }
+    }
+    function typeName(c) { return c === "R" ? "Regular" : "Early Bird"; }
+
+    /* ---------- QR ---------- */
+    function makeQR(text) {
+        var qr = qrcode(0, "M");
+        qr.addData(text);
+        qr.make();
+        return qr;
+    }
+    function drawQR(ctx, qr, x, y, size) {
+        var n = qr.getModuleCount(), quiet = 4, cell = size / (n + quiet * 2);
+        ctx.fillStyle = "#fff";
+        ctx.fillRect(x, y, size, size);
+        ctx.fillStyle = "#000";
+        for (var r = 0; r < n; r++) for (var c = 0; c < n; c++) {
+            if (qr.isDark(r, c)) ctx.fillRect(Math.floor(x + (c + quiet) * cell), Math.floor(y + (r + quiet) * cell), Math.ceil(cell), Math.ceil(cell));
+        }
+    }
+
+    /* ---------- receipt page ---------- */
+    function renderReceipt() {
+        document.title = "VVX | Order Receipt";
+        var root = $("vrRoot"), res = decodeReceipt();
+        if (res.error) {
+            root.innerHTML = '<div class="vr-card"><div class="vr-bad">INVALID RECEIPT</div><p style="text-align:center">This receipt link is incomplete or has been altered. Please ask the customer to show their original receipt.</p></div>';
+            return;
+        }
+        var d = res.data, h = "";
+        if (res.st === "v") h += '<div class="vr-flag ok">🟢 PAYMENT VERIFIED</div>';
+        else if (res.st === "r") h += '<div class="vr-flag no">REVOKED</div>';
+        h += '<div class="vr-card"><div class="vr-brand">VOVEX ROCKS HALLOWEEN</div><div class="vr-title">ORDER RECEIPT</div>';
+        h += '<div class="vr-lbl">Order ID</div><div class="vr-id">' + esc(d.id) + "</div>";
+        h += '<div class="vr-lbl">Buyer</div><div class="vr-val">' + esc(d.b) + "</div>";
+        h += '<div class="vr-lbl">Tickets</div><div class="vr-val">' + d.a.length + "</div>";
+        h += '<div class="vr-lbl">Attendees</div><ol class="vr-att">';
+        d.a.forEach(function (x, i) {
+            h += "<li><span>" + (i + 1) + ". " + esc(x[0]) + '</span><span class="' + (x[1] === "R" ? "r" : "") + '">' + typeName(x[1]) + "</span></li>";
+        });
+        h += '</ol><div class="vr-lbl">Total</div><div class="vr-val vr-total">' + fmt(d.t) + "</div>";
+        h += '<div class="vr-lbl">Payment Method</div><div class="vr-val">Telebirr</div>';
+        h += '<div class="vr-qr"><canvas id="vrCanvas" width="560" height="560"></canvas><small>One QR code for the whole order</small></div></div>';
+        h += '<div class="vr-actions"><button type="button" id="vrDownload">Download Receipt</button>';
+        if (res.staff) {
+            h += '<button type="button" class="sec" data-st="v">Staff: mark PAYMENT VERIFIED</button>' +
+                 '<button type="button" class="sec" data-st="r">Staff: mark REVOKED</button>' +
+                 '<button type="button" class="sec" data-st="">Staff: clear status</button>';
+        }
+        h += "</div>";
+        root.innerHTML = h;
+
+        // QR always points at the plain customer receipt link (no status), so it stays valid.
+        var url = receiptUrl(d);
+        var qr = makeQR(url);
+        drawQR($("vrCanvas").getContext("2d"), qr, 0, 0, 560);
+        $("vrDownload").onclick = function () { downloadReceipt(d, qr, res.st); };
+        root.querySelectorAll("[data-st]").forEach(function (b) {
+            b.onclick = function () {
+                var s = b.getAttribute("data-st");
+                window.location.hash = "#/receipt?d=" + res.raw + "&staff=1" + (s ? "&st=" + s : "");
+            };
+        });
+    }
+
+    function downloadReceipt(d, qr, st) {
+        var W = 1080, P = 72, font = "Montserrat, Arial, sans-serif";
+        function paint(ctx, H) {
+            var y = 0;
+            if (H) { ctx.fillStyle = "#f5f0ea"; ctx.fillRect(0, 0, W, H); ctx.fillStyle = "#6a1a1a"; ctx.fillRect(0, 0, W, 14); }
+            y = 120;
+            function text(t, size, weight, color, align, x) {
+                if (H) { ctx.font = weight + " " + size + "px " + font; ctx.fillStyle = color; ctx.textAlign = align || "left"; ctx.fillText(t, x == null ? (align === "center" ? W / 2 : P) : x, y); }
+            }
+            if (st === "v") { if (H) { ctx.fillStyle = "#1f7a3a"; ctx.fillRect(P, y - 50, W - 2 * P, 80); } text("PAYMENT VERIFIED", 40, 800, "#fff", "center"); y += 90; }
+            if (st === "r") { if (H) { ctx.fillStyle = "#a11f1f"; ctx.fillRect(P, y - 50, W - 2 * P, 80); } text("REVOKED", 40, 800, "#fff", "center"); y += 90; }
+            text("VOVEX ROCKS HALLOWEEN", 52, 700, "#0a0a0a", "center"); y += 60;
+            text("ORDER RECEIPT", 30, 500, "#555", "center"); y += 80;
+            function field(label, value, big) {
+                text(label.toUpperCase(), 22, 500, "#777"); y += 46;
+                text(value, big || 38, 700, "#0a0a0a"); y += 70;
+            }
+            field("Order ID", d.id, 48);
+            field("Buyer", d.b);
+            field("Tickets", String(d.a.length));
+            text("ATTENDEES", 22, 500, "#777"); y += 30;
+            d.a.forEach(function (x, i) {
+                if (H) { ctx.fillStyle = "#d8d0c4"; ctx.fillRect(P, y + 50, W - 2 * P, 2); }
+                var label = typeName(x[1]).toUpperCase();
+                var nm = (i + 1) + ". " + x[0];
+                if (H) { ctx.font = "600 34px " + font; while (ctx.measureText(nm).width > W - 2 * P - 240 && nm.length > 4) nm = nm.slice(0, -2); }
+                text(nm, 34, 600, "#0a0a0a");
+                text(label, 24, 700, x[1] === "R" ? "#6a1a1a" : "#0a0a0a", "right", W - P);
+                y += 76;
+            });
+            y += 30;
+            field("Total", fmt(d.t), 56);
+            field("Payment Method", "Telebirr");
+            var qs = 520;
+            if (H) drawQR(ctx, qr, (W - qs) / 2, y, qs);
+            y += qs + 40;
+            text("One QR code for the whole order — show this to event staff", 24, 500, "#666", "center"); y += 70;
+            return y;
+        }
+        var probe = document.createElement("canvas").getContext("2d");
+        var H = paint(probe, 0);
+        var cv = document.createElement("canvas");
+        cv.width = W; cv.height = H;
+        (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(function () {
+            paint(cv.getContext("2d"), H);
+            cv.toBlob(function (blob) {
+                var a = document.createElement("a");
+                a.href = URL.createObjectURL(blob);
+                a.download = d.id + "-receipt.png";
+                document.body.appendChild(a); a.click(); a.remove();
+                setTimeout(function () { URL.revokeObjectURL(a.href); }, 2000);
+            }, "image/png");
+        });
+    }
+
+    /* ---------- receipt image workaround ---------- */
+    function loadImage(file) {
+        return new Promise(function (resolve, reject) {
+            var url = URL.createObjectURL(file), img = new Image();
+            img.onload = function () { URL.revokeObjectURL(url); resolve(img); };
+            img.onerror = function () { URL.revokeObjectURL(url); reject(new Error("We couldn't read that image. Please upload a PNG or JPG screenshot.")); };
+            img.src = url;
+        });
+    }
+    // Shrinks the screenshot until its base64 fits in MAX_B64 characters.
+    async function compressReceipt(file) {
+        var img = await loadImage(file);
+        var dim = 1400, q = 0.75, out = "";
+        for (var i = 0; i < 8; i++) {
+            var sc = Math.min(1, dim / Math.max(img.naturalWidth, img.naturalHeight));
+            var cv = document.createElement("canvas");
+            cv.width = Math.max(1, Math.round(img.naturalWidth * sc));
+            cv.height = Math.max(1, Math.round(img.naturalHeight * sc));
+            var ctx = cv.getContext("2d");
+            ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, cv.width, cv.height);
+            ctx.drawImage(img, 0, 0, cv.width, cv.height);
+            out = cv.toDataURL("image/jpeg", q);
+            if (out.length <= MAX_B64) return out;
+            dim = Math.round(dim * 0.8); q = Math.max(0.5, q - 0.05);
+        }
+        return out;
+    }
+    async function hostReceipt(dataUrl) {
+        var f = new FormData();
+        f.append("image", dataUrl.split(",")[1]);
+        var r = await fetch("https://api.imgbb.com/1/upload?key=" + encodeURIComponent(IMGBB_KEY), { method: "POST", body: f });
+        var j = await r.json();
+        if (!r.ok || !j || !j.data || !j.data.url) throw new Error("host upload failed");
+        return j.data.display_url || j.data.url;
+    }
+
+    /* ---------- submit ---------- */
+    async function submitOrder(e) {
+        e.preventDefault();
+        Object.keys(touched).forEach(function (k) { touched[k] = true; });
+        touched.qty = touched.vtBuyer = touched.vtPhone = touched.vtEmail = touched.vtFile = true;
+        document.querySelectorAll("[data-att]").forEach(function (i) { touched[i.getAttribute("data-att")] = true; });
+        if (problems().length) { refreshState(); return; }
+
+        var btn = $("vtSubmit"), status = $("vtStatus");
+        btn.disabled = true; btn.textContent = "Submitting…"; status.textContent = "";
+
+        var list = tickets(), id = newOrderId();
+        var data = { id: id, b: $("vtBuyer").value.trim().replace(/\s+/g, " "), a: list.map(function (t) { return [t.name.replace(/\s+/g, " "), t.type === "regular" ? "R" : "E"]; }), t: total(), ts: Date.now() };
+
+        var fd = new FormData();
+        fd.append("_subject", "New Halloween Ticket Order — " + id);
+        fd.append("order_id", id);
+        fd.append("buyer_name", data.b);
+        fd.append("phone", $("vtPhone").value.replace(/[\s\-()]/g, ""));
+        if ($("vtEmail").value.trim()) { fd.append("email", $("vtEmail").value.trim()); fd.append("_replyto", $("vtEmail").value.trim()); }
+        fd.append("ticket_quantity", String(list.length));
+        fd.append("ticket_types", ["early", "regular"].filter(function (k) { return qty[k]; }).map(function (k) { return qty[k] + " × " + LABEL[k] + " (" + fmt(qty[k] * PRICE[k]) + ")"; }).join(", "));
+        list.forEach(function (t, i) { fd.append("attendee_" + (i + 1), t.name + " — " + LABEL[t.type]); });
+        fd.append("total_amount", fmt(total()));
+        fd.append("payment_method", "Telebirr");
+        fd.append("receipt_link", receiptUrl(data));
+        try {
+            status.textContent = "Processing your receipt…";
+            var dataUrl = await compressReceipt($("vtFile").files[0]);
+            var hosted = "";
+            if (IMGBB_KEY) { try { hosted = await hostReceipt(dataUrl); } catch (_) { hosted = ""; } }
+            if (hosted) {
+                fd.append("payment_receipt_url", hosted);
+            } else {
+                if (dataUrl.length > MAX_B64 * 1.05) throw new Error("That screenshot is too large. Please upload a smaller or cropped screenshot.");
+                fd.append("payment_receipt_base64", dataUrl);
+            }
+            status.textContent = "";
+        } catch (err) {
+            status.textContent = err.message || "We couldn't process the receipt image. Please try another screenshot.";
+            btn.textContent = "Submit Order";
+            refreshState();
+            return;
+        }
+
+        try {
+            var res = await fetch(ENDPOINT, { method: "POST", body: fd, headers: { "Accept": "application/json" } });
+            if (!res.ok) {
+                var msg = "We couldn't submit your order right now. Please check your connection and try again.";
+                try { var j = await res.json(); if (j && j.errors && j.errors.length) msg = j.errors.map(function (x) { return x.message; }).join(", "); } catch (_) { }
+                throw new Error(msg);
+            }
+            // Immediate receipt
+            var url = receiptUrl(data);
+            resetForm();
+            btn.textContent = "Submit Order";
+            window.location.hash = url.slice(url.indexOf("#"));
+        } catch (err) {
+            status.textContent = err.message || "Something went wrong. Please try again.";
+            btn.textContent = "Submit Order";
+            refreshState();
+        }
+    }
+
+    function resetForm() {
+        qty.early = qty.regular = 0; names = { early: [], regular: [] }; touched = {};
+        $("vtForm").reset();
+        $("vtPreview").style.display = "none";
+        renderAttendees(); renderAll();
+    }
+
+    /* ---------- init ---------- */
+    function init() {
+        document.title = "VVX | Halloween Event Tickets";
+        if (bound) { renderAll(); return; }
+        bound = true;
+
+        document.querySelectorAll("#vtForm .vt-stepper button").forEach(function (b) {
+            b.addEventListener("click", function () {
+                var t = b.getAttribute("data-t"), d = parseInt(b.getAttribute("data-d"), 10);
+                var next = qty[t] + d;
+                if (next < 0) return;
+                if (d > 0 && count() >= MAX_TICKETS) { $("vtQtyErr").textContent = "Maximum " + MAX_TICKETS + " tickets per order."; $("vtQtyErr").classList.add("on"); return; }
+                $("vtQtyErr").textContent = "Please choose at least one ticket (max " + MAX_TICKETS + " per order).";
+                qty[t] = next; touched.qty = true;
+                renderAttendees(); renderAll();
+            });
+        });
+
+        $("vtAttendees").addEventListener("input", function (e) {
+            var inp = e.target; if (!inp.hasAttribute("data-att")) return;
+            names[inp.getAttribute("data-type")][parseInt(inp.getAttribute("data-idx"), 10)] = inp.value;
+            renderSummary(); refreshState();
+        });
+        $("vtAttendees").addEventListener("focusout", function (e) {
+            var inp = e.target; if (!inp.hasAttribute("data-att")) return;
+            touched[inp.getAttribute("data-att")] = true; refreshErrors();
+        });
+
+        ["vtBuyer", "vtPhone", "vtEmail"].forEach(function (id) {
+            $(id).addEventListener("input", function () { renderSummary(); refreshState(); });
+            $(id).addEventListener("blur", function () { touched[id] = true; refreshErrors(); });
+        });
+
+        $("vtFile").addEventListener("change", function () {
+            touched.vtFile = true;
+            var f = this.files[0], pv = $("vtPreview");
+            pv.style.display = "none";
+            try { if (f && /^image\//.test(f.type)) { pv.src = URL.createObjectURL(f); pv.style.display = "block"; } } catch (_) { }
+            refreshState();
+        });
+
+        $("vtForm").addEventListener("submit", submitOrder);
+        renderAttendees(); renderAll();
+    }
+
+    window.VVXTickets = { init: init, renderReceipt: renderReceipt };
+})();
+</script>
+
+<script>
     (function() {
         "use strict";
 
@@ -12072,7 +12678,9 @@
             "press": { id: "page-press", run: () => { document.title = "VVX | Press"; } },
             "faq": { id: "page-faq", run: () => { document.title = "VVX | FAQ"; } },
             "person": { id: "page-person", run: () => window.VVXPerson.init() },
-            "wall": { id: "page-wall", run: () => { document.title = "VVX | Wall of Cool People"; } }
+            "wall": { id: "page-wall", run: () => { document.title = "VVX | Wall of Cool People"; } },
+            "tickets": { id: "page-tickets", run: () => window.VVXTickets.init() },
+            "receipt": { id: "page-receipt", run: () => window.VVXTickets.renderReceipt() }
         };
 
         function currentPath() {
@@ -12088,6 +12696,7 @@
                 if (el) el.style.display = (key === path) ? "" : "none";
             });
 
+            document.body.classList.toggle("vvx-receipt-mode", path === "receipt");
             routes[path].run();
             window.scrollTo(0, 0);
 
