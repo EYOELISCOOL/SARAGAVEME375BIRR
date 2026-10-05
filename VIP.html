@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>★ Premium Pass Holders ★</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink: #ff3fa4; --aqua: #29d9ff; --lime: #b6ff3b;
+    --violet: #6a3dff; --chrome1: #ffffff; --chrome2: #b9c6dd; --ink: #1a1446;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; color: var(--ink); min-height: 100vh;
+    font-family: Tahoma, Verdana, sans-serif; line-height: 1.4;
+    background:
+      radial-gradient(circle at 20% 15%, #fff 0 1.5px, transparent 2px) 0 0/90px 90px,
+      radial-gradient(circle at 70% 60%, #cfeaff 0 1.5px, transparent 2px) 0 0/130px 130px,
+      linear-gradient(160deg, #7b4dff 0%, #29d9ff 55%, #ff8fd0 100%) fixed;
+  }
+  .marquee { background: var(--ink); color: var(--lime); font-family: "Audiowide", Tahoma, sans-serif;
+             overflow: hidden; white-space: nowrap; padding: 6px 0; border-bottom: 3px solid var(--pink); }
+  .marquee span { display: inline-block; padding-left: 100%; animation: scroll 18s linear infinite; }
+  @keyframes scroll { to { transform: translateX(-100%); } }
+
+  .wrap { max-width: 860px; margin: 28px auto 60px; padding: 0 14px; }
+
+  /* Window chrome */
+  .win { background: linear-gradient(#fff, #dfe8f7); border: 3px solid #fff; border-radius: 14px;
+         box-shadow: 0 0 0 2px var(--violet), 8px 8px 0 rgba(26,20,70,.45); overflow: hidden; margin-bottom: 26px; }
+  .bar { display: flex; align-items: center; justify-content: space-between; gap: 10px;
+         padding: 7px 12px; color: #fff; font-weight: bold; letter-spacing: .5px;
+         background: linear-gradient(#8c6bff, #5a2fe0 50%, #4a22c4 51%, #7a55ff); text-shadow: 0 1px 0 #2a0f87; }
+  .btns { display: flex; gap: 5px; }
+  .btns i { width: 18px; height: 18px; border-radius: 50%; border: 2px solid #fff;
+            background: radial-gradient(circle at 35% 30%, #fff 0 15%, var(--aqua) 55%, #0a8db3); }
+  .btns i:last-child { background: radial-gradient(circle at 35% 30%, #fff 0 15%, var(--pink) 55%, #b0105f); }
+  .body { padding: 22px 20px; }
+
+  h1 { font-family: "Audiowide", Tahoma, sans-serif; font-size: clamp(2rem, 8vw, 3.6rem); margin: 0 0 8px; line-height: 1.05;
+       color: transparent; -webkit-background-clip: text; background-clip: text;
+       background-image: linear-gradient(#fff 0%, #cfd9ee 45%, #6f7fa8 50%, #dfe8f7 70%, #fff 100%);
+       -webkit-text-stroke: 2px var(--violet); filter: drop-shadow(3px 3px 0 var(--pink)); }
+  .sub { margin: 0; font-size: 1rem; }
+  .star { color: var(--pink); }
+  .badge { display: inline-block; margin-top: 12px; padding: 3px 12px; border-radius: 99px; font-weight: bold; font-size: .85rem;
+           background: linear-gradient(#ffe97a, #ffb800); border: 2px solid #fff; box-shadow: 0 0 0 1px #c68a00;
+           animation: blink 1.2s steps(2) infinite; }
+  @keyframes blink { 50% { opacity: .35; } }
+
+  .search { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .search label { font-weight: bold; }
+  .search input { flex: 1 1 220px; font: inherit; padding: 9px 12px; color: var(--ink);
+                  border: 3px inset #9fb0cf; border-radius: 6px; background: #fff; }
+  input:focus-visible { outline: 3px solid var(--pink); outline-offset: 2px; }
+  #count { font-weight: bold; color: var(--violet); }
+
+  .group h2 { font-family: "Audiowide", Tahoma, sans-serif; margin: 0 0 12px; font-size: 1.4rem; color: var(--pink); }
+  .group { margin-bottom: 18px; }
+  .names { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px;
+           grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+  .names li {
+    display: flex; justify-content: space-between; align-items: center; gap: 8px;
+    padding: 9px 16px; border-radius: 99px; font-weight: bold; position: relative;
+    background: linear-gradient(#e9fbff 0%, #8fe9ff 48%, #29d9ff 52%, #9bf2ff 100%);
+    border: 2px solid #fff; box-shadow: 0 0 0 2px #0a8db3, 0 4px 0 #0a8db3;
+  }
+  .names li::before { content: ""; position: absolute; left: 14px; right: 14px; top: 3px; height: 40%;
+                      border-radius: 99px; background: linear-gradient(rgba(255,255,255,.8), rgba(255,255,255,0)); pointer-events: none; }
+  .names small { position: relative; background: var(--pink); color: #fff; border-radius: 99px;
+                 padding: 1px 9px; font-size: .7rem; border: 1px solid #fff; }
+  #empty { display: none; font-weight: bold; color: var(--pink); }
+  .foot { text-align: center; font-size: .85rem; color: #fff; text-shadow: 1px 1px 0 var(--ink); }
+  .counter { display: inline-block; font-family: "Courier New", monospace; background: #000; color: var(--lime);
+             padding: 2px 8px; letter-spacing: 3px; border: 2px inset #888; }
+  @media (max-width: 520px) { .body { padding: 16px 12px; } }
+  @media (prefers-reduced-motion: reduce) { .marquee span, .badge { animation: none; padding-left: 12px; } }
+</style>
+</head>
+<body>
+<div class="marquee" aria-hidden="true"><span>★ WELCOME TO THE VIP LIST ★ PREMIUM PASS HOLDERS ONLY ★ Vovex Rocks Halloween ★ October 31st ★ SEE YOU THERE ★</span></div>
+
+<main class="wrap">
+  <section class="win">
+    <div class="bar"><span>VIP_List.exe</span><span class="btns" aria-hidden="true"><i></i><i></i></span></div>
+    <div class="body">
+      <h1>Premium Pass Holders</h1>
+      <p class="sub"><span class="star">★</span> Everyone with a premium pass for Vovex Rocks Halloween Event, October 31st. Missing from the list? Contact us and we'll check your order.</p>
+      <span class="badge">VIP ACCESS</span>
+    </div>
+  </section>
+
+  <section class="win">
+    <div class="bar"><span>Find_Your_Name.exe</span><span class="btns" aria-hidden="true"><i></i><i></i></span></div>
+    <div class="body search">
+      <label for="q">Search:</label>
+      <input id="q" type="search" placeholder="Type a name" autocomplete="off">
+      <span id="count" aria-live="polite"></span>
+    </div>
+  </section>
+
+  <section class="win">
+    <div class="bar"><span>Guest_List.exe</span><span class="btns" aria-hidden="true"><i></i><i></i></span></div>
+    <div class="body">
+      <div id="list"></div>
+      <p id="empty">No premium pass holder matches that name.</p>
+    </div>
+  </section>
+</main>
+
+<script>
+  // EDIT HERE: one entry per person. "tier" is optional (delete it to hide the tag).
+  const holders = [
+    { name: "Moony", tier: "VIP" },
+    { name: "Wezete", tier: "VIP" },
+    { name: "Gojo", tier: "VIP" },
+    { name: "Amar", tier: "VIP" },
+    { name: "Tinsael", tier: "VIP" },
+    { name: "Emanuel", tier: "VIP" },
+    { name: "Tsion M", tier: "VIP" },
+  ];
+
+  const list = document.getElementById("list");
+  const count = document.getElementById("count");
+  const empty = document.getElementById("empty");
+  const q = document.getElementById("q");
+
+  function render(filter) {
+    const term = filter.trim().toLowerCase();
+    const shown = holders
+      .filter(h => h.name.toLowerCase().includes(term))
+      .sort((a, b) => a.name.localeCompare(b.name));
+    const groups = {};
+    shown.forEach(h => { const k = h.name.charAt(0).toUpperCase(); (groups[k] = groups[k] || []).push(h); });
+
+    list.innerHTML = "";
+    Object.keys(groups).sort().forEach(k => {
+      const sec = document.createElement("div");
+      sec.className = "group";
+      const h2 = document.createElement("h2");
+      h2.textContent = "★ " + k;
+      const ul = document.createElement("ul");
+      ul.className = "names";
+      groups[k].forEach(h => {
+        const li = document.createElement("li");
+        li.append(document.createTextNode(h.name));
+        if (h.tier) { const s = document.createElement("small"); s.textContent = h.tier; li.appendChild(s); }
+        ul.appendChild(li);
+      });
+      sec.append(h2, ul);
+      list.appendChild(sec);
+    });
+    count.textContent = shown.length + " of " + holders.length + " found";
+    empty.style.display = shown.length ? "none" : "block";
+  }
+  q.addEventListener("input", () => render(q.value));
+  render("");
+</script>
+</body>
+</html>
