@@ -12708,6 +12708,16 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
             }
         }
 
+        // Landing page: if the visitor arrives with no specific route (just the bare URL),
+        // open the Event Tickets section first. Explicit links like #/home still work,
+        // so people here for something else can navigate anywhere via the menu or logo.
+        (function () {
+            var h = window.location.hash;
+            if (!h || h === "#" || h === "#/") {
+                history.replaceState(null, "", window.location.pathname + window.location.search + "#/tickets");
+            }
+        })();
+
         window.addEventListener("hashchange", render);
 
         if (document.readyState === "loading") {
