@@ -3872,13 +3872,6 @@
         .vt-stepper button:hover { background: var(--vvx-steel); }
         .vt-stepper output { min-width: 2.4rem; text-align: center; font-family: var(--font-mono); font-size: 1.15rem; color: #fff; }
         .vt-total-line { display: flex; justify-content: space-between; margin-top: 1rem; padding-top: 1rem; border-top: var(--border-medium); font-family: var(--font-heading); font-size: 1.15rem; color: #fff; }
-        .vt-promo { margin-top: 1rem; padding-top: 1rem; border-top: var(--border-thin); }
-        .vt-promo label { display: block; font-family: var(--font-alt); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--vvx-text-muted); margin-bottom: .4rem; }
-        .vt-promo-msg { font-size: .85rem; margin-top: .4rem; min-height: 1.1rem; color: var(--vvx-text-muted); }
-        .vt-promo-msg.ok { color: #7fc48a; }
-        .vt-promo-msg.no { color: #e0705f; }
-        .vt-disc-line { display: none; justify-content: space-between; margin-top: .8rem; font-family: var(--font-mono); font-size: .95rem; color: #7fc48a; }
-        .vt-disc-line.on { display: flex; }
         .vt-att { padding: .8rem 0; }
         .vt-att label, .vt-f label { display: block; font-family: var(--font-alt); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--vvx-text-muted); margin-bottom: .4rem; }
         .vt-badge { display: inline-block; margin-left: .5rem; padding: .1rem .45rem; background: var(--vvx-deep-red); color: #fff; font-size: .65rem; letter-spacing: .08em; }
@@ -4869,7 +4862,14 @@
                         <button type="button" data-t="regular" data-d="1" aria-label="Add one Regular ticket">+</button>
                     </div>
                 </div>
-                <div class="vt-disc-line" id="vtDiscLine"><span id="vtDiscLbl">Buy 1 Get 1 Free</span><span id="vtDiscAmt"></span></div>
+                <div class="vt-promo" style="margin-top:1rem; padding-top:1rem; border-top:var(--border-thin);">
+                    <label for="vtPromo" style="display:block; font-family:var(--font-alt); font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; color:var(--vvx-text-muted); margin-bottom:.4rem;">Promo code</label>
+                    <div style="display:flex; gap:.6rem;">
+                        <input type="text" id="vtPromo" placeholder="Enter promo code" autocomplete="off" autocapitalize="off" spellcheck="false" style="flex:1; min-width:0;" />
+                        <button type="button" id="vtPromoApply" style="background:transparent; color:var(--vvx-text-secondary); border:var(--border-thin); padding:0 1.2rem; cursor:pointer; font-family:var(--font-alt); font-size:.7rem; font-weight:600; letter-spacing:.15em; text-transform:uppercase;">Apply</button>
+                    </div>
+                    <div id="vtPromoMsg" style="margin-top:.4rem; font-size:.85rem; min-height:1.2rem;"></div>
+                </div>
                 <div class="vt-total-line"><span>TOTAL</span><span id="vtTotal">0 ETB</span></div>
                 <div class="vt-err" id="vtQtyErr">Please choose at least one ticket (max 10 per order).</div>
             </div>
@@ -4897,11 +4897,7 @@
                     <div class="vt-err" data-e="vtEmail">That email address doesn't look right.</div>
                 </div>
             </div>
- <div class="vt-promo">
-                    <label for="vtPromo">Promo code (optional)</label>
-                    <input type="text" id="vtPromo" placeholder="Enter promo code" autocapitalize="off" autocomplete="off" spellcheck="false" />
-                    <div class="vt-promo-msg" id="vtPromoMsg" aria-live="polite"></div>
-                </div>
+
             <div class="vt-card vt-pay">
                 <h2><span class="vt-step">4</span>PAY WITH TELEBIRR</h2>
                 <dl>
@@ -12232,7 +12228,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     "use strict";
 
     // Existing Formspree endpoint (same one used by the store checkout). One submission = one complete order.
-    var ENDPOINT = "https://formspree.io/f/xjygolzk";
+    var ENDPOINT = "https://formspree.io/f/moejrzrg";
     var PRICE = { early: 650, regular: 800 };
     var LABEL = { early: "Early Bird", regular: "Regular" };
     var MAX_TICKETS = 10;
@@ -12250,30 +12246,29 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     var MAX_B64 = 700000; // max characters of base64 sent as text
 
     var qty = { early: 0, regular: 0 };
+    // Promo codes for tickets. "tickets" = number of tickets the buyer gets automatically.
+    // "type" = ticket type added when they have none selected yet ("early" or "regular").
+    // Buy one, get one free: the order is topped up to 2 tickets and the cheapest ticket is free.
+    var TICKET_PROMOS = { "nebyuguitar": { display: "nebyuguitar", tickets: 2, type: "early" } };
+    var appliedPromo = null;
     var names = { early: [], regular: [] };
     var touched = {};
     var bound = false;
     var $ = function (id) { return document.getElementById(id); };
 
+    function promoMsg(text, ok) {
+        var m = $("vtPromoMsg");
+        m.textContent = text;
+        m.style.color = ok ? "var(--vvx-vintage-beige)" : "#e0705f";
+    }
     function fmt(n) { return Number(n).toLocaleString("en-US") + " ETB"; }
     function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
     function subtotal() { return qty.early * PRICE.early + qty.regular * PRICE.regular; }
-    // Promo: Buy 1 Get 1 Free. For every 2 tickets, 1 is free (the cheapest ones are the free ones).
-    var PROMO_CODE = "nebyuguitar";
-    function promoOn() { var el = $("vtPromo"); return !!el && el.value.trim().toLowerCase() === PROMO_CODE; }
-    function bogoDiscount(prices) {
-        var sorted = prices.slice().sort(function (a, b) { return a - b; }), free = Math.floor(sorted.length / 2), d = 0;
-        for (var i = 0; i < free; i++) d += sorted[i];
-        return d;
+    function freeAmount() {
+        if (!appliedPromo || count() < 2) return 0;
+        return qty.early > 0 ? PRICE.early : PRICE.regular;
     }
-    function currentPrices() {
-        var out = [], i;
-        for (i = 0; i < qty.early; i++) out.push(PRICE.early);
-        for (i = 0; i < qty.regular; i++) out.push(PRICE.regular);
-        return out;
-    }
-    function discount() { return promoOn() ? bogoDiscount(currentPrices()) : 0; }
-    function total() { return subtotal() - discount(); }
+    function total() { return subtotal() - freeAmount(); }
     function count() { return qty.early + qty.regular; }
 
     // Ordered ticket list: Early Bird first, then Regular.
@@ -12363,12 +12358,8 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
             if (qty[k]) h += "<li>" + LABEL[k] + " × " + qty[k] + " — " + fmt(qty[k] * PRICE[k]) + "</li>";
         });
         h += "</ul>";
-        if (promoOn()) {
-            h += '<h3>Promo code</h3><p>Promo code used — Buy 1 Get 1 Free</p>' +
-                 '<div class="vt-total-line" style="font-size:.95rem;color:var(--vvx-text-muted)"><span>Original price</span><span style="text-decoration:line-through">' + fmt(subtotal()) + "</span></div>" +
-                 '<div class="vt-disc-line on"><span>Promo discount</span><span>−' + fmt(discount()) + "</span></div>";
-        }
-        h += '<div class="vt-total-line"><span>' + (promoOn() ? "YOU PAY" : "TOTAL") + "</span><span>" + fmt(total()) + "</span></div><h3>Attendees</h3><ol>";
+        if (freeAmount()) h += "<p>Promo " + esc(TICKET_PROMOS[appliedPromo].display) + ": 1 free ticket — −" + fmt(freeAmount()) + "</p>";
+        h += '<div class="vt-total-line"><span>TOTAL</span><span>' + fmt(total()) + "</span></div><h3>Attendees</h3><ol>";
         tickets().forEach(function (t) { h += "<li>" + esc(t.name || "—") + " — " + LABEL[t.type] + "</li>"; });
         h += "</ol><h3>Payment method</h3><p>Telebirr</p>";
         body.innerHTML = h;
@@ -12378,12 +12369,8 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         $("vtQtyEarly").textContent = qty.early;
         $("vtQtyRegular").textContent = qty.regular;
         $("vtTotal").textContent = fmt(total());
+        if (appliedPromo) promoMsg(freeAmount() ? "Promo applied! You get 1 free ticket (" + count() + " tickets total)." : "Promo applied. Add a second ticket to get 1 free.", true);
         $("vtPayAmt").textContent = fmt(total());
-        var on = promoOn(), raw = $("vtPromo").value.trim(), dl = $("vtDiscLine"), pm = $("vtPromoMsg");
-        dl.classList.toggle("on", on && discount() > 0);
-        $("vtDiscAmt").textContent = "−" + fmt(discount());
-        pm.className = "vt-promo-msg" + (on ? " ok" : (raw ? " no" : ""));
-        pm.textContent = on ? (count() < 2 ? "Promo code applied — add one more ticket to get a free one." : "Promo code applied — Buy 1 Get 1 Free!") : (raw ? "That promo code isn't valid." : "");
         renderSummary();
         refreshState();
     }
@@ -12419,11 +12406,8 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
             var d = JSON.parse(b64uDecode(raw));
             if (!d || !/^VVX-HW-[A-Z0-9]{6}$/.test(d.id) || !Array.isArray(d.a) || !d.a.length || typeof d.b !== "string") return { error: true };
             var sum = 0;
-            var prices = d.a.map(function (x) { return x[1] === "R" ? PRICE.regular : PRICE.early; });
-            prices.forEach(function (v) { sum += v; });
-            if (d.p) {
-                if (d.o !== sum || d.t !== sum - bogoDiscount(prices)) return { error: true };
-            } else if (sum !== d.t) return { error: true };
+            d.a.forEach(function (x) { sum += x[1] === "R" ? PRICE.regular : PRICE.early; });
+            if (sum - (d.f || 0) !== d.t) return { error: true };
             return { data: d, st: params.get("st"), staff: params.get("staff") === "1", raw: raw };
         } catch (e) { return { error: true }; }
     }
@@ -12465,12 +12449,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         d.a.forEach(function (x, i) {
             h += "<li><span>" + (i + 1) + ". " + esc(x[0]) + '</span><span class="' + (x[1] === "R" ? "r" : "") + '">' + typeName(x[1]) + "</span></li>";
         });
-        h += "</ol>";
-        if (d.p) {
-            h += '<div class="vr-lbl">Original Price (without promo)</div><div class="vr-val" style="text-decoration:line-through">' + fmt(d.o) + "</div>";
-            h += '<div class="vr-lbl">Promo Code</div><div class="vr-val">Promo code used — Buy 1 Get 1 Free (you saved ' + fmt(d.o - d.t) + ")</div>";
-        }
-        h += '<div class="vr-lbl">' + (d.p ? "Total Paid" : "Total") + '</div><div class="vr-val vr-total">' + fmt(d.t) + "</div>";
+        h += '</ol><div class="vr-lbl">Total</div><div class="vr-val vr-total">' + fmt(d.t) + "</div>";
         h += '<div class="vr-lbl">Payment Method</div><div class="vr-val">Telebirr</div>';
         h += '<div class="vr-qr"><canvas id="vrCanvas" width="560" height="560"></canvas><small>One QR code for the whole order</small></div></div>';
         h += '<div class="vr-actions"><button type="button" id="vrDownload">Download Receipt</button>';
@@ -12526,15 +12505,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
                 y += 76;
             });
             y += 30;
-            if (d.p) {
-                text("ORIGINAL PRICE (WITHOUT PROMO)", 22, 500, "#777"); y += 46;
-                text(fmt(d.o), 38, 700, "#777");
-                if (H) { ctx.font = "700 38px " + font; var ow = ctx.measureText(fmt(d.o)).width; ctx.fillStyle = "#777"; ctx.fillRect(P, y - 13, ow, 3); }
-                y += 70;
-                text("PROMO CODE", 22, 500, "#777"); y += 46;
-                text("Promo code used — Buy 1 Get 1 Free", 34, 700, "#1f7a3a"); y += 70;
-            }
-            field(d.p ? "Total Paid" : "Total", fmt(d.t), 56);
+            field("Total", fmt(d.t), 56);
             field("Payment Method", "Telebirr");
             var qs = 520;
             if (H) drawQR(ctx, qr, (W - qs) / 2, y, qs);
@@ -12606,8 +12577,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         btn.disabled = true; btn.textContent = "Submitting…"; status.textContent = "";
 
         var list = tickets(), id = newOrderId();
-        var data = { id: id, b: $("vtBuyer").value.trim().replace(/\s+/g, " "), a: list.map(function (t) { return [t.name.replace(/\s+/g, " "), t.type === "regular" ? "R" : "E"]; }), t: total(), ts: Date.now() };
-        if (promoOn()) { data.p = 1; data.o = subtotal(); }
+        var data = { id: id, b: $("vtBuyer").value.trim().replace(/\s+/g, " "), a: list.map(function (t) { return [t.name.replace(/\s+/g, " "), t.type === "regular" ? "R" : "E"]; }), t: total(), f: freeAmount(), ts: Date.now() };
 
         var fd = new FormData();
         fd.append("_subject", "New Halloween Ticket Order — " + id);
@@ -12618,12 +12588,8 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         fd.append("ticket_quantity", String(list.length));
         fd.append("ticket_types", ["early", "regular"].filter(function (k) { return qty[k]; }).map(function (k) { return qty[k] + " × " + LABEL[k] + " (" + fmt(qty[k] * PRICE[k]) + ")"; }).join(", "));
         list.forEach(function (t, i) { fd.append("attendee_" + (i + 1), t.name + " — " + LABEL[t.type]); });
-        if (promoOn()) {
-            fd.append("promo_code_used", "Yes — Buy 1 Get 1 Free");
-            fd.append("original_amount", fmt(subtotal()));
-            fd.append("promo_discount", fmt(discount()));
-        }
         fd.append("total_amount", fmt(total()));
+        if (appliedPromo) fd.append("promo_code", TICKET_PROMOS[appliedPromo].display);
         fd.append("payment_method", "Telebirr");
         fd.append("receipt_link", receiptUrl(data));
         try {
@@ -12666,6 +12632,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
 
     function resetForm() {
         qty.early = qty.regular = 0; names = { early: [], regular: [] }; touched = {};
+        appliedPromo = null; $("vtPromoMsg").textContent = "";
         $("vtForm").reset();
         $("vtPreview").style.display = "none";
         renderAttendees(); renderAll();
@@ -12689,6 +12656,25 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
             });
         });
 
+        function applyPromo() {
+            var code = $("vtPromo").value.trim().toLowerCase();
+            if (!code) { promoMsg("Please enter a promo code.", false); return; }
+            var p = TICKET_PROMOS[code];
+            if (!p) { promoMsg("Invalid promo code. Please check the code and try again.", false); return; }
+            if (appliedPromo === code) { promoMsg("Promo code already applied.", true); return; }
+            var need = p.tickets - count();
+            if (need > 0) {
+                var t = qty.regular > 0 ? "regular" : qty.early > 0 ? "early" : p.type;
+                qty[t] += need;
+            }
+            appliedPromo = code; touched.qty = true;
+            $("vtPromo").value = p.display;
+            promoMsg("Promo applied! You get 1 free ticket (" + count() + " tickets total).", true);
+            renderAttendees(); renderAll();
+        }
+        $("vtPromoApply").addEventListener("click", applyPromo);
+        $("vtPromo").addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); applyPromo(); } });
+
         $("vtAttendees").addEventListener("input", function (e) {
             var inp = e.target; if (!inp.hasAttribute("data-att")) return;
             names[inp.getAttribute("data-type")][parseInt(inp.getAttribute("data-idx"), 10)] = inp.value;
@@ -12711,9 +12697,6 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
             try { if (f && /^image\//.test(f.type)) { pv.src = URL.createObjectURL(f); pv.style.display = "block"; } } catch (_) { }
             refreshState();
         });
-
-        $("vtPromo").addEventListener("input", function () { renderAll(); });
-        $("vtPromo").addEventListener("keydown", function (e) { if (e.key === "Enter") e.preventDefault(); });
 
         $("vtForm").addEventListener("submit", submitOrder);
         renderAttendees(); renderAll();
