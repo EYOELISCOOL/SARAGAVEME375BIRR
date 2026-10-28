@@ -4847,11 +4847,11 @@
             <div class="vt-card">
                 <h2><span class="vt-step">1</span>Choose tickets</h2>
                 <div class="vt-type">
-                    <div><div class="vt-type-name">EARLY BIRD</div><div class="vt-type-price">650 ETB</div></div>
+                    <div><div class="vt-type-name">AT THE DOOR</div><div class="vt-type-price">1100 ETB</div></div>
                     <div class="vt-stepper">
-                        <button type="button" data-t="early" data-d="-1" aria-label="Remove one Early Bird ticket">&minus;</button>
-                        <output id="vtQtyEarly">0</output>
-                        <button type="button" data-t="early" data-d="1" aria-label="Add one Early Bird ticket">+</button>
+                        <button type="button" data-t="door" data-d="-1" aria-label="Remove one At The Door ticket">&minus;</button>
+                        <output id="vtQtyDoor">0</output>
+                        <button type="button" data-t="door" data-d="1" aria-label="Add one At The Door ticket">+</button>
                     </div>
                 </div>
                 <div class="vt-type">
@@ -12229,8 +12229,8 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
 
     // Existing Formspree endpoint (same one used by the store checkout). One submission = one complete order.
     var ENDPOINT = "https://formspree.io/f/moejrzrg";
-    var PRICE = { early: 650, regular: 800 };
-    var LABEL = { early: "Early Bird", regular: "Regular" };
+    var PRICE = { door: 1100, regular: 800 };
+    var LABEL = { door: "At The Door", regular: "Regular" };
     var MAX_TICKETS = 10;
     var MAX_FILE = 15 * 1024 * 1024; // raw screenshot limit (it is compressed before sending)
 
@@ -12245,13 +12245,13 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     var IMGBB_KEY = "";
     var MAX_B64 = 700000; // max characters of base64 sent as text
 
-    var qty = { early: 0, regular: 0 };
+    var qty = { door: 0, regular: 0 };
     // Promo codes for tickets. "tickets" = number of tickets the buyer gets automatically.
-    // "type" = ticket type added when they have none selected yet ("early" or "regular").
+    // "type" = ticket type added when they have none selected yet ("door" or "regular").
     // Buy one, get one free: the order is topped up to 2 tickets and the cheapest ticket is free.
-    var TICKET_PROMOS = { "nebyuguitar": { display: "nebyuguitar", tickets: 2, type: "early" } };
+    var TICKET_PROMOS = { "nebyuguitar": { display: "nebyuguitar", tickets: 2, type: "door" } };
     var appliedPromo = null;
-    var names = { early: [], regular: [] };
+    var names = { door: [], regular: [] };
     var touched = {};
     var bound = false;
     var $ = function (id) { return document.getElementById(id); };
@@ -12263,18 +12263,18 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     }
     function fmt(n) { return Number(n).toLocaleString("en-US") + " ETB"; }
     function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
-    function subtotal() { return qty.early * PRICE.early + qty.regular * PRICE.regular; }
+    function subtotal() { return qty.door * PRICE.door + qty.regular * PRICE.regular; }
     function freeAmount() {
         if (!appliedPromo || count() < 2) return 0;
-        return qty.early > 0 ? PRICE.early : PRICE.regular;
+        return qty.door > 0 ? PRICE.door : PRICE.regular;
     }
     function total() { return subtotal() - freeAmount(); }
-    function count() { return qty.early + qty.regular; }
+    function count() { return qty.door + qty.regular; }
 
-    // Ordered ticket list: Early Bird first, then Regular.
+    // Ordered ticket list: At The Door first, then Regular.
     function tickets() {
         var out = [], i;
-        for (i = 0; i < qty.early; i++) out.push({ type: "early", idx: i, name: (names.early[i] || "").trim() });
+        for (i = 0; i < qty.door; i++) out.push({ type: "door", idx: i, name: (names.door[i] || "").trim() });
         for (i = 0; i < qty.regular; i++) out.push({ type: "regular", idx: i, name: (names.regular[i] || "").trim() });
         return out;
     }
@@ -12354,7 +12354,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         var body = $("vtSummaryBody");
         if (count() < 1) { body.innerHTML = '<p style="color:var(--vvx-text-muted)">Choose your tickets to see your order summary.</p>'; return; }
         var h = "<h3>Buyer</h3><p>" + esc($("vtBuyer").value.trim() || "—") + "</p><h3>Tickets</h3><ul>";
-        ["early", "regular"].forEach(function (k) {
+        ["door", "regular"].forEach(function (k) {
             if (qty[k]) h += "<li>" + LABEL[k] + " × " + qty[k] + " — " + fmt(qty[k] * PRICE[k]) + "</li>";
         });
         h += "</ul>";
@@ -12366,7 +12366,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     }
 
     function renderAll() {
-        $("vtQtyEarly").textContent = qty.early;
+        $("vtQtyDoor").textContent = qty.door;
         $("vtQtyRegular").textContent = qty.regular;
         $("vtTotal").textContent = fmt(total());
         if (appliedPromo) promoMsg(freeAmount() ? "Promo applied! You get 1 free ticket (" + count() + " tickets total)." : "Promo applied. Add a second ticket to get 1 free.", true);
@@ -12406,12 +12406,12 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
             var d = JSON.parse(b64uDecode(raw));
             if (!d || !/^VVX-HW-[A-Z0-9]{6}$/.test(d.id) || !Array.isArray(d.a) || !d.a.length || typeof d.b !== "string") return { error: true };
             var sum = 0;
-            d.a.forEach(function (x) { sum += x[1] === "R" ? PRICE.regular : PRICE.early; });
+            d.a.forEach(function (x) { sum += x[1] === "R" ? PRICE.regular : PRICE.door; });
             if (sum - (d.f || 0) !== d.t) return { error: true };
             return { data: d, st: params.get("st"), staff: params.get("staff") === "1", raw: raw };
         } catch (e) { return { error: true }; }
     }
-    function typeName(c) { return c === "R" ? "Regular" : "Early Bird"; }
+    function typeName(c) { return c === "R" ? "Regular" : "At The Door"; }
 
     /* ---------- QR ---------- */
     function makeQR(text) {
@@ -12577,7 +12577,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         btn.disabled = true; btn.textContent = "Submitting…"; status.textContent = "";
 
         var list = tickets(), id = newOrderId();
-        var data = { id: id, b: $("vtBuyer").value.trim().replace(/\s+/g, " "), a: list.map(function (t) { return [t.name.replace(/\s+/g, " "), t.type === "regular" ? "R" : "E"]; }), t: total(), f: freeAmount(), ts: Date.now() };
+        var data = { id: id, b: $("vtBuyer").value.trim().replace(/\s+/g, " "), a: list.map(function (t) { return [t.name.replace(/\s+/g, " "), t.type === "regular" ? "R" : "D"]; }), t: total(), f: freeAmount(), ts: Date.now() };
 
         var fd = new FormData();
         fd.append("_subject", "New Halloween Ticket Order — " + id);
@@ -12586,7 +12586,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         fd.append("phone", $("vtPhone").value.replace(/[\s\-()]/g, ""));
         if ($("vtEmail").value.trim()) { fd.append("email", $("vtEmail").value.trim()); fd.append("_replyto", $("vtEmail").value.trim()); }
         fd.append("ticket_quantity", String(list.length));
-        fd.append("ticket_types", ["early", "regular"].filter(function (k) { return qty[k]; }).map(function (k) { return qty[k] + " × " + LABEL[k] + " (" + fmt(qty[k] * PRICE[k]) + ")"; }).join(", "));
+        fd.append("ticket_types", ["door", "regular"].filter(function (k) { return qty[k]; }).map(function (k) { return qty[k] + " × " + LABEL[k] + " (" + fmt(qty[k] * PRICE[k]) + ")"; }).join(", "));
         list.forEach(function (t, i) { fd.append("attendee_" + (i + 1), t.name + " — " + LABEL[t.type]); });
         fd.append("total_amount", fmt(total()));
         if (appliedPromo) fd.append("promo_code", TICKET_PROMOS[appliedPromo].display);
@@ -12631,7 +12631,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     }
 
     function resetForm() {
-        qty.early = qty.regular = 0; names = { early: [], regular: [] }; touched = {};
+        qty.door = qty.regular = 0; names = { door: [], regular: [] }; touched = {};
         appliedPromo = null; $("vtPromoMsg").textContent = "";
         $("vtForm").reset();
         $("vtPreview").style.display = "none";
@@ -12664,7 +12664,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
             if (appliedPromo === code) { promoMsg("Promo code already applied.", true); return; }
             var need = p.tickets - count();
             if (need > 0) {
-                var t = qty.regular > 0 ? "regular" : qty.early > 0 ? "early" : p.type;
+                var t = qty.regular > 0 ? "regular" : qty.door > 0 ? "door" : p.type;
                 qty[t] += need;
             }
             appliedPromo = code; touched.qty = true;
