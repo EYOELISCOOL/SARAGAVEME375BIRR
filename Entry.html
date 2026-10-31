@@ -49,7 +49,7 @@ CREW.forEach(nm=>add({name:nm,cat:'Crew Pass',type:'Crew'}));
 BL.forEach(([nm,ph,od,ty,re])=>{add({name:nm,phone:ph,order:od,oref:od,type:ty,cat:'Paid',appr:'REJECTED BY ADMIN',bl:1,reason:re});o[od]={id:od,idKnown:true,purchaser:nm,total:null,gids:[g[g.length-1].id]}});
 return{v:1,guests:g,orders:o,logs:[],n}}
 let S,U=null,tab='Dashboard',res=null,F={},cam=null;
-const TABS=['Dashboard','Live Scanner','New Entry','Guest Database','Sponsored Guests','Crew Passes','Blacklist','Activity Logs','Reports','Backup & Settings'];
+const TABS=['Dashboard','Live Scanner','Name List','Guest Database','Sponsored Guests','Crew Passes','Blacklist','Activity Logs','Reports','Backup & Settings'];
 const $=s=>document.querySelector(s),now=()=>new Date().toISOString(),fm=t=>new Date(t).toLocaleString(),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const idb=(m,v)=>new Promise(r=>{const o=indexedDB.open('vovex',1);o.onupgradeneeded=()=>o.result.createObjectStore('s');o.onsuccess=()=>{const s=o.result.transaction('s',m==='get'?'readonly':'readwrite').objectStore('s');const q=m==='get'?s.get('S'):s.put(v,'S');q.onsuccess=()=>r(q.result)}});
 const load=async()=>{S=await idb('get')||null;if(!S){S=seed();await save()}};
@@ -91,10 +91,15 @@ if(res.d)h+=`<div class="card">Order ${esc(res.d.id)} · Purchaser: ${esc(res.d.
 L.forEach(g=>{const s=status(g);const m={OK:['ok','Approved — not checked in'],DUP:['no','Already checked in '+(g.ci?fm(g.ci.t)+' by '+g.ci.by:'')],BLACKLISTED:['no','Blacklisted: '+g.reason],REJECTED:['no','Rejected by admin'],PENDING:['am','Pending review — entry blocked']}[s];
 h+=`<div class="ban ${m[0]}"><h2>${esc(g.name)} <small>${esc(g.type)} · ${esc(g.cat)}</small></h2>${m[1]}<div class="row">${s==='OK'?`<button class="b" data-a="ci" data-id="${g.id}">Check in this guest</button>`:''}</div></div>`});
 if(admin()&&el.length>1)h+=`<button class="b g" data-a="all">Check in all ${el.length} eligible (admin)</button>`;return h}
+function nl(){const q=(F.nq||'').toLowerCase(),f=F.nf||'';return S.guests.filter(g=>{const s=status(g);return(!q||[g.name,g.phone,g.order].join(' ').toLowerCase().includes(q))&&(!f||(f==='N'&&s==='OK')||(f==='Y'&&s==='DUP')||(f==='B'&&['BLACKLISTED','REJECTED','PENDING'].includes(s)))}).sort((a,b)=>a.name.localeCompare(b.name))}
+function nameList(){const L=nl(),sl=F.sel||{},n=Object.keys(sl).filter(k=>sl[k]).length,done=S.guests.filter(g=>g.ci).length;
+const stt=g=>{const s=status(g);return s==='OK'?tg('NOT CHECKED IN','mu'):s==='DUP'?tg('✓ IN '+new Date(g.ci.t).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}),'ok'):s==='PENDING'?tg('PENDING','am'):tg(s,'no')};
+return`<div class="row"><input id="nq" placeholder="Search name, phone, order" value="${esc(F.nq||'')}" style="flex:1;min-width:200px"><select id="nf"><option value="">All names</option><option value="N" ${F.nf==='N'?'selected':''}>Not checked in</option><option value="Y" ${F.nf==='Y'?'selected':''}>Checked in</option><option value="B" ${F.nf==='B'?'selected':''}>Blocked / pending</option></select></div><div class="row"><span>${L.length} names · ${done} checked in · ${n} selected</span><span style="flex:1"></span><button class="b g s" data-a="selall">Select all eligible</button><button class="b g s" data-a="clr">Clear</button><button class="b s" data-a="bulk">Check in selected</button></div><div class="card" style="padding:0"><div class="tw"><table>${L.map((g,i)=>`<tr data-a="sel" data-id="${g.id}" style="cursor:pointer;${sl[g.id]?'background:#241f14;':''}${g.ci?'opacity:.65':''}"><td><input type="checkbox" ${sl[g.id]?'checked':''}></td><td style="color:var(--mu)">${i+1}</td><td><b>${esc(g.name)}</b>${g.promo?' '+tg('BOGO','mu'):''}<br><small style="color:var(--mu)">${esc(g.type)} · ${esc(g.cat)}${g.order?' · '+esc(g.order):''}${g.reason?' · '+esc(g.reason):''}</small></td><td>${stt(g)}</td><td>${status(g)==='OK'?`<button class="b s" data-a="lci" data-id="${g.id}">Check in</button>`:''}${admin()&&g.ci?`<button class="b g s" data-a="rv" data-id="${g.id}">Reverse</button>`:''}</td></tr>`).join('')||'<tr><td>No names.</td></tr>'}</table></div></div>`}
 function page(){const s=stats();
 if(tab==='Dashboard')return`<div class="grid">${card(s.tot,'Guest records')}${card(s.ap,'Approved')}${card(s.ci,'Checked in')}${card(s.rem,'Remaining')}${card(s.sp,'Sponsored')}${card(s.crew,'Crew passes')}${card(s.bl,'Blacklisted')}${card(s.pen,'Pending')}${card(s.dup,'Duplicate attempts')}${card(s.eb,'Early Bird')}${card(s.rg,'Regular')}</div><div class="card"><div class="num">${s.pct}%</div><small>checked in of approved</small></div><h2>Recent check-ins</h2>${logT(S.logs.filter(l=>l.type==='CHECK_IN').slice(0,6))}<h2>Recent blocked scans</h2>${logT(S.logs.filter(l=>/ATTEMPT|DUPLICATE|INVALID|UNKNOWN/.test(l.type)).slice(0,6))}`;
 if(tab==='Live Scanner')return scanner();
 if(tab==='New Entry')return`<div class="card" style="max-width:520px"><p style="margin-top:0;color:var(--mu)">New entries are saved as <b>PENDING REVIEW</b>. They cannot enter until an administrator approves them.</p><div class="row"><input id="ne_name" placeholder="Full name (required)" style="width:100%"></div><div class="row"><input id="ne_phone" placeholder="Phone (optional)" style="width:100%"></div><div class="row"><select id="ne_type" style="width:100%"><option>Early Bird</option><option selected>Regular</option><option>Crew</option></select></div><div class="row"><input id="ne_order" placeholder="Order ID (optional)" style="width:100%"></div><div class="row"><input id="ne_rcpt" placeholder="Receipt URL (optional)" style="width:100%"></div><div class="row"><input id="ne_notes" placeholder="Notes (optional)" style="width:100%"></div><button class="b" data-a="submit">Add entry</button></div>`;
+if(tab==='Name List')return nameList();
 if(tab==='Guest Database')return bar()+guestTable(filt(S.guests));
 if(tab==='Sponsored Guests')return guestTable(S.guests.filter(g=>!['Paid','Promotional','Crew Pass'].includes(g.cat)));
 if(tab==='Crew Passes')return guestTable(S.guests.filter(g=>g.cat==='Crew Pass'));
@@ -104,14 +109,15 @@ if(tab==='Reports')return`<div class="grid">${card(s.tot,'People (guest records)
 return`<div class="row"><button class="b" data-a="json">Export JSON backup</button><button class="b g" data-a="restore">Restore JSON</button><button class="b g" data-a="csvg">Guests CSV</button><button class="b g" data-a="csvl">Logs CSV</button><button class="b r" data-a="orig">Restore original dataset</button></div><p>Data lives only in this browser; other browsers/devices keep separate data and do not sync. PINs are local convenience only. Camera needs HTTPS or localhost.</p><input type="file" id="rf" hidden accept=".json">`}
 const logT=L=>`<div class="tw"><table><tr><th>Time</th><th>Type</th><th>Guest</th><th>Order</th><th>Staff</th><th>Description</th><th>Reason</th></tr>${L.map(l=>`<tr><td>${fm(l.t)}</td><td>${l.type}</td><td>${esc(l.name)}</td><td>${esc(l.order)}</td><td>${esc(l.by)}</td><td>${esc(l.desc)}</td><td>${esc(l.reason)}</td></tr>`).join('')||'<tr><td colspan=7>Nothing yet.</td></tr>'}</table></div>`;
 function render(){const a=$('#app');if(!U){a.innerHTML=`<div id="lg"><div class="logo">VOVEX ENTRY</div><p style="color:var(--mu)">VOVEX ROCKS · local staff login</p><input id="pin" type="password" class="big" placeholder="PIN" autofocus><div class="row"><button class="b" data-a="login" style="flex:1">Sign in</button></div></div>`;return}
-const ns=document.activeElement?.id,v=document.activeElement?.value;
+const ae=document.activeElement,ns=ae?.id,v=ae?.value,ss=ae?.selectionStart,se=ae?.selectionEnd;
 a.innerHTML=`<header><span class="logo">VOVEX ENTRY</span><span style="color:var(--mu)">VOVEX ROCKS · ${esc(U.name)} (${U.role})</span><span style="flex:1"></span><button class="b g s" data-a="out">Sign out</button></header><nav>${TABS.filter(t=>admin()||!['Blacklist','Reports','Backup & Settings','Activity Logs','Sponsored Guests','Crew Passes'].includes(t)).map(t=>`<button class="${t===tab?'on':''}" data-t="${t}">${t}</button>`).join('')}</nav><main><h1 style="font-size:22px">${tab}</h1>${page()}</main>`;
-if(ns&&$('#'+ns)){$('#'+ns).focus();if(v!==undefined&&ns!=='sq')$('#'+ns).value=v}}
+if(ns&&$('#'+ns)){const el=$('#'+ns);el.focus();if(v!==undefined&&ns!=='sq')el.value=v;try{if(ss!=null)el.setSelectionRange(ss,se)}catch(e){}}}
 function dl(n,t,m){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:m}));a.download=n;a.click()}
 const csv=(rows)=>rows.map(r=>r.map(c=>'"'+String(c??'').replace(/"/g,'""')+'"').join(',')).join('\n');
 async function act(a,id){
 if(a==='login'){const p=$('#pin').value;U=p==='1234'?{name:'Admin',role:'admin'}:p==='0000'?{name:'Entry Staff',role:'entry'}:null;if(!U){alert('Wrong PIN');return}await load();log('LOGIN',null,'Login');await save();tab='Dashboard';return render()}
 if(a==='out'){log('LOGOUT',null,'Logout');await save();U=null;return render()}
+if(a==='sel'){F.sel=F.sel||{};F.sel[id]=!F.sel[id];return render()}if(a==='clr'){F.sel={};return render()}if(a==='selall'){F.sel={};nl().filter(x=>status(x)==='OK').forEach(x=>F.sel[x.id]=1);return render()}
 await load();const g=id&&G(id);
 if(a==='look'){await lookup($('#sq').value)}
 else if(a==='ci'){const ok=await checkIn(id);res=res&&res.kind==='list'?res:{kind:'list',ids:[id],exact:1};if(!res.ids.includes(id))res.ids=[id];if(!ok)alert('Entry blocked: '+status(G(id)))}
@@ -122,6 +128,8 @@ const ph=v('ne_phone'),dup=S.guests.filter(g=>g.name.toLowerCase()===n.toLowerCa
 if(dup.length&&!confirm('Possible duplicate of: '+dup.map(g=>g.name).join(', ')+'. Add anyway as a separate pending record?'))return;
 const x={id:'G'+Date.now().toString(36),name:n,type:v('ne_type'),phone:ph,order:od,oref:od,cat:'Manual',appr:'PENDING REVIEW',ci:null,notes:v('ne_notes'),src:'entry-form',bl:0,reason:'',promo:0};
 S.guests.push(x);log('CREATE',x,'New entry submitted (pending review)');alert(n+' was added as PENDING REVIEW. An administrator must approve before entry.')}
+else if(a==='lci'){if(!await checkIn(id))alert('Entry blocked: '+status(G(id)))}
+else if(a==='bulk'){const ids=Object.keys(F.sel||{}).filter(k=>F.sel[k]);if(!ids.length){alert('Select names first');return}if(!confirm('Check in '+ids.length+' selected guest(s), each individually?'))return;let ok=0;for(const x of ids)ok+=await checkIn(x);F.sel={};alert(ok+' checked in. '+(ids.length-ok)+' blocked or already in.')}
 else if(a==='cam')return toggleCam();
 else if(admin()){
 if(a==='ap'){g.appr='APPROVED BY ADMIN';log('APPROVAL',g,'Approved')}
@@ -144,7 +152,7 @@ try{cam=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environmen
 const tick=async()=>{if(!cam)return;try{const r=await d.detect(v);if(r.length){await load();await lookup(r[0].rawValue);render();await new Promise(z=>setTimeout(z,2500))}}catch(e){}requestAnimationFrame(tick)};v.onplaying=tick}catch(e){alert('Camera unavailable: '+e.message)}}
 document.addEventListener('click',e=>{const t=e.target.closest('[data-t],[data-a]');if(!t)return;if(t.dataset.t){tab=t.dataset.t;return render()}act(t.dataset.a,t.dataset.id)});
 document.addEventListener('keydown',e=>{if(e.key==='Enter'){if(e.target.id==='sq')act('look');if(e.target.id==='pin')act('login')}});
-document.addEventListener('input',e=>{const m={fq:'q',fty:'ty',fap:'ap',fci:'ci'}[e.target.id];if(m){F[m]=e.target.value;render()}});
+document.addEventListener('input',e=>{const m={fq:'q',fty:'ty',fap:'ap',fci:'ci',nq:'nq',nf:'nf'}[e.target.id];if(m){F[m]=e.target.value;render()}});
 document.addEventListener('change',async e=>{if(e.target.id==='rf'){const f=e.target.files[0];if(!f||!confirm('Replace all data with this backup?'))return;try{const d=JSON.parse(await f.text());if(!d.guests||!d.orders)throw 0;S=d;log('RESTORE',null,'JSON restored');await save();render()}catch(x){alert('Invalid backup file')}}});
 load().then(render);
 </script></body></html>
