@@ -1995,6 +1995,13 @@
             border-radius: 20px;
             line-height: 1.6;
         }
+        .quality-option[data-quality="dontcare"] {
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+        .quality-option[data-quality="dontcare"].selected {
+            border-color: var(--vvx-gunmetal);
+            background: rgba(255, 255, 255, 0.05);
+        }
         .quality-option[data-quality="cottex"] {
             border-color: rgba(255, 255, 255, 0.1);
         }
@@ -4944,15 +4951,13 @@
                 <h4>About Us</h4>
                 <ul>
                     <li><a href="#/about">About VVX</a></li>
-                    <li><a href="#/vendors">Apply for Vendors</a></li>
-                    <li><a href="#">Affiliates</a></li>
                 </ul>
             </div>
             <div class="footer-section">
                 <h4>Services</h4>
                 <ul>
-                    <li><a href="#">Personalization</a></li>
-                    <li><a href="#">Personalization FAQ</a></li>
+                    <li><a href="www.vovex.tech">Personalization</a></li>
+                    <li><a href="www.vovex.tech">Personalization FAQ</a></li>
                 </ul>
             </div>
             <div class="footer-section">
@@ -8446,7 +8451,7 @@
         const QUALITY_OPTIONS = [{
                 id: "cottex",
                 label: "Cottex Level",
-                price: 2600,
+                price: 1999,
                 tier: "entry",
                 tagline: "Affordable everyday material"
             },
@@ -8467,6 +8472,19 @@
                 badge: "Premium"
             }
         ];
+
+        // Extra tier offered ONLY on Wild Stuff collection T-shirts.
+        const WILD_QUALITY_OPTION = {
+            id: "dontcare",
+            label: "I dont care about the quality",
+            price: 1499,
+            tier: "budget",
+            tagline: "Cheapest option, quality not guaranteed"
+        };
+
+        function isWildStuff(product) {
+            return !!product && String(product.collection || "").trim().toLowerCase() === "wild-stuff";
+        }
 
         const DEFAULT_QUALITY_ID = "high";
 
@@ -8493,11 +8511,14 @@
             return hasClothingSize;
         }
 
-        function getQualityOptions() {
-            return QUALITY_OPTIONS.slice();
+        function getQualityOptions(product) {
+            const list = QUALITY_OPTIONS.slice();
+            if (isWildStuff(product)) list.unshift(WILD_QUALITY_OPTION);
+            return list;
         }
 
         function getQualityById(id) {
+            if (id === WILD_QUALITY_OPTION.id) return WILD_QUALITY_OPTION;
             return QUALITY_OPTIONS.find(function(q) { return q.id === id; }) || null;
         }
 
@@ -8517,8 +8538,8 @@
         }
 
         // Lowest tier price — used for "From ..." display on product cards.
-        function getStartingPrice() {
-            return QUALITY_OPTIONS[0].price;
+        function getStartingPrice(product) {
+            return isWildStuff(product) ? WILD_QUALITY_OPTION.price : QUALITY_OPTIONS[0].price;
         }
 
         return {
@@ -8528,7 +8549,8 @@
             getQualityById,
             getDefaultQualityId,
             getEffectivePrice,
-            getStartingPrice
+            getStartingPrice,
+            isWildStuff
         };
     })();
 
@@ -9224,7 +9246,7 @@
             const isTshirt = window.VVXQuality && window.VVXQuality.isTshirtProduct(product);
 
             const priceHtml = isTshirt ?
-                `<span class="price-from-note">From</span>${u.formatPrice(window.VVXQuality.getStartingPrice(), product.currency)}` :
+                `<span class="price-from-note">From</span>${u.formatPrice(window.VVXQuality.getStartingPrice(product), product.currency)}` :
                 (product.sale && product.discountPrice ?
                     `<span class="price-original">${u.formatPrice(product.price, product.currency)}</span>` +
                     `<span class="price-discounted">${u.formatPrice(product.discountPrice, product.currency)}</span>` :
@@ -9896,7 +9918,7 @@
                                 <div class="quality-selector">
                                     <h4>Choose Your Quality</h4>
                                     <div class="quality-options">
-                                        ${window.VVXQuality.getQualityOptions().map(q => `
+                                        ${window.VVXQuality.getQualityOptions(product).map(q => `
                                             <button type="button"
                                                     class="quality-option ${q.id === state.selectedQuality ? "selected" : ""}"
                                                     data-quality="${u.escapeHtml(q.id)}">
