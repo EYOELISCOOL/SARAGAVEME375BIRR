@@ -6,7 +6,10 @@
     <title>Vovex Rocks | Home</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Roboto:wght@300;400;500;700&family=Poppins:wght@400;500;600&family=Montserrat:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet" />
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230a0a0a'/%3E%3Ctext x='32' y='42' font-family='Georgia,serif' font-size='30' font-style='italic' font-weight='700' fill='%23c4b8a8' text-anchor='middle'%3EV%3C/text%3E%3C/svg%3E" />
+    <!-- Favicon: put your icon file named favicon.png (or favicon.ico) in the same folder as this page -->
+    <link rel="icon" type="image/png" href="./favicon.png" />
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <link rel="apple-touch-icon" href="./favicon.png" />
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
     </script>
@@ -1822,6 +1825,16 @@
             color: var(--vvx-vintage-beige);
             margin: 0.6rem 0 1.2rem 0;
         }
+        .product-detail-price .price-original {
+            text-decoration: line-through;
+            color: var(--vvx-text-dim);
+            font-size: 0.8em;
+            margin-right: 0.75rem;
+        }
+        .product-detail-price .price-discounted {
+            color: var(--vvx-vintage-beige);
+            font-weight: 700;
+        }
         .product-detail-description {
             font-family: var(--font-body);
             font-weight: 400;
@@ -1892,6 +1905,17 @@
             color: #f5f0ea;
             border-color: var(--vvx-military);
         }
+
+        .sale-note {
+            margin: 0.4rem 0 1rem;
+            padding: 0.7rem 0.9rem;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: var(--vvx-text-secondary);
+            background: rgba(138, 122, 74, 0.12);
+            border-left: 3px solid var(--vvx-gold);
+        }
+        .sale-note s { color: var(--vvx-text-muted); }
 
         /* ── Quality / Material selector ─────────────────────────────── */
         .quality-selector {
@@ -3941,44 +3965,18 @@
         <div class="notification-bar">
             <div class="notification-text">
                 <span> 50% OFF on Selected Items! Shop Now!</span>
-                <span>Free Shipping on Orders Over €100!</span>
-                <span></span>
-                <span>Free delivery to Addis Ababa!</span>
-                <span>*Paid* delivery to cities in Ethiopia except Addis Ababa</span>
-                <span>*Paid* Delivery is available in the following countries.</span>
-                <span> Germany</span>
-                <span> Italy</span>
-                <span> Austria</span>
-                <span> France</span>
-                <span> Spain</span>
-                <span> Portugal</span>
-                <span> The United Kingdom(U.K)</span>
-                <span> Poland</span>
-                <span> Switzerland</span>
-                <span> Hungary</span>
-                <span> Croatia</span>
-                <span> Romania</span>
-                <span> Russia</span>
-                <span> Sweden</span>
-                <span> Norway</span>
-                <span> Denmark</span>
-                <span> Iceland</span>
-                <span> Ireland</span>
-                <span> Scotland</span>
-                <span> Belgium</span>
-                <span> Greece</span>
-                <span> Cyprus</span>
-                <span> U.S.A (United States of America)</span>
-                <span> Canada</span>
-                <span> Mexico</span>
-                <span> Egypt</span>
-                <span> Morroco</span>
-                <span> Tunisia</span>
-                <span> Algeria</span>
-                <span> Luxombourg</span>
-                <span> R.S.A (Republic of South Africa)</span>
-                <span> K.S.A (Kingdom of Saudi Arabia)</span>
-                <span> Payment in Euros only for people ordering outside of Ethiopia!</span>
+                <span>We ship using the Post Office!</span>
+                <span>We deliver to the following cities in Ethiopia:</span>
+                <span> Addis Ababa</span>
+                <span> Adama</span>
+                <span> Bahir Dar</span>
+                <span> Dire Dawa</span>
+                <span> Gondar</span>
+                <span> Hawassa</span>
+                <span> Jimma</span>
+                <span> Mekelle</span>
+                <span> Dessie</span>
+                <span> Harar</span>
             </div>
         </div>
 
@@ -4305,15 +4303,15 @@
             </div>
 
             <div class="form-row">
-                <div class="form-group">
+                <div class="form-group" style="display:none;">
                     <label for="countrySelect">Country</label>
                     <select id="countrySelect" name="country" required>
-                        <option value="">— Select Country —</option>
+                        <option value="Ethiopia" selected>Ethiopia</option>
                     </select>
                     <span class="error-msg" id="countryError">Please select a country</span>
                 </div>
                 <div class="form-group">
-                    <label for="citySelect">City</label>
+                    <label for="citySelect">City (we ship using the Post Office)</label>
                     <select id="citySelect" name="city" required>
                         <option value="">— Select City —</option>
                     </select>
@@ -4776,12 +4774,12 @@
                 <p style="color:var(--vvx-text-secondary);">We accept TeleBirr (for Ethiopian customers) and PayPal (for international orders).</p>
             </div>
             <div style="margin-bottom:1.5rem;">
-                <h4 style="font-family:var(--font-alt); color:var(--vvx-text-highlight); margin-bottom:0.3rem;">Do you ship internationally?</h4>
-                <p style="color:var(--vvx-text-secondary);">Yes, we ship to many countries worldwide. Shipping costs are calculated at checkout.</p>
+                <h4 style="font-family:var(--font-alt); color:var(--vvx-text-highlight); margin-bottom:0.3rem;">Where do you ship?</h4>
+                <p style="color:var(--vvx-text-secondary);">We currently ship only to cities in Ethiopia. All orders are shipped using the Post Office.</p>
             </div>
             <div style="margin-bottom:1.5rem;">
                 <h4 style="font-family:var(--font-alt); color:var(--vvx-text-highlight); margin-bottom:0.3rem;">How long does delivery take?</h4>
-                <p style="color:var(--vvx-text-secondary);">Delivery times vary by destination. Typically 5-10 business days for international orders.</p>
+                <p style="color:var(--vvx-text-secondary);">Delivery times vary by city, since orders are shipped using the Post Office.</p>
             </div>
         </div>
     </section>
@@ -8442,59 +8440,27 @@
 </script>
 
 <!-- ==========================================================================
-     quality.js — T-shirt quality/material tier system (Cottex / High Quality / Extreme Ultra Good)
+     quality.js — flat sale pricing for T-shirts (1,999 ETB) and pants (6,000 ETB)
      ========================================================================== -->
 <script>
     const VVXQuality = (function() {
 
-        // The three quality tiers every T-shirt must offer.
-        const QUALITY_OPTIONS = [{
-                id: "cottex",
-                label: "Cottex Level",
-                price: 1999,
-                tier: "entry",
-                tagline: "Affordable everyday material"
-            },
-            {
-                id: "high",
-                label: "High Quality",
-                price: 3600,
-                tier: "recommended",
-                tagline: "Best balance of price & quality",
-                badge: "Recommended"
-            },
-            {
-                id: "extreme",
-                label: "Premium Quality",
-                price: 4600,
-                tier: "premium",
-                tagline: "Our ultimate premium material",
-                badge: "Premium"
-            }
-        ];
+        // Flat sale pricing (no quality tiers any more).
+        // T-shirts: 1,999 ETB (original 2,600 ETB). Pants: 6,000 ETB (original 7,500 ETB).
+        const TSHIRT_PRICE = 1999;
+        const TSHIRT_ORIGINAL_PRICE = 2600;
+        const PANTS_PRICE = 6000;
+        const PANTS_ORIGINAL_PRICE = 7500;
 
-        // Extra tier offered ONLY on Wild Stuff collection T-shirts.
-        const WILD_QUALITY_OPTION = {
-            id: "dontcare",
-            label: "I dont care about the quality",
-            price: 1499,
-            tier: "budget",
-            tagline: "Cheapest option, quality not guaranteed"
-        };
-
-        function isWildStuff(product) {
-            return !!product && String(product.collection || "").trim().toLowerCase() === "wild-stuff";
-        }
-
-        const DEFAULT_QUALITY_ID = "high";
-
-        // Product categories that exist on the site but are NOT T-shirts
-        // (pants and hand-painted items use their own pricing, never quality tiers).
+        // Product categories that exist on the site but are NOT T-shirts.
         const NON_TSHIRT_CATEGORIES = ["pants", "anime-painting"];
 
-        // Sizes that indicate a garment uses standard clothing sizing (vs. pants-only
-        // sizing or a physical dimension like "11cm in diameter").
+        // Sizes that indicate a garment uses standard clothing sizing.
         const CLOTHING_SIZE_TOKENS = ["XS", "S", "M", "L", "XL", "XXL", "XXXL"];
+
+        function isPantsProduct(product) {
+            return !!product && String(product.category || "").trim().toLowerCase() === "pants";
+        }
 
         function isTshirtProduct(product) {
             if (!product) return false;
@@ -8502,60 +8468,64 @@
             if (NON_TSHIRT_CATEGORIES.indexOf(category) !== -1) return false;
 
             const sizes = Array.isArray(product.sizes) ? product.sizes : [];
-            const hasClothingSize = sizes.some(function(s) {
+            return sizes.some(function(s) {
                 return CLOTHING_SIZE_TOKENS.indexOf(String(s).trim().toUpperCase()) !== -1;
             });
-
-            // Pants (e.g. "M", "L" only, category "pants") are already excluded above.
-            // Everything else on this site that uses standard clothing sizing is a T-shirt.
-            return hasClothingSize;
         }
 
-        function getQualityOptions(product) {
-            const list = QUALITY_OPTIONS.slice();
-            if (isWildStuff(product)) list.unshift(WILD_QUALITY_OPTION);
-            return list;
+        // Quality tiers were removed — these stay as harmless stubs so old carts and code paths still work.
+        function getQualityOptions() { return []; }
+        function getQualityById() { return null; }
+        function getDefaultQualityId() { return null; }
+
+        // Returns { price, original } where original is null when there is no sale price to show.
+        function getPricing(product) {
+            if (!product) return { price: 0, original: null };
+            if (isTshirtProduct(product)) return { price: TSHIRT_PRICE, original: TSHIRT_ORIGINAL_PRICE };
+            if (isPantsProduct(product)) return { price: PANTS_PRICE, original: PANTS_ORIGINAL_PRICE };
+            if (product.sale && product.discountPrice) return { price: product.discountPrice, original: product.price };
+            return { price: product.price, original: null };
         }
 
-        function getQualityById(id) {
-            if (id === WILD_QUALITY_OPTION.id) return WILD_QUALITY_OPTION;
-            return QUALITY_OPTIONS.find(function(q) { return q.id === id; }) || null;
+        function getEffectivePrice(product) {
+            return getPricing(product).price;
         }
 
-        function getDefaultQualityId() {
-            return DEFAULT_QUALITY_ID;
-        }
-
-        // The price to charge for a given product + quality selection.
-        // Non-T-shirt products keep using their normal price/discountPrice.
-        function getEffectivePrice(product, qualityId) {
-            if (!product) return 0;
-            if (isTshirtProduct(product)) {
-                const quality = getQualityById(qualityId) || getQualityById(DEFAULT_QUALITY_ID);
-                return quality.price;
-            }
-            return (product.sale && product.discountPrice) ? product.discountPrice : product.price;
-        }
-
-        // Lowest tier price — used for "From ..." display on product cards.
         function getStartingPrice(product) {
-            return isWildStuff(product) ? WILD_QUALITY_OPTION.price : QUALITY_OPTIONS[0].price;
+            return getPricing(product).price;
+        }
+
+        // True for items that are part of the all-clothing sale.
+        function isClothingSale(product) {
+            return isTshirtProduct(product) || isPantsProduct(product);
         }
 
         return {
-            QUALITY_OPTIONS,
             isTshirtProduct,
+            isPantsProduct,
+            isClothingSale,
+            getPricing,
             getQualityOptions,
             getQualityById,
             getDefaultQualityId,
             getEffectivePrice,
-            getStartingPrice,
-            isWildStuff
+            getStartingPrice
         };
     })();
 
     if (typeof window !== "undefined") {
         window.VVXQuality = VVXQuality;
+
+        // Normalise stored prices so sorting/filtering match the sale prices.
+        (function() {
+            (window.PRODUCTS || []).forEach(function(p) {
+                if (!VVXQuality.isClothingSale(p)) return;
+                const pr = VVXQuality.getPricing(p);
+                p.price = pr.original;
+                p.discountPrice = pr.price;
+                p.sale = true;
+            });
+        })();
     }
 </script>
 
@@ -9243,18 +9213,16 @@
             const u = window.VVXUtils;
             const productUrl = window.VVXUrl.buildProductUrl(product.slug);
 
-            const isTshirt = window.VVXQuality && window.VVXQuality.isTshirtProduct(product);
+            const pricing = window.VVXQuality.getPricing(product);
 
-            const priceHtml = isTshirt ?
-                `<span class="price-from-note">From</span>${u.formatPrice(window.VVXQuality.getStartingPrice(product), product.currency)}` :
-                (product.sale && product.discountPrice ?
-                    `<span class="price-original">${u.formatPrice(product.price, product.currency)}</span>` +
-                    `<span class="price-discounted">${u.formatPrice(product.discountPrice, product.currency)}</span>` :
-                    `${u.formatPrice(product.price, product.currency)}`);
+            const priceHtml = pricing.original ?
+                `<span class="price-original">${u.formatPrice(pricing.original, product.currency)}</span>` +
+                `<span class="price-discounted">${u.formatPrice(pricing.price, product.currency)}</span>` :
+                `${u.formatPrice(pricing.price, product.currency)}`;
 
-            const saleBadge = product.sale ? `<div class="sale-badge">Sale</div>` : "";
+            const saleBadge = (product.sale || pricing.original) ? `<div class="sale-badge">Sale</div>` : "";
             const defaultSize = (product.sizes && product.sizes[0]) || null;
-            const defaultQuality = isTshirt ? window.VVXQuality.getDefaultQualityId() : "";
+            const defaultQuality = "";
 
             const supplierHtml = product.supplier ?
                 `<div class="supplier-line"><strong>Provider:</strong> ${u.escapeHtml(product.supplier)}</div>` :
@@ -9603,9 +9571,9 @@
             if (!container) return;
 
             const featuredStyles = [
-                { style: "y2k", label: "Y2k Alt Aesthetic", blurb: "2000s vibe. Starting from 480ETB only!!" },
-                { style: "military", label: "Military Aesthetic", blurb: "Bring the military vibe. Starting from 500ETB only!!" },
-                { style: "goth", label: "Goth Aesthetic", blurb: "Dark Goth Vibe. Starting from 620ETB only!!!!" }
+                { style: "y2k", label: "Y2k Alt Aesthetic", blurb: "2000s vibe. Starting from 1,999 ETB only!!" },
+                { style: "military", label: "Military Aesthetic", blurb: "Bring the military vibe. Starting from 1,999 ETB only!!" },
+                { style: "goth", label: "Goth Aesthetic", blurb: "Dark Goth Vibe. Starting from 1,999 ETB only!!!!" }
             ];
 
             const html = featuredStyles
@@ -9880,7 +9848,7 @@
             state.selectedSize = (product.sizes && product.sizes[0]) || null;
             state.selectedColor = (product.colors && product.colors[0]) || null;
             state.selectedQuality = window.VVXQuality && window.VVXQuality.isTshirtProduct(product) ?
-                window.VVXQuality.getDefaultQualityId() :
+                null :
                 null;
             state.qty = 1;
 
@@ -9904,36 +9872,18 @@
                 .filter(Boolean)
                 .filter((src, idx, arr) => arr.indexOf(src) === idx);
 
-            const isTshirt = window.VVXQuality && window.VVXQuality.isTshirtProduct(product);
+            const pricing = window.VVXQuality.getPricing(product);
 
-            const priceHtml = isTshirt ?
-                u.formatPrice(window.VVXQuality.getEffectivePrice(product, state.selectedQuality), product.currency) :
-                (product.sale && product.discountPrice ?
-                    `<span class="price-original">${u.formatPrice(product.price, product.currency)}</span>` +
-                    `<span class="price-discounted">${u.formatPrice(product.discountPrice, product.currency)}</span>` :
-                    u.formatPrice(product.price, product.currency));
+            const priceHtml = pricing.original ?
+                `<span class="price-original">${u.formatPrice(pricing.original, product.currency)}</span>` +
+                `<span class="price-discounted">${u.formatPrice(pricing.price, product.currency)}</span>` :
+                u.formatPrice(pricing.price, product.currency);
 
-            const qualityHtml = isTshirt ?
-                `
-                                <div class="quality-selector">
-                                    <h4>Choose Your Quality</h4>
-                                    <div class="quality-options">
-                                        ${window.VVXQuality.getQualityOptions(product).map(q => `
-                                            <button type="button"
-                                                    class="quality-option ${q.id === state.selectedQuality ? "selected" : ""}"
-                                                    data-quality="${u.escapeHtml(q.id)}">
-                                                <span class="quality-radio"></span>
-                                                <span class="quality-info">
-                                                    <span class="quality-name">${u.escapeHtml(q.label)}${q.badge ? `<span class="quality-badge">${u.escapeHtml(q.badge)}</span>` : ""}</span>
-                                                    <span class="quality-tagline">${u.escapeHtml(q.tagline)}</span>
-                                                </span>
-                                                <span class="quality-price">${u.formatPrice(q.price, product.currency)}</span>
-                                            </button>
-                                        `).join("")}
-                                    </div>
-                                </div>
-                              ` :
+            const saleNoteHtml = window.VVXQuality.isClothingSale(product) ?
+                `<p class="sale-note">Original price: <s>${u.formatPrice(pricing.original, product.currency)}</s>. We are having a sale on all clothes right now, which is why it is only ${u.formatPrice(pricing.price, product.currency)}.</p>` :
                 "";
+
+            const qualityHtml = "";
 
             const sizesHtml = (product.sizes && product.sizes.length) ?
                 `
@@ -9985,6 +9935,7 @@
                                     <h1>${u.escapeHtml(product.name)}</h1>
                                     <div class="star-rating" style="background:none;padding:0;">${u.starRating(product.rating)} <span style="color:#888;font-size:0.85rem;">(${product.reviews} reviews)</span></div>
                                     <p class="product-detail-price">${priceHtml}</p>
+                                    ${saleNoteHtml}
                                     <p class="product-detail-description">${u.escapeHtml(product.description)}</p>
                                     ${supplierHtml}
                                     <p class="product-detail-meta">${u.titleCase(product.color || "")} · ${u.titleCase(product.material || "")} · ${u.titleCase(product.gender || "")}</p>
@@ -10269,139 +10220,12 @@
         const COUNTRY_DATA = {
             "Ethiopia": {
                 cities: ["Addis Ababa", "Adama", "Bahir Dar", "Dire Dawa", "Gondar", "Hawassa", "Jimma", "Mekelle", "Dessie", "Harar"]
-            },
-            "Germany": {
-                cities: ["Berlin", "Munich", "Hamburg", "Cologne", "Frankfurt", "Stuttgart", "Düsseldorf", "Dresden", "Nuremberg", "Leipzig"]
-            },
-            "Italy": {
-                cities: ["Rome", "Milan", "Naples", "Turin", "Palermo", "Genoa", "Bologna", "Florence", "Bari", "Catania"]
-            },
-            "Austria": {
-                cities: ["Vienna", "Graz", "Linz", "Salzburg", "Innsbruck", "Klagenfurt", "Villach", "Wels", "Sankt Pölten", "Bregenz"]
-            },
-            "France": {
-                cities: ["Paris", "Marseille", "Lyon", "Toulouse", "Nice", "Nantes", "Strasbourg", "Montpellier", "Bordeaux", "Lille"]
-            },
-            "Spain": {
-                cities: ["Madrid", "Barcelona", "Valencia", "Seville", "Zaragoza", "Málaga", "Murcia", "Palma", "Las Palmas", "Bilbao"]
-            },
-            "Portugal": {
-                cities: ["Lisbon", "Porto", "Braga", "Coimbra", "Aveiro", "Faro", "Évora", "Cascais", "Sintra", "Guimarães"]
-            },
-            "United Kingdom": {
-                cities: ["London", "Birmingham", "Manchester", "Liverpool", "Bristol", "Sheffield", "Edinburgh", "Glasgow", "Leeds", "Cardiff"]
-            },
-            "Poland": {
-                cities: ["Warsaw", "Krakow", "Wrocław", "Poznań", "Gdańsk", "Szczecin", "Łódź", "Lublin", "Katowice", "Białystok"]
-            },
-            "Switzerland": {
-                cities: ["Zurich", "Geneva", "Basel", "Bern", "Lausanne", "Lucerne", "St. Gallen", "Winterthur", "Lugano", "Zug"]
-            },
-            "Hungary": {
-                cities: ["Budapest", "Debrecen", "Szeged", "Miskolc", "Pécs", "Győr", "Nyíregyháza", "Kecskemét", "Székesfehérvár", "Szombathely"]
-            },
-            "Croatia": {
-                cities: ["Zagreb", "Split", "Rijeka", "Osijek", "Zadar", "Velika Gorica", "Slavonski Brod", "Pula", "Karlovac", "Sisak"]
-            },
-            "Romania": {
-                cities: ["Bucharest", "Cluj-Napoca", "Timișoara", "Iași", "Constanța", "Craiova", "Brașov", "Galați", "Ploiești", "Oradea"]
-            },
-            "Russia": {
-                cities: ["Moscow", "Saint Petersburg", "Novosibirsk", "Yekaterinburg", "Kazan", "Nizhny Novgorod", "Chelyabinsk", "Samara", "Omsk", "Rostov-on-Don"]
-            },
-            "Sweden": {
-                cities: ["Stockholm", "Gothenburg", "Malmö", "Uppsala", "Västerås", "Örebro", "Linköping", "Helsingborg", "Jönköping", "Norrköping"]
-            },
-            "Norway": {
-                cities: ["Oslo", "Bergen", "Trondheim", "Stavanger", "Drammen", "Fredrikstad", "Kristiansand", "Sandnes", "Tromsø", "Ålesund"]
-            },
-            "Denmark": {
-                cities: ["Copenhagen", "Aarhus", "Odense", "Aalborg", "Esbjerg", "Randers", "Kolding", "Horsens", "Vejle", "Roskilde"]
-            },
-            "Iceland": {
-                cities: ["Reykjavík", "Kópavogur", "Hafnarfjörður", "Garðabær", "Mosfellsbær", "Akureyri", "Reykjanesbær", "Selfoss", "Seltjarnarnes", "Vestmannaeyjar"]
-            },
-            "Ireland": {
-                cities: ["Dublin", "Cork", "Limerick", "Galway", "Waterford", "Drogheda", "Dundalk", "Swords", "Bray", "Navan"]
-            },
-            "Scotland": {
-                cities: ["Edinburgh", "Glasgow", "Aberdeen", "Dundee", "Paisley", "Inverness", "Stirling", "Perth", "Kilmarnock", "Ayr"]
-            },
-            "Belgium": {
-                cities: ["Brussels", "Antwerp", "Ghent", "Charleroi", "Liège", "Bruges", "Namur", "Leuven", "Mons", "Mechelen"]
-            },
-            "Greece": {
-                cities: ["Athens", "Thessaloniki", "Patras", "Heraklion", "Larissa", "Volos", "Ioannina", "Chania", "Komotini", "Kavala"]
-            },
-            "Cyprus": {
-                cities: ["Nicosia", "Limassol", "Larnaca", "Famagusta", "Paphos", "Kyrenia", "Paralimni", "Lakatamia", "Agia Napa", "Protaras"]
-            },
-            "USA": {
-                cities: ["New York", "Los Angeles", "Chicago", "Houston", "Phoenix", "Philadelphia", "San Antonio", "San Diego", "Dallas", "Austin"]
-            },
-            "Canada": {
-                cities: ["Toronto", "Vancouver", "Montreal", "Calgary", "Edmonton", "Ottawa", "Quebec City", "Winnipeg", "Hamilton", "Halifax"]
-            },
-            "Mexico": {
-                cities: ["Mexico City", "Guadalajara", "Monterrey", "Puebla", "Toluca", "Tijuana", "Ciudad Juárez", "León", "Santiago de Querétaro", "Cancún"]
-            },
-            "Egypt": {
-                cities: ["Cairo", "Alexandria", "Giza", "Port Said", "Suez", "Luxor", "Mansoura", "Tanta", "Asyut", "Ismailia"]
-            },
-            "Morocco": {
-                cities: ["Casablanca", "Rabat", "Fez", "Marrakech", "Tangier", "Agadir", "Meknes", "Oujda", "Kenitra", "Tetouan"]
-            },
-            "Tunisia": {
-                cities: ["Tunis", "Sfax", "Sousse", "Ettadhamen", "Kairouan", "Gabès", "Bizerte", "Aryanah", "Gafsa", "El Mourouj"]
-            },
-            "Algeria": {
-                cities: ["Algiers", "Oran", "Constantine", "Annaba", "Blida", "Batna", "Djelfa", "Sétif", "Sidi Bel Abbès", "Biskra"]
-            },
-            "Luxembourg": {
-                cities: ["Luxembourg City", "Esch-sur-Alzette", "Differdange", "Dudelange", "Pétange", "Hesperange", "Bettembourg", "Schifflange", "Mamer", "Strassen"]
-            },
-            "RSA": {
-                cities: ["Cape Town", "Johannesburg", "Durban", "Pretoria", "Port Elizabeth", "Bloemfontein", "East London", "Pietermaritzburg", "Nelspruit", "Kimberley"]
-            },
-            "KSA": {
-                cities: ["Riyadh", "Jeddah", "Mecca", "Medina", "Dammam", "Khobar", "Dhahran", "Taif", "Tabuk", "Abha"]
             }
         };
 
+        // Shipping is by Post Office within Ethiopia only.
         const SHIPPING_RATES = {
-            "Ethiopia": 0,
-            "Germany": 500,
-            "Italy": 480,
-            "Austria": 470,
-            "France": 510,
-            "Spain": 490,
-            "Portugal": 460,
-            "United Kingdom": 550,
-            "Poland": 430,
-            "Switzerland": 520,
-            "Hungary": 410,
-            "Croatia": 400,
-            "Romania": 390,
-            "Russia": 600,
-            "Sweden": 560,
-            "Norway": 580,
-            "Denmark": 540,
-            "Iceland": 620,
-            "Ireland": 530,
-            "Scotland": 540,
-            "Belgium": 480,
-            "Greece": 450,
-            "Cyprus": 440,
-            "USA": 700,
-            "Canada": 680,
-            "Mexico": 550,
-            "Egypt": 350,
-            "Morocco": 320,
-            "Tunisia": 310,
-            "Algeria": 330,
-            "Luxembourg": 460,
-            "RSA": 480,
-            "KSA": 420
+            "Ethiopia": 0
         };
 
         let listenerBound = false;
@@ -10459,7 +10283,9 @@
             const select = document.getElementById("countrySelect");
             const countries = Object.keys(COUNTRY_DATA).sort();
             const html = countries.map(c => `<option value="${c}">${c}</option>`).join("");
-            select.innerHTML = `<option value="">— Select Country —</option>${html}`;
+            select.innerHTML = html;
+            select.value = "Ethiopia";
+            onCountryChange("Ethiopia");
         }
 
         function onCountryChange(country) {
@@ -10632,7 +10458,9 @@
                     allValid = false;
                 }
             });
-            const country = document.getElementById("countrySelect").value;
+            const countryEl = document.getElementById("countrySelect");
+            if (!countryEl.value) countryEl.value = "Ethiopia";
+            const country = countryEl.value;
             const city = document.getElementById("citySelect").value;
             if (!country || country === "") {
                 document.getElementById("countrySelect").classList.add("error");
@@ -10645,6 +10473,13 @@
                 document.getElementById("cityError").textContent = "Please select a city";
                 document.getElementById("cityError").classList.add("visible");
                 allValid = false;
+            }
+            if (!allValid) {
+                const firstBad = form.querySelector("input.error, select.error");
+                if (firstBad && typeof firstBad.focus === "function" && firstBad.offsetParent !== null) {
+                    firstBad.focus();
+                    if (firstBad.scrollIntoView) firstBad.scrollIntoView({ behavior: "smooth", block: "center" });
+                }
             }
             return allValid;
         }
@@ -10778,7 +10613,7 @@
             return order;
         }
 
-        return { init };
+        return { init, validateForm };
     })();
 
     if (typeof window !== "undefined") {
